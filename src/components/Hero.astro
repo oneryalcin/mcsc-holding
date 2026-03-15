@@ -1,0 +1,45 @@
+---
+import { t } from '../i18n/utils';
+---
+
+<section class="relative h-screen flex items-center justify-center overflow-hidden" id="home">
+  <!-- Background -->
+  <img
+    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAQbfBINvzVtF3zW75w5Q5Ln1Qhe7OfT5UKojjxMGixEW_snFc1eE-9K9wbhT-zRoquOzwVH9gq94evZJksWFbSMDq5KgpQJh_7d036zAwqUdhC-G7ZYQytPd7mfeOO-orNF8vYjAgkSYu5Yj-0hoXx5XQbqX7KmXe-buQo9TbQV8fBZ5hkT6AIzOvLV_yCMdhbYJq4N3Y0tyXs0TpavaACZquMq21hDOFFGuoJEM1P7prcfvERvEDgRXYEz-cBWtSNpHGAhGccVph"
+    alt="Elite sports stadium at night"
+    class="absolute inset-0 w-full h-full object-cover"
+    loading="eager"
+  />
+  <div class="absolute inset-0 hero-overlay"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center px-6 max-w-4xl">
+    <h1 class="text-4xl sm:text-5xl md:text-7xl text-white mb-6 leading-tight">
+      {t('hero.headline.before')}<span class="text-gold-highlight">{t('hero.headline.highlight')}</span>{t('hero.headline.after')}
+    </h1>
+    <p class="text-brand-cream/80 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">
+      {t('hero.subtitle')}
+    </p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a
+        href="#expertise"
+        class="bg-brand-gold text-brand-navy px-8 py-4 label-upper text-xs font-bold hover:bg-white transition-colors"
+      >
+        {t('cta.explore')}
+      </a>
+      <a
+        href="#contact"
+        class="border border-brand-gold text-brand-gold px-8 py-4 label-upper text-xs font-bold hover:bg-brand-gold hover:text-brand-navy transition-all"
+      >
+        {t('cta.contact')}
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 scroll-bounce">
+    <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
+</section>

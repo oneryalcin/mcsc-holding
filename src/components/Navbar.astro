@@ -1,0 +1,112 @@
+---
+import { t } from '../i18n/utils';
+
+const navItems = [
+  { label: t('nav.home'), href: '#' },
+  { label: t('nav.theGroup'), href: '#the-group' },
+  { label: t('nav.expertise'), href: '#expertise' },
+  { label: t('nav.keyPeople'), href: '#key-people' },
+  { label: t('nav.locations'), href: '#locations' },
+  { label: t('nav.insights'), href: '#insights' },
+  { label: t('nav.contact'), href: '#contact' },
+];
+---
+
+<header
+  class="fixed w-full z-50 bg-brand-navy/95 backdrop-blur-sm text-white border-b border-brand-gold/20"
+  id="site-header"
+>
+  <nav class="mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2">
+      <span class="text-2xl font-serif tracking-widest text-brand-gold font-bold">MCSC</span>
+      <span class="text-sm font-sans font-light border-l border-brand-gold/40 pl-2 mt-0.5">HOLDING</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <ul class="hidden lg:flex gap-8">
+      {navItems.map((item, i) => (
+        <li>
+          <a
+            href={item.href}
+            class:list={[
+              'label-upper text-[11px] nav-link',
+              i === 0 ? 'text-brand-gold' : 'text-white/80',
+            ]}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Language Switcher -->
+    <div class="hidden lg:flex items-center gap-2 text-[10px] label-upper text-white/50">
+      <span class="text-brand-gold">EN</span>
+      <span class="text-white/20">|</span>
+      <span>FR</span>
+      <span class="text-white/20">|</span>
+      <span>IT</span>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button
+      class="lg:hidden flex flex-col gap-1.5 p-2"
+      id="mobile-menu-btn"
+      aria-label="Open menu"
+    >
+      <span class="block w-6 h-px bg-brand-gold transition-transform" id="burger-top"></span>
+      <span class="block w-6 h-px bg-brand-gold transition-opacity" id="burger-mid"></span>
+      <span class="block w-4 h-px bg-brand-gold transition-transform ml-auto" id="burger-bot"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="lg:hidden hidden bg-brand-navy/98 border-t border-brand-gold/10" id="mobile-menu">
+    <ul class="flex flex-col py-6 px-6 gap-6">
+      {navItems.map((item) => (
+        <li>
+          <a href={item.href} class="label-upper text-sm text-white/80 nav-link mobile-nav-link">
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="flex gap-4 px-6 pb-6 text-xs label-upper text-white/50">
+      <span class="text-brand-gold">EN</span>
+      <span>FR</span>
+      <span>IT</span>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const top = document.getElementById('burger-top');
+  const mid = document.getElementById('burger-mid');
+  const bot = document.getElementById('burger-bot');
+
+  let open = false;
+
+  btn?.addEventListener('click', () => {
+    open = !open;
+    menu?.classList.toggle('hidden', !open);
+    top!.style.transform = open ? 'rotate(45deg) translate(3px, 3px)' : '';
+    mid!.style.opacity = open ? '0' : '1';
+    bot!.style.transform = open ? 'rotate(-45deg) translate(3px, -3px)' : '';
+    bot!.style.width = open ? '1.5rem' : '1rem';
+  });
+
+  // Close mobile menu on nav link click
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      open = false;
+      menu?.classList.add('hidden');
+      top!.style.transform = '';
+      mid!.style.opacity = '1';
+      bot!.style.transform = '';
+      bot!.style.width = '1rem';
+    });
+  });
+</script>

@@ -1,0 +1,47 @@
+---
+import { t } from '../i18n/utils';
+
+const pillars = [
+  {
+    title: t('expertise.sportsMgmt.title'),
+    desc: t('expertise.sportsMgmt.desc'),
+    icon: `<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>`,
+  },
+  {
+    title: t('expertise.imageRights.title'),
+    desc: t('expertise.imageRights.desc'),
+    icon: `<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>`,
+  },
+  {
+    title: t('expertise.advisory.title'),
+    desc: t('expertise.advisory.desc'),
+    icon: `<path d="M21 16.5c0 .38-.21.71-.53.88l-7.97 4.44c-.31.17-.69.17-1 0l-7.97-4.44c-.32-.17-.53-.5-.53-.88v-9c0-.38.21-.71.53-.88l7.97-4.44c.31-.17.69-.17 1 0l7.97 4.44c.32.17.53.5.53.88v9z" fill="currentColor"/>`,
+  },
+  {
+    title: t('expertise.investments.title'),
+    desc: t('expertise.investments.desc'),
+    icon: `<path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" fill="currentColor"/>`,
+  },
+];
+---
+
+<section class="py-24 bg-brand-cream" id="expertise">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="text-center mb-16">
+      <span class="text-brand-gold label-upper mb-4 block">{t('expertise.label')}</span>
+      <h2 class="text-4xl md:text-5xl">{t('expertise.headline')}</h2>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-8">
+      {pillars.map((pillar) => (
+        <div class="bg-white p-8 border-t-4 border-brand-navy card-hover shadow-sm">
+          <div class="w-12 h-12 bg-brand-cream flex items-center justify-center mb-6">
+            <svg class="w-6 h-6 text-brand-navy" viewBox="0 0 24 24" set:html={pillar.icon} />
+          </div>
+          <h3 class="text-xl mb-4 font-serif">{pillar.title}</h3>
+          <p class="text-sm text-brand-muted leading-relaxed">{pillar.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
