@@ -6,7 +6,7 @@ coverImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuAGYAvmkq9OayhZT
 excerpt: "How integrated holding structures provide long-term wealth stability beyond the pitch."
 ---
 
-Professional athletes face a unique financial challenge: a career that generates substantial income over a compressed timeline. Without proper governance structures, this wealth can dissipate as quickly as it was earned. At MCSC Holding, we have developed governance models specifically designed for high-net-worth athletes that provide long-term financial stability.
+Professional athletes face a unique financial challenge: a career that generates substantial income over a compressed timeline. Without proper governance structures, this wealth can dissipate as quickly as it was earned. At MCSC Management, we have developed governance models specifically designed for high-net-worth athletes that provide long-term financial stability.
 
 ## The Challenge of Athletic Wealth
 

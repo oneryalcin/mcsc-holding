@@ -9,12 +9,13 @@ import KeyPeople from '../../components/KeyPeople.astro';
 import Locations from '../../components/Locations.astro';
 import InsightsNews from '../../components/InsightsNews.astro';
 import ContactForm from '../../components/ContactForm.astro';
+import LinkedInCTA from '../../components/LinkedInCTA.astro';
 import Footer from '../../components/Footer.astro';
 
 const locale = 'fr' as const;
 ---
 
-<Layout locale={locale} title="MCSC Holding | Conseil & Gestion Sportive Mondiale" description="Gouvernance claire et conseil stratégique pour la prochaine génération d'icônes et d'entités sportives.">
+<Layout locale={locale} title="MCSC Management | Conseil & Gestion Sportive Mondiale" description="Gouvernance claire et conseil stratégique pour la prochaine génération d'icônes et d'entités sportives.">
   <Navbar locale={locale} />
   <main>
     <Hero locale={locale} />
@@ -24,6 +25,7 @@ const locale = 'fr' as const;
     <KeyPeople locale={locale} />
     <Locations locale={locale} />
     <InsightsNews locale={locale} />
+    <LinkedInCTA locale={locale} />
     <ContactForm locale={locale} />
   </main>
   <Footer locale={locale} />

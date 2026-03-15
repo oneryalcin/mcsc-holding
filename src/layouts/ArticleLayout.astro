@@ -29,14 +29,14 @@ const articleJsonLd = JSON.stringify({
   datePublished: publishDate.toISOString(),
   publisher: {
     '@type': 'Organization',
-    name: 'MCSC Holding',
-    url: 'https://mcsc-holding.com',
+    name: 'MCSC Management',
+    url: 'https://mcsc-management.com',
   },
   mainEntityOfPage: Astro.url.href,
 });
 ---
 
-<Layout title={`${title} | MCSC Holding`} description={description}>
+<Layout title={`${title} | MCSC Management`} description={description}>
   <script type="application/ld+json" set:html={articleJsonLd} />
   <Navbar />
   <main>

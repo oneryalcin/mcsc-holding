@@ -27,6 +27,6 @@ The evolving regulatory environment presents both opportunities and challenges. 
 
 ## MCSC's Advisory Approach
 
-At MCSC Holding, we provide comprehensive NIL advisory services that navigate the complexities of multi-jurisdictional image rights management. Our integrated approach ensures compliance while maximizing commercial potential for all stakeholders.
+At MCSC Management, we provide comprehensive NIL advisory services that navigate the complexities of multi-jurisdictional image rights management. Our integrated approach ensures compliance while maximizing commercial potential for all stakeholders.
 
 The future of NIL rights in European football will be defined by those who can anticipate regulatory changes and position themselves accordingly. The advisory firms and legal structures that emerge as leaders will be those offering truly pan-European expertise.

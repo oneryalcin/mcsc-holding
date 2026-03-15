@@ -1,0 +1,56 @@
+---
+import { t, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+
+const copy = {
+  en: { heading: 'Stay Connected', sub: 'Follow MCSC Management on LinkedIn for the latest insights, events, and industry updates.', cta: 'Follow on LinkedIn' },
+  fr: { heading: 'Restez connecté', sub: 'Suivez MCSC Management sur LinkedIn pour les dernières analyses, événements et actualités du secteur.', cta: 'Suivre sur LinkedIn' },
+  it: { heading: 'Resta connesso', sub: 'Segui MCSC Management su LinkedIn per gli ultimi approfondimenti, eventi e aggiornamenti del settore.', cta: 'Segui su LinkedIn' },
+};
+
+const { heading, sub, cta } = copy[locale];
+const linkedinUrl = 'https://www.linkedin.com/company/montecarlosportconsulting/';
+---
+
+<section class="py-16 bg-brand-navy">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="relative overflow-hidden border border-brand-gold/20 p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8">
+      <!-- Decorative background -->
+      <div class="absolute inset-0 opacity-[0.03]">
+        <svg class="w-full h-full" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="700" cy="100" r="180" stroke="#c4a44a" stroke-width="0.5" />
+          <circle cx="680" cy="120" r="120" stroke="#c4a44a" stroke-width="0.5" />
+          <line x1="0" y1="100" x2="400" y2="100" stroke="#c4a44a" stroke-width="0.5" />
+        </svg>
+      </div>
+
+      <div class="relative z-10 flex items-center gap-6 md:gap-8">
+        <!-- LinkedIn icon -->
+        <div class="shrink-0 w-14 h-14 bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center">
+          <svg class="w-7 h-7 text-brand-gold" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </div>
+
+        <div>
+          <h3 class="text-white text-2xl md:text-3xl font-serif mb-2">{heading}</h3>
+          <p class="text-white/40 text-sm max-w-lg font-light">{sub}</p>
+        </div>
+      </div>
+
+      <a
+        href={linkedinUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="relative z-10 shrink-0 bg-brand-gold text-brand-navy px-8 py-4 label-upper text-xs font-bold hover:bg-white transition-colors flex items-center gap-3"
+      >
+        {cta}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

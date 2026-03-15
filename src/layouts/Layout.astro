@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {
-  title = 'MCSC Holding | Global Sports Consulting & Management',
+  title = 'MCSC Management | Global Sports Consulting & Management',
   description = 'Providing clear governance and strategic advisory for the next generation of sporting icons and entities.',
   locale = defaultLocale,
 } = Astro.props;
@@ -21,9 +21,9 @@ const currentPath = Astro.url.pathname.replace(/^\/(fr|it)/, '') || '/';
 const orgJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'MCSC Holding',
-  url: 'https://mcsc-holding.com',
-  logo: 'https://mcsc-holding.com/favicon.svg',
+  name: 'MCSC Management',
+  url: 'https://mcsc-management.com',
+  logo: 'https://mcsc-management.com/favicon.svg',
   description: 'Global sports advisory and governance firm.',
   foundingDate: '1993',
   address: [
@@ -52,8 +52,8 @@ const orgJsonLd = JSON.stringify({
 const websiteJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'MCSC Holding',
-  url: 'https://mcsc-holding.com',
+  name: 'MCSC Management',
+  url: 'https://mcsc-management.com',
 });
 ---
 
@@ -70,7 +70,7 @@ const websiteJsonLd = JSON.stringify({
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="MCSC Holding" />
+  <meta property="og:site_name" content="MCSC Management" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -79,9 +79,9 @@ const websiteJsonLd = JSON.stringify({
 
   <!-- hreflang -->
   {locales.map((l) => (
-    <link rel="alternate" hreflang={l} href={`https://mcsc-holding.com${getLocalePath(currentPath, l)}`} />
+    <link rel="alternate" hreflang={l} href={`https://mcsc-management.com${getLocalePath(currentPath, l)}`} />
   ))}
-  <link rel="alternate" hreflang="x-default" href={`https://mcsc-holding.com${currentPath}`} />
+  <link rel="alternate" hreflang="x-default" href={`https://mcsc-management.com${currentPath}`} />
 
   <!-- Google Fonts: Playfair Display + DM Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
