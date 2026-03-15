@@ -94,8 +94,24 @@ const websiteJsonLd = JSON.stringify({
   <!-- Structured Data -->
   <script type="application/ld+json" set:html={orgJsonLd} />
   <script type="application/ld+json" set:html={websiteJsonLd} />
+
+  <!-- Netlify Identity (required for Decap CMS login) -->
+  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body class="bg-brand-cream text-brand-dark antialiased">
   <slot />
+
+  <!-- Redirect to /admin/ after Netlify Identity login -->
+  <script is:inline>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
 </body>
 </html>
