@@ -10,6 +10,45 @@ const {
   title = 'MCSC Holding | Global Sports Consulting & Management',
   description = 'Providing clear governance and strategic advisory for the next generation of sporting icons and entities.',
 } = Astro.props;
+
+// Organization JSON-LD (spec Section 9.2)
+const orgJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'MCSC Holding',
+  url: 'https://mcsc-holding.com',
+  logo: 'https://mcsc-holding.com/favicon.svg',
+  description: 'Global sports advisory and governance firm.',
+  foundingDate: '1993',
+  address: [
+    {
+      '@type': 'PostalAddress',
+      streetAddress: 'Le Panorama, 57 Rue Grimaldi',
+      addressLocality: 'Monaco',
+      addressCountry: 'MC',
+    },
+    {
+      '@type': 'PostalAddress',
+      streetAddress: 'Via Montenapoleone, 8',
+      addressLocality: 'Milan',
+      addressCountry: 'IT',
+    },
+    {
+      '@type': 'PostalAddress',
+      streetAddress: 'Rue de la Corraterie, 14',
+      addressLocality: 'Geneva',
+      addressCountry: 'CH',
+    },
+  ],
+  sameAs: [],
+});
+
+const websiteJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'MCSC Holding',
+  url: 'https://mcsc-holding.com',
+});
 ---
 
 <!DOCTYPE html>
@@ -20,6 +59,22 @@ const {
   <meta name="description" content={description} />
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MCSC Holding" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+
+  <!-- hreflang (Phase 2: add FR/IT alternates) -->
+  <link rel="alternate" hreflang="en" href={Astro.url.href} />
+  <link rel="alternate" hreflang="x-default" href={Astro.url.href} />
+
   <!-- Google Fonts: Playfair Display + DM Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,6 +82,10 @@ const {
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
     rel="stylesheet"
   />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={orgJsonLd} />
+  <script type="application/ld+json" set:html={websiteJsonLd} />
 </head>
 <body class="bg-brand-cream text-brand-dark antialiased">
   <slot />

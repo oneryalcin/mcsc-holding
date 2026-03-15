@@ -18,9 +18,26 @@ const formattedDate = publishDate.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+
+// Article JSON-LD (spec Section 9.2)
+const articleJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: coverImage,
+  datePublished: publishDate.toISOString(),
+  publisher: {
+    '@type': 'Organization',
+    name: 'MCSC Holding',
+    url: 'https://mcsc-holding.com',
+  },
+  mainEntityOfPage: Astro.url.href,
+});
 ---
 
 <Layout title={`${title} | MCSC Holding`} description={description}>
+  <script type="application/ld+json" set:html={articleJsonLd} />
   <Navbar />
   <main>
     <!-- Hero -->

@@ -1,26 +1,9 @@
 ---
 import { t } from '../i18n/utils';
+import { getCollection } from 'astro:content';
 
-const people = [
-  {
-    name: 'Marcus C. Sterling',
-    role: 'Senior Founding Partner',
-    quote: 'Excellence is not an act, but a habit in how we govern our clients\' futures.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD_6m6z2mwWkfVaIcM-4UJTaeehm7xHNHx7IUnbprEzoJBOTrD14Cvj34g-8NQEtp8Ilqc0G8BIFRI-4FhGWJSQwZTf8M_XnFvMUo260FQm7kRp4N2A1okM1bMRzQqVncOKQER5U7Ja7vZBTtW68yDTkftjBDOaytBwHKOWZStPWNkJun6ieVflI-1ilGfL63WBeigfDILxOcfNxfmO7D8w9W8BCf9kWY2OLBsFHdKWO6km04xyUFN1VF2BhTF4_g4HJMDowIKkqVEs',
-  },
-  {
-    name: 'Elena Visconti',
-    role: 'Managing Director, Italy',
-    quote: 'Integrating legal precision with sports passion creates unrivaled value.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAXDmuz2lVeD4oxeda3a-B4VGIwbX7x1MKDO7T1IRwGuExPkiPNv4tTAvZNSH0vOL9eGizf96vvmgl9fRMJ0hBXQNfVPUalHYM9I1rO65htVtshw89jzHWzzcmn4_SKpDlINozrrvIKRJB0FaIN46Ea-EGSBKfHvYNgdrsXmsr1KeKOZnRXg1HTSha8pScryHSAW7i6KOdVzYZ69aJm89pVWMa1_lZ7FDdliSWqJDnEnN7nUPlqwYTiFQ7VlOLr-jQPRKXFdijVo2uF',
-  },
-  {
-    name: 'Jean-Paul Dupont',
-    role: 'Head of Asset Management',
-    quote: 'Security and transparency are the bedrocks of MCSC governance.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCTcVkhgMs5XLWfr47j5ybtjPAQd1ZCHWuCEsvVuT4r4IIZfqhI4XOzaruXsNxvgTemcQ6z_eAN4QOYubaI3MibG36aJd0mTpcbXyAxVZF5vqfqtp-L-tRfmDIlEGMNkl7GzUpqFg7qtss91lRcUmv1YWcIAHtqtuknbXz2vN7VxPEE7VgdTyDR1GlFuQA_dcNTKq44kedPJfSFUUctdmoWzbu9m-V-xtYlSsh1hCxFbRLU6xmbBYmPesLFRKpAtNKmxyM_-yM1FIDB',
-  },
-];
+const allTeam = await getCollection('team');
+const people = allTeam.sort((a, b) => a.data.order - b.data.order);
 
 const filters = [
   t('people.filters.partners'),
@@ -50,16 +33,16 @@ const filters = [
         <div class="group">
           <div class="aspect-[3/4] overflow-hidden mb-6 relative bg-white/5">
             <img
-              src={person.image}
-              alt={person.name}
+              src={person.data.image}
+              alt={person.data.name}
               class="w-full h-full object-cover img-bw"
               loading="lazy"
             />
             <div class="absolute inset-0 bg-brand-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </div>
-          <h3 class="text-2xl font-serif mb-1">{person.name}</h3>
-          <p class="text-brand-gold text-xs label-upper mb-4">{person.role}</p>
-          <p class="text-sm text-white/40 font-light italic">"{person.quote}"</p>
+          <h3 class="text-2xl font-serif mb-1">{person.data.name}</h3>
+          <p class="text-brand-gold text-xs label-upper mb-4">{person.data.role}</p>
+          <p class="text-sm text-white/40 font-light italic">"{person.data.quote}"</p>
         </div>
       ))}
     </div>
