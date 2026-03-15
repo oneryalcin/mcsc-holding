@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+
+const locale = 'fr' as const;
+---
+
+<Layout locale={locale} title="Politique de confidentialité | MCSC Holding" description="Politique de confidentialité de MCSC Holding.">
+  <Navbar locale={locale} />
+  <main>
+    <section class="pt-32 pb-16 bg-brand-navy text-white">
+      <div class="mx-auto max-w-4xl px-6">
+        <h1 class="text-4xl md:text-5xl">Politique de confidentialité</h1>
+        <p class="text-brand-gold text-xs label-upper mt-4">Dernière mise à jour : mars 2026</p>
+      </div>
+    </section>
+
+    <article class="mx-auto max-w-3xl px-6 py-16 prose-legal">
+      <h2>1. Responsable du traitement</h2>
+      <p>MCSC Holding, dont le siège est situé au Le Panorama, 57 Rue Grimaldi, Monaco, est responsable du traitement de vos données personnelles via ce site web.</p>
+
+      <h2>2. Données collectées</h2>
+      <p>Lorsque vous utilisez notre formulaire de contact, nous collectons :</p>
+      <ul>
+        <li>Nom complet</li>
+        <li>Adresse e-mail</li>
+        <li>Numéro de téléphone (si fourni)</li>
+        <li>Objet de la demande</li>
+        <li>Contenu du message</li>
+      </ul>
+      <p>Nous n'utilisons pas de cookies analytiques ni de suivi tiers. Seuls des cookies essentiels au fonctionnement du site peuvent être déposés.</p>
+
+      <h2>3. Utilisation de vos données</h2>
+      <p>Les données personnelles soumises via le formulaire de contact sont utilisées exclusivement pour répondre à votre demande, sur la base de votre consentement explicite.</p>
+
+      <h2>4. Traitement et stockage</h2>
+      <p>Les soumissions sont traitées par Formspree, Inc. et conservées pendant 60 jours. Les données sont transmises via HTTPS et stockées sur des serveurs situés aux États-Unis.</p>
+
+      <h2>5. Services tiers</h2>
+      <ul>
+        <li><strong>Formspree</strong> — traitement des formulaires de contact</li>
+        <li><strong>Google Fonts</strong> — fourniture de polices web</li>
+        <li><strong>Netlify</strong> — hébergement du site et services CDN</li>
+      </ul>
+
+      <h2>6. Vos droits</h2>
+      <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+      <ul>
+        <li>Droit d'accès à vos données personnelles</li>
+        <li>Droit de rectification</li>
+        <li>Droit à l'effacement</li>
+        <li>Droit de retirer votre consentement</li>
+        <li>Droit de déposer une plainte auprès d'une autorité de contrôle</li>
+      </ul>
+
+      <h2>7. Contact</h2>
+      <p>Pour toute question relative à la confidentialité : <strong>info@mcscholding.com</strong></p>
+    </article>
+  </main>
+  <Footer locale={locale} />
+</Layout>
+
+<style is:global>
+  .prose-legal { color: #1a1a1a; line-height: 1.8; }
+  .prose-legal h2 { font-family: var(--font-serif); font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-brand-navy); }
+  .prose-legal p { margin-bottom: 1.25rem; }
+  .prose-legal ul { margin-bottom: 1.25rem; padding-left: 1.5rem; }
+  .prose-legal li { margin-bottom: 0.5rem; list-style-type: disc; }
+  .prose-legal strong { color: var(--color-brand-navy); font-weight: 600; }
+</style>

@@ -1,0 +1,61 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+
+const locale = 'it' as const;
+---
+
+<Layout locale={locale} title="Note legali | MCSC Holding" description="Note legali di MCSC Holding.">
+  <Navbar locale={locale} />
+  <main>
+    <section class="pt-32 pb-16 bg-brand-navy text-white">
+      <div class="mx-auto max-w-4xl px-6">
+        <h1 class="text-4xl md:text-5xl">Note legali</h1>
+        <p class="text-brand-gold text-xs label-upper mt-4">Informazioni legali</p>
+      </div>
+    </section>
+
+    <article class="mx-auto max-w-3xl px-6 py-16 prose-legal">
+      <h2>Informazioni sulla società</h2>
+      <p>
+        <strong>MCSC Holding</strong><br />
+        Le Panorama, 57 Rue Grimaldi<br />
+        MC-98000 Monaco<br />
+        Principato di Monaco
+      </p>
+      <p>
+        E-mail: info@mcscholding.com<br />
+        Telefono: +377 00 00 00 00
+      </p>
+
+      <h2>Registrazione</h2>
+      <p>Numero di registrazione: <em>[Da fornire dal cliente]</em></p>
+      <p>Persona responsabile: <em>[Da fornire dal cliente]</em></p>
+
+      <h2>Uffici</h2>
+      <ul>
+        <li><strong>Monaco (sede centrale):</strong> Le Panorama, 57 Rue Grimaldi</li>
+        <li><strong>Milano:</strong> Via Montenapoleone, 8</li>
+        <li><strong>Ginevra:</strong> Rue de la Corraterie, 14</li>
+      </ul>
+
+      <h2>Esclusione di responsabilità</h2>
+      <p>Il contenuto di questo sito è stato preparato con la massima cura. Tuttavia, MCSC Holding non può garantire l'accuratezza, la completezza o l'attualità delle informazioni fornite.</p>
+
+      <h2>Proprietà intellettuale</h2>
+      <p>Tutti i contenuti di questo sito, inclusi testi, immagini, loghi e design, sono di proprietà di MCSC Holding e protetti dalle leggi sul diritto d'autore applicabili.</p>
+    </article>
+  </main>
+  <Footer locale={locale} />
+</Layout>
+
+<style is:global>
+  .prose-legal { color: #1a1a1a; line-height: 1.8; }
+  .prose-legal h2 { font-family: var(--font-serif); font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-brand-navy); }
+  .prose-legal p { margin-bottom: 1.25rem; }
+  .prose-legal ul { margin-bottom: 1.25rem; padding-left: 1.5rem; }
+  .prose-legal li { margin-bottom: 0.5rem; list-style-type: disc; }
+  .prose-legal strong { color: var(--color-brand-navy); font-weight: 600; }
+  .prose-legal em { color: var(--color-brand-muted); }
+</style>

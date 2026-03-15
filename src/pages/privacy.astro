@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+const locale = 'en' as const;
+---
+
+<Layout locale={locale} title="Privacy Policy | MCSC Holding" description="MCSC Holding privacy policy — how we collect, use, and protect your personal data.">
+  <Navbar locale={locale} />
+  <main>
+    <section class="pt-32 pb-16 bg-brand-navy text-white">
+      <div class="mx-auto max-w-4xl px-6">
+        <h1 class="text-4xl md:text-5xl">Privacy Policy</h1>
+        <p class="text-brand-gold text-xs label-upper mt-4">Last updated: March 2026</p>
+      </div>
+    </section>
+
+    <article class="mx-auto max-w-3xl px-6 py-16 prose-legal">
+      <h2>1. Data Controller</h2>
+      <p>MCSC Holding, registered at Le Panorama, 57 Rue Grimaldi, Monaco, is the data controller responsible for the processing of your personal data through this website.</p>
+
+      <h2>2. Data We Collect</h2>
+      <p>When you use our contact form, we collect:</p>
+      <ul>
+        <li>Full name</li>
+        <li>Email address</li>
+        <li>Phone number (if provided)</li>
+        <li>Subject of inquiry</li>
+        <li>Message content</li>
+      </ul>
+      <p>We do not use analytics cookies or third-party tracking at this time. Essential cookies may be set for site functionality only.</p>
+
+      <h2>3. How We Use Your Data</h2>
+      <p>Personal data submitted through the contact form is used solely to respond to your inquiry. We process this data on the basis of your explicit consent, given through the consent checkbox on the form.</p>
+
+      <h2>4. Data Processing & Storage</h2>
+      <p>Contact form submissions are processed by Formspree, Inc. (a third-party form service). Submissions are retained by Formspree for 60 days on the free tier. Data is transmitted via HTTPS and stored on servers located in the United States.</p>
+
+      <h2>5. Third-Party Services</h2>
+      <ul>
+        <li><strong>Formspree</strong> — processes contact form submissions</li>
+        <li><strong>Google Fonts</strong> — serves web fonts (Playfair Display, DM Sans). Google may collect anonymized usage data.</li>
+        <li><strong>Netlify</strong> — hosts this website and provides CDN services</li>
+      </ul>
+
+      <h2>6. Your Rights</h2>
+      <p>Under GDPR and applicable data protection laws, you have the right to:</p>
+      <ul>
+        <li>Access the personal data we hold about you</li>
+        <li>Request correction of inaccurate data</li>
+        <li>Request deletion of your data</li>
+        <li>Withdraw consent at any time</li>
+        <li>Lodge a complaint with a supervisory authority</li>
+      </ul>
+
+      <h2>7. Contact</h2>
+      <p>For any privacy-related inquiries, contact us at: <strong>info@mcscholding.com</strong></p>
+    </article>
+  </main>
+  <Footer locale={locale} />
+</Layout>
+
+<style is:global>
+  .prose-legal { color: #1a1a1a; line-height: 1.8; }
+  .prose-legal h2 { font-family: var(--font-serif); font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--color-brand-navy); }
+  .prose-legal p { margin-bottom: 1.25rem; }
+  .prose-legal ul { margin-bottom: 1.25rem; padding-left: 1.5rem; }
+  .prose-legal li { margin-bottom: 0.5rem; list-style-type: disc; }
+  .prose-legal strong { color: var(--color-brand-navy); font-weight: 600; }
+</style>
