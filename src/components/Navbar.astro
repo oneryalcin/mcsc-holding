@@ -1,14 +1,19 @@
 ---
-import { t } from '../i18n/utils';
+import { t, getLocalePath, locales, type Locale, defaultLocale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+
+const basePath = locale === defaultLocale ? '' : `/${locale}`;
 
 const navItems = [
-  { label: t('nav.home'), href: '#' },
-  { label: t('nav.theGroup'), href: '#the-group' },
-  { label: t('nav.expertise'), href: '#expertise' },
-  { label: t('nav.keyPeople'), href: '#key-people' },
-  { label: t('nav.locations'), href: '#locations' },
-  { label: t('nav.insights'), href: '#insights' },
-  { label: t('nav.contact'), href: '#contact' },
+  { label: t('nav.home', locale), href: `${basePath}/#home` },
+  { label: t('nav.theGroup', locale), href: `${basePath}/#the-group` },
+  { label: t('nav.expertise', locale), href: `${basePath}/#expertise` },
+  { label: t('nav.keyPeople', locale), href: `${basePath}/#key-people` },
+  { label: t('nav.locations', locale), href: `${basePath}/#locations` },
+  { label: t('nav.insights', locale), href: `${basePath}/#insights` },
+  { label: t('nav.contact', locale), href: `${basePath}/#contact` },
 ];
 ---
 
@@ -18,7 +23,7 @@ const navItems = [
 >
   <nav class="mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
     <!-- Logo -->
-    <a href="#" class="flex items-center gap-2">
+    <a href={`${basePath}/`} class="flex items-center gap-2">
       <span class="text-2xl font-serif tracking-widest text-brand-gold font-bold">MCSC</span>
       <span class="text-sm font-sans font-light border-l border-brand-gold/40 pl-2 mt-0.5">HOLDING</span>
     </a>
@@ -41,12 +46,18 @@ const navItems = [
     </ul>
 
     <!-- Language Switcher -->
-    <div class="hidden lg:flex items-center gap-2 text-[10px] label-upper text-white/50">
-      <span class="text-brand-gold">EN</span>
-      <span class="text-white/20">|</span>
-      <span>FR</span>
-      <span class="text-white/20">|</span>
-      <span>IT</span>
+    <div class="hidden lg:flex items-center gap-2 text-[10px] label-upper">
+      {locales.map((l, i) => (
+        <>
+          {i > 0 && <span class="text-white/20">|</span>}
+          <a
+            href={getLocalePath('/', l)}
+            class:list={[l === locale ? 'text-brand-gold' : 'text-white/50 hover:text-white transition-colors']}
+          >
+            {l.toUpperCase()}
+          </a>
+        </>
+      ))}
     </div>
 
     <!-- Mobile Hamburger -->
@@ -72,10 +83,15 @@ const navItems = [
         </li>
       ))}
     </ul>
-    <div class="flex gap-4 px-6 pb-6 text-xs label-upper text-white/50">
-      <span class="text-brand-gold">EN</span>
-      <span>FR</span>
-      <span>IT</span>
+    <div class="flex gap-4 px-6 pb-6 text-xs label-upper">
+      {locales.map((l) => (
+        <a
+          href={getLocalePath('/', l)}
+          class:list={[l === locale ? 'text-brand-gold' : 'text-white/50']}
+        >
+          {l.toUpperCase()}
+        </a>
+      ))}
     </div>
   </div>
 </header>
@@ -98,7 +114,6 @@ const navItems = [
     bot!.style.width = open ? '1.5rem' : '1rem';
   });
 
-  // Close mobile menu on nav link click
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', () => {
       open = false;

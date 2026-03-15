@@ -1,24 +1,17 @@
 ---
-import { t } from '../i18n/utils';
+import { t, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
 
 const items = [
   {
-    label: t('licenses.monaco'),
+    label: t('licenses.monaco', locale),
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB7zG6lACWZj9_E-eCgduK3R2re8apmnjFRdm19Kf1yzF_muwQOqzLMMLjY2V7tQ0LcP4qDi90FM539ezp52b-LakwS_PsqR8xULpbIYxRD0bO2F45SrSZhB62LeIFOOz2nHMBBdLtdrUlMBhQd87wy0ZKyZSz9eYpgSug4lmfwKHX3abiHq_SzdTLzXxsqUo5gFokjV-FUF-RMiB1henu1aiOMq6xB30BaPhC1UH6qJY22GqDBz75RNyElMRFjioQmQeqnOpq6V0bJ',
   },
-  {
-    label: t('licenses.fifa'),
-    icon: 'fifa',
-  },
-  {
-    label: t('licenses.sfaa'),
-    text: 'SFAA',
-  },
-  {
-    label: t('licenses.transferroom'),
-    text: 'TR',
-    accent: true,
-  },
+  { label: t('licenses.fifa', locale), icon: 'fifa' },
+  { label: t('licenses.sfaa', locale), text: 'SFAA' },
+  { label: t('licenses.transferroom', locale), text: 'TR', accent: true },
 ];
 ---
 
@@ -26,7 +19,7 @@ const items = [
   <div class="mx-auto max-w-7xl px-6">
     <div class="text-center mb-12">
       <h2 class="text-white text-2xl font-serif tracking-wide uppercase">
-        {t('licenses.title')}
+        {t('licenses.title', locale)}
       </h2>
       <div class="h-px w-20 bg-brand-gold mx-auto mt-3"></div>
     </div>
@@ -51,7 +44,7 @@ const items = [
             )}
           </div>
           <p class="text-brand-cream/60 text-xs label-upper leading-relaxed">
-            <span set:html={item.label.replace(/(Monaco|2024|Agents Association|Membership)/g, '<span class="text-white font-medium">$1</span>')} />
+            <span set:html={item.label.replace(/(Monaco|2024|Agents Association|Association|Membership)/g, '<span class="text-white font-medium">$1</span>')} />
           </p>
         </div>
       ))}

@@ -1,30 +1,31 @@
 ---
-import { t } from '../i18n/utils';
+import { t, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
 ---
 
 <section class="py-24 bg-white" id="the-group">
   <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-16 items-center">
-    <!-- Text -->
     <div>
-      <span class="text-brand-gold label-upper mb-4 block">{t('group.label')}</span>
-      <h2 class="text-4xl md:text-5xl mb-8">{t('group.headline')}</h2>
+      <span class="text-brand-gold label-upper mb-4 block">{t('group.label', locale)}</span>
+      <h2 class="text-4xl md:text-5xl mb-8">{t('group.headline', locale)}</h2>
       <div class="space-y-6 text-brand-muted leading-relaxed">
-        <p>{t('group.body1')}</p>
-        <p set:html={t('group.body2').replace(/(Monaco, Italia, and Suisse)/, '<strong class="text-brand-dark">$1</strong>')} />
+        <p>{t('group.body1', locale)}</p>
+        <p set:html={t('group.body2', locale).replace(/(Monaco, Italia, and Suisse|Monaco, en Italie et en Suisse|Monaco, in Italia e in Svizzera)/, '<strong class="text-brand-dark">$1</strong>')} />
       </div>
       <div class="mt-10 grid grid-cols-2 gap-4">
         <div class="border-l-2 border-brand-gold pl-4">
-          <span class="block text-2xl font-serif">{t('group.mcsc')}</span>
-          <span class="text-xs uppercase text-brand-muted">{t('group.mcscSub')}</span>
+          <span class="block text-2xl font-serif">{t('group.mcsc', locale)}</span>
+          <span class="text-xs uppercase text-brand-muted">{t('group.mcscSub', locale)}</span>
         </div>
         <div class="border-l-2 border-brand-gold pl-4">
-          <span class="block text-2xl font-serif">{t('group.whoWeAre')}</span>
-          <span class="text-xs uppercase text-brand-muted">{t('group.whoWeAreSub')}</span>
+          <span class="block text-2xl font-serif">{t('group.whoWeAre', locale)}</span>
+          <span class="text-xs uppercase text-brand-muted">{t('group.whoWeAreSub', locale)}</span>
         </div>
       </div>
     </div>
 
-    <!-- Image -->
     <div class="relative">
       <img
         src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZTwDwTLoJuYU9jUl1f1gajzqZu_-fqU-Ym-pyo5zjDXtrXhhr1VrGLQXLv6u0Wd_OsHxNbPPkPIGIGYG_84j6dvjc2N7NeXj3m-pkOYc7EUWKSBr4gjnzkUXjr3OJVswESR8y3uJ5fi6v2HpKvLdWK5zuaibdZFlSUvsVxPxIBKUIx50aXBa-FFx3Zs4doUyIIwGbLkfAV8eKhxQIPZ8r7oUtu_7PiLvJjRHHJR1s8x1Mxj1TwAJxu_orxWZcqfVfE5WWJsPTyyGz"
@@ -33,8 +34,8 @@ import { t } from '../i18n/utils';
         loading="lazy"
       />
       <div class="absolute -bottom-6 -left-6 bg-brand-navy p-8 text-white hidden lg:block">
-        <p class="text-3xl font-serif">{t('group.legacy')}</p>
-        <p class="text-[10px] label-upper text-brand-gold">{t('group.legacyLabel')}</p>
+        <p class="text-3xl font-serif">{t('group.legacy', locale)}</p>
+        <p class="text-[10px] label-upper text-brand-gold">{t('group.legacyLabel', locale)}</p>
       </div>
     </div>
   </div>

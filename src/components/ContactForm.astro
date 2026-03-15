@@ -1,116 +1,66 @@
 ---
-import { t } from '../i18n/utils';
+import { t, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
 
 const subjects = [
-  t('contact.subjects.general'),
-  t('contact.subjects.sportsMgmt'),
-  t('contact.subjects.advisory'),
-  t('contact.subjects.investments'),
-  t('contact.subjects.media'),
+  t('contact.subjects.general', locale),
+  t('contact.subjects.sportsMgmt', locale),
+  t('contact.subjects.advisory', locale),
+  t('contact.subjects.investments', locale),
+  t('contact.subjects.media', locale),
 ];
 ---
 
 <section class="py-24 bg-brand-cream" id="contact">
   <div class="mx-auto max-w-7xl px-6">
     <div class="max-w-2xl mx-auto text-center mb-16">
-      <span class="text-brand-gold label-upper mb-4 block">{t('contact.label')}</span>
-      <h2 class="text-4xl md:text-5xl mb-4">{t('contact.headline')}</h2>
-      <p class="text-brand-muted">{t('contact.subtitle')}</p>
+      <span class="text-brand-gold label-upper mb-4 block">{t('contact.label', locale)}</span>
+      <h2 class="text-4xl md:text-5xl mb-4">{t('contact.headline', locale)}</h2>
+      <p class="text-brand-muted">{t('contact.subtitle', locale)}</p>
     </div>
 
-    <form
-      action="https://formspree.io/f/YOUR_FORM_ID"
-      method="POST"
-      class="max-w-2xl mx-auto space-y-6"
-    >
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="max-w-2xl mx-auto space-y-6">
       <div class="grid sm:grid-cols-2 gap-6">
         <div>
-          <label for="name" class="label-upper text-[10px] text-brand-muted mb-2 block">
-            {t('contact.name')}
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
-          />
+          <label for="name" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.name', locale)}</label>
+          <input type="text" id="name" name="name" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
         </div>
         <div>
-          <label for="email" class="label-upper text-[10px] text-brand-muted mb-2 block">
-            {t('contact.email')}
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
-          />
+          <label for="email" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.email', locale)}</label>
+          <input type="email" id="email" name="email" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
         </div>
       </div>
 
       <div class="grid sm:grid-cols-2 gap-6">
         <div>
-          <label for="phone" class="label-upper text-[10px] text-brand-muted mb-2 block">
-            {t('contact.phone')}
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors"
-          />
+          <label for="phone" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.phone', locale)}</label>
+          <input type="tel" id="phone" name="phone" class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
         </div>
         <div>
-          <label for="subject" class="label-upper text-[10px] text-brand-muted mb-2 block">
-            {t('contact.subject')}
-          </label>
-          <select
-            id="subject"
-            name="subject"
-            required
-            class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors appearance-none"
-          >
-            <option value="" disabled selected>Select a subject</option>
-            {subjects.map((s) => (
-              <option value={s}>{s}</option>
-            ))}
+          <label for="subject" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.subject', locale)}</label>
+          <select id="subject" name="subject" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors appearance-none">
+            <option value="" disabled selected>—</option>
+            {subjects.map((s) => <option value={s}>{s}</option>)}
           </select>
         </div>
       </div>
 
       <div>
-        <label for="message" class="label-upper text-[10px] text-brand-muted mb-2 block">
-          {t('contact.message')}
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          rows="5"
-          required
-          class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors resize-none"
-        ></textarea>
+        <label for="message" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.message', locale)}</label>
+        <textarea id="message" name="message" rows="5" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors resize-none"></textarea>
       </div>
 
-      <!-- GDPR consent -->
       <label class="flex items-start gap-3 cursor-pointer">
-        <input
-          type="checkbox"
-          name="consent"
-          required
-          class="mt-1 accent-brand-gold"
-        />
+        <input type="checkbox" name="consent" required class="mt-1 accent-brand-gold" />
         <span class="text-xs text-brand-muted leading-relaxed">
-          {t('contact.consent')} <a href="/privacy" class="text-brand-gold underline">{t('contact.privacyLink')}</a>
+          {t('contact.consent', locale)} <a href="/privacy" class="text-brand-gold underline">{t('contact.privacyLink', locale)}</a>
         </span>
       </label>
 
-      <button
-        type="submit"
-        class="bg-brand-gold text-brand-navy px-10 py-4 label-upper text-xs font-bold hover:bg-brand-navy hover:text-white transition-colors w-full sm:w-auto"
-      >
-        {t('contact.submit')}
+      <button type="submit" class="bg-brand-gold text-brand-navy px-10 py-4 label-upper text-xs font-bold hover:bg-brand-navy hover:text-white transition-colors w-full sm:w-auto">
+        {t('contact.submit', locale)}
       </button>
     </form>
   </div>

@@ -1,6 +1,8 @@
 import en from './en.json';
+import fr from './fr.json';
+import it from './it.json';
 
-const translations: Record<string, Record<string, string>> = { en };
+const translations: Record<string, Record<string, string>> = { en, fr, it };
 
 export type Locale = 'en' | 'fr' | 'it';
 export const defaultLocale: Locale = 'en';

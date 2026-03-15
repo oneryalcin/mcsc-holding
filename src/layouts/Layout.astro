@@ -1,15 +1,21 @@
 ---
 import '../styles/global.css';
+import { type Locale, defaultLocale, locales, getLocalePath } from '../i18n/utils';
 
 interface Props {
   title?: string;
   description?: string;
+  locale?: Locale;
 }
 
 const {
   title = 'MCSC Holding | Global Sports Consulting & Management',
   description = 'Providing clear governance and strategic advisory for the next generation of sporting icons and entities.',
+  locale = defaultLocale,
 } = Astro.props;
+
+// Build hreflang URLs from current path
+const currentPath = Astro.url.pathname.replace(/^\/(fr|it)/, '') || '/';
 
 // Organization JSON-LD (spec Section 9.2)
 const orgJsonLd = JSON.stringify({
@@ -52,7 +58,7 @@ const websiteJsonLd = JSON.stringify({
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={locale}>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -71,9 +77,11 @@ const websiteJsonLd = JSON.stringify({
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
 
-  <!-- hreflang (Phase 2: add FR/IT alternates) -->
-  <link rel="alternate" hreflang="en" href={Astro.url.href} />
-  <link rel="alternate" hreflang="x-default" href={Astro.url.href} />
+  <!-- hreflang -->
+  {locales.map((l) => (
+    <link rel="alternate" hreflang={l} href={`https://mcsc-holding.com${getLocalePath(currentPath, l)}`} />
+  ))}
+  <link rel="alternate" hreflang="x-default" href={`https://mcsc-holding.com${currentPath}`} />
 
   <!-- Google Fonts: Playfair Display + DM Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
