@@ -1,14 +1,14 @@
 ---
 import { t, getLocalePath, type Locale } from '../i18n/utils';
-import { getCollection } from 'astro:content';
+import { getLocalizedInsights } from '../i18n/content';
 
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 
-const allInsights = await getCollection('insights');
-const articles = allInsights
-  .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime())
-  .slice(0, 3);
+const all = await getLocalizedInsights(locale);
+const articles = all.slice(0, 3);
+
+const dateLocale = locale === 'fr' ? 'fr-FR' : locale === 'it' ? 'it-IT' : 'en-US';
 ---
 
 <section class="py-24 bg-white" id="insights">
@@ -24,17 +24,17 @@ const articles = allInsights
     </div>
 
     <div class="grid md:grid-cols-3 gap-8">
-      {articles.map((article) => (
+      {articles.map(({ entry, slug }) => (
         <article class="group">
-          <a href={getLocalePath(`/insights/${article.id}`, locale)} class="block">
+          <a href={getLocalePath(`/insights/${slug}`, locale)} class="block">
             <div class="mb-6 overflow-hidden aspect-video">
-              <img src={article.data.coverImage} alt={article.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+              <img src={entry.data.coverImage} alt={entry.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
             </div>
             <span class="text-[10px] label-upper text-brand-gold font-bold">
-              {article.data.category} &bull; {new Date(article.data.publishDate).toLocaleDateString(locale === 'fr' ? 'fr-FR' : locale === 'it' ? 'it-IT' : 'en-US', { month: 'short', year: 'numeric' })}
+              {entry.data.category} &bull; {new Date(entry.data.publishDate!).toLocaleDateString(dateLocale, { month: 'short', year: 'numeric' })}
             </span>
-            <h3 class="text-xl mt-3 mb-4 group-hover:text-brand-gold transition-colors font-serif">{article.data.title}</h3>
-            <p class="text-sm text-brand-muted line-clamp-3">{article.data.excerpt}</p>
+            <h3 class="text-xl mt-3 mb-4 group-hover:text-brand-gold transition-colors font-serif">{entry.data.title}</h3>
+            <p class="text-sm text-brand-muted line-clamp-3">{entry.data.excerpt}</p>
           </a>
         </article>
       ))}

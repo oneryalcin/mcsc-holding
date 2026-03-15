@@ -2,13 +2,13 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const insights = defineCollection({
-  loader: glob({ pattern: ['**/*.md', '!**/*.fr.md', '!**/*.it.md'], base: './src/content/insights' }),
+  loader: glob({ pattern: '**/*.md', base: './src/content/insights' }),
   schema: z.object({
-    title: z.string(),
-    category: z.enum(['News', 'Events', 'Insights']),
-    publishDate: z.coerce.date(),
-    coverImage: z.string(),
-    excerpt: z.string(),
+    title: z.string().optional().default(''),
+    category: z.enum(['News', 'Events', 'Insights']).optional(),
+    publishDate: z.coerce.date().optional(),
+    coverImage: z.string().optional().default(''),
+    excerpt: z.string().optional().default(''),
   }),
 });
 

@@ -2,14 +2,11 @@
 import Layout from '../../../layouts/Layout.astro';
 import Navbar from '../../../components/Navbar.astro';
 import Footer from '../../../components/Footer.astro';
-import { getCollection } from 'astro:content';
 import { t } from '../../../i18n/utils';
+import { getLocalizedInsights } from '../../../i18n/content';
 
 const locale = 'it' as const;
-const allInsights = await getCollection('insights');
-const sorted = allInsights.sort(
-  (a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
-);
+const articles = await getLocalizedInsights(locale);
 ---
 
 <Layout locale={locale} title="Approfondimenti & Notizie | MCSC Holding" description="Ultime notizie e approfondimenti da MCSC Holding.">
@@ -25,17 +22,17 @@ const sorted = allInsights.sort(
     <section class="py-16 bg-white">
       <div class="mx-auto max-w-7xl px-6">
         <div class="grid md:grid-cols-3 gap-8">
-          {sorted.map((article) => (
+          {articles.map(({ entry, slug }) => (
             <article class="group">
-              <a href={`/it/insights/${article.id}`} class="block">
+              <a href={`/it/insights/${slug}`} class="block">
                 <div class="mb-6 overflow-hidden aspect-video">
-                  <img src={article.data.coverImage} alt={article.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  <img src={entry.data.coverImage} alt={entry.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 </div>
                 <span class="text-[10px] label-upper text-brand-gold font-bold">
-                  {article.data.category} &bull; {new Date(article.data.publishDate).toLocaleDateString('it-IT', { month: 'short', year: 'numeric' })}
+                  {entry.data.category} &bull; {new Date(entry.data.publishDate!).toLocaleDateString('it-IT', { month: 'short', year: 'numeric' })}
                 </span>
-                <h3 class="text-xl mt-3 mb-4 group-hover:text-brand-gold transition-colors font-serif">{article.data.title}</h3>
-                <p class="text-sm text-brand-muted line-clamp-3">{article.data.excerpt}</p>
+                <h3 class="text-xl mt-3 mb-4 group-hover:text-brand-gold transition-colors font-serif">{entry.data.title}</h3>
+                <p class="text-sm text-brand-muted line-clamp-3">{entry.data.excerpt}</p>
               </a>
             </article>
           ))}
