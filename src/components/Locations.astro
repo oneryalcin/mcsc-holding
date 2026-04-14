@@ -74,37 +74,37 @@ const locations = [
       <h2 class="text-4xl md:text-5xl">{t('locations.headline', locale)}</h2>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid lg:grid-cols-2 gap-8">
       <!-- Map (left) -->
-      <div class="bg-white border border-brand-navy/10 relative overflow-hidden aspect-square">
-        <div class="absolute inset-0 opacity-20" style="background-image: url('/images/europe-map.avif'); background-size: 300%; background-position: 45% 65%; background-repeat: no-repeat;" aria-hidden="true"></div>
+      <div class="bg-white border border-brand-navy/10 relative overflow-hidden aspect-[4/3]">
+        <div class="absolute inset-0 opacity-20" style="background-image: url('/images/europe-map.avif'); background-size: 300%; background-position: 45% 72%; background-repeat: no-repeat;" aria-hidden="true"></div>
         <div class="absolute inset-0 z-10">
           <!-- London -->
-          <div class="absolute top-[44.5%] left-[23%] flex flex-col items-center group cursor-pointer loc-pin" data-location="london">
+          <div class="absolute top-[14.5%] left-[23%] flex flex-col items-center group cursor-pointer loc-pin" data-location="london">
             <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(163,142,100,0.8)] pin-dot"></div>
             <div class="w-7 h-7 border border-brand-gold rounded-full absolute -top-2 pin-glow"></div>
             <span class="mt-2 bg-brand-navy text-white text-[9px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">London</span>
           </div>
           <!-- Luxembourg -->
-          <div class="absolute top-[54%] left-[44.5%] flex flex-col items-center group cursor-pointer loc-pin" data-location="luxembourg">
+          <div class="absolute top-[29%] left-[44.5%] flex flex-col items-center group cursor-pointer loc-pin" data-location="luxembourg">
             <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(163,142,100,0.8)] pin-dot"></div>
             <div class="w-7 h-7 border border-brand-gold rounded-full absolute -top-2 pin-glow" style="animation-delay: 0.2s;"></div>
             <span class="mt-2 bg-brand-navy text-white text-[9px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">Luxembourg</span>
           </div>
           <!-- Geneva -->
-          <div class="absolute top-[74%] left-[47%] flex flex-col items-center group cursor-pointer loc-pin" data-location="geneva">
+          <div class="absolute top-[54%] left-[47%] flex flex-col items-center group cursor-pointer loc-pin" data-location="geneva">
             <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(163,142,100,0.8)] pin-dot"></div>
             <div class="w-7 h-7 border border-brand-gold rounded-full absolute -top-2 pin-glow" style="animation-delay: 0.4s;"></div>
             <span class="mt-2 bg-brand-navy text-white text-[9px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">Geneva</span>
           </div>
           <!-- Milan -->
-          <div class="absolute top-[79%] left-[60%] flex flex-col items-center group cursor-pointer loc-pin" data-location="milan">
+          <div class="absolute top-[62%] left-[60%] flex flex-col items-center group cursor-pointer loc-pin" data-location="milan">
             <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(163,142,100,0.8)] pin-dot"></div>
             <div class="w-7 h-7 border border-brand-gold rounded-full absolute -top-2 pin-glow" style="animation-delay: 0.6s;"></div>
             <span class="mt-2 bg-brand-navy text-white text-[9px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">Milan</span>
           </div>
           <!-- Monaco -->
-          <div class="absolute top-[88%] left-[48%] flex flex-col items-center group cursor-pointer loc-pin" data-location="monaco">
+          <div class="absolute top-[73%] left-[48%] flex flex-col items-center group cursor-pointer loc-pin" data-location="monaco">
             <div class="w-3.5 h-3.5 bg-brand-gold rounded-full shadow-[0_0_12px_rgba(163,142,100,0.9)] pin-dot"></div>
             <div class="w-8 h-8 border border-brand-gold rounded-full absolute -top-2 pin-glow" style="animation-delay: 0.8s;"></div>
             <span class="mt-2 bg-brand-gold text-brand-navy text-[10px] font-bold px-3 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">Monaco (HQ)</span>
