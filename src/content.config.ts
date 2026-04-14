@@ -9,6 +9,7 @@ const insights = defineCollection({
     publishDate: z.coerce.date().optional(),
     coverImage: z.string().optional().default(''),
     excerpt: z.string().optional().default(''),
+    tags: z.array(z.string()).optional().default([]),
   }),
 });
 
@@ -17,7 +18,8 @@ const team = defineCollection({
   schema: z.object({
     name: z.string(),
     role: z.string(),
-    quote: z.string(),
+    slug: z.string(),
+    quote: z.string().optional().default(''),
     image: z.string(),
     category: z.enum(['Partners', 'Advisors', 'Providers']),
     order: z.number().default(0),

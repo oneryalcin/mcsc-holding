@@ -1,0 +1,107 @@
+---
+import { t, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+
+const offers = [
+  {
+    title: t('services.core.title', locale),
+    desc: t('services.core.desc', locale),
+    items: [
+      t('services.core.item1', locale),
+      t('services.core.item2', locale),
+      t('services.core.item3', locale),
+      t('services.core.item4', locale),
+    ],
+    cta: t('services.core.cta', locale),
+    style: 'dark',
+  },
+  {
+    title: t('services.elite.title', locale),
+    desc: t('services.elite.desc', locale),
+    items: [
+      t('services.elite.item1', locale),
+      t('services.elite.item2', locale),
+      t('services.elite.item3', locale),
+      t('services.elite.item4', locale),
+    ],
+    cta: t('services.elite.cta', locale),
+    style: 'featured',
+    badge: t('services.elite.badge', locale),
+  },
+  {
+    title: t('services.institutional.title', locale),
+    desc: t('services.institutional.desc', locale),
+    items: [
+      t('services.institutional.item1', locale),
+      t('services.institutional.item2', locale),
+      t('services.institutional.item3', locale),
+      t('services.institutional.item4', locale),
+    ],
+    cta: t('services.institutional.cta', locale),
+    style: 'dark',
+  },
+];
+---
+
+<section class="py-24 bg-white border-y border-brand-sand/30" id="service-offers">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <span class="text-brand-gold text-sm font-semibold tracking-widest uppercase mb-4 block">{t('services.label', locale)}</span>
+      <h2 class="text-4xl md:text-5xl">{t('services.headline', locale)}</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-10">
+      {offers.map((offer) => (
+        <div class:list={[
+          'group relative p-10 rounded-sm overflow-hidden transition-all duration-500',
+          offer.style === 'featured'
+            ? 'bg-brand-cream border-2 border-brand-gold shadow-xl'
+            : 'bg-brand-navy text-white border border-brand-gold/20 hover:border-brand-gold',
+        ]}>
+          {offer.badge && (
+            <div class="absolute top-0 left-0 bg-brand-gold text-white px-4 py-1 text-[8px] font-bold uppercase tracking-widest">{offer.badge}</div>
+          )}
+          <div class="relative z-10">
+            <h3 class:list={[
+              'text-2xl font-serif mb-6',
+              offer.style === 'featured' ? 'text-brand-navy' : 'text-brand-gold',
+            ]}>{offer.title}</h3>
+            <p class:list={[
+              'text-sm mb-8 font-light leading-relaxed',
+              offer.style === 'featured' ? 'text-gray-600' : 'text-gray-400',
+            ]}>{offer.desc}</p>
+            <ul class:list={[
+              'space-y-3 mb-10 text-xs tracking-wide uppercase',
+              offer.style === 'featured' ? 'text-brand-navy font-semibold' : 'text-gray-300',
+            ]}>
+              {offer.items.map((item) => (
+                <li class="flex items-center gap-2">
+                  <span class:list={[
+                    'rounded-full',
+                    offer.style === 'featured' ? 'w-1.5 h-1.5 bg-brand-gold' : 'w-1 h-1 bg-brand-gold',
+                  ]}></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="#contact"
+              class:list={[
+                'inline-block px-6 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all',
+                offer.style === 'featured'
+                  ? 'bg-brand-navy text-white hover:bg-brand-gold hover:text-brand-navy w-full text-center'
+                  : 'border border-brand-gold hover:bg-brand-gold hover:text-brand-navy',
+              ]}
+            >
+              {offer.cta}
+            </a>
+          </div>
+          {offer.style === 'dark' && (
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

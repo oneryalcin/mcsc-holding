@@ -3,66 +3,152 @@ import { t, type Locale } from '../i18n/utils';
 
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
-
-const subjects = [
-  t('contact.subjects.general', locale),
-  t('contact.subjects.sportsMgmt', locale),
-  t('contact.subjects.advisory', locale),
-  t('contact.subjects.investments', locale),
-  t('contact.subjects.media', locale),
-];
 ---
 
 <section class="py-24 bg-brand-cream" id="contact">
   <div class="mx-auto max-w-7xl px-6">
     <div class="max-w-2xl mx-auto text-center mb-16">
-      <span class="text-brand-gold label-upper mb-4 block">{t('contact.label', locale)}</span>
-      <h2 class="text-4xl md:text-5xl mb-4">{t('contact.headline', locale)}</h2>
-      <p class="text-brand-muted">{t('contact.subtitle', locale)}</p>
+      <span class="text-brand-gold label-upper mb-4 block">Contact</span>
+      <h2 class="text-4xl md:text-5xl mb-4">Tell us about your situation</h2>
+      <p class="text-brand-muted">The more context you share, the more precisely we can respond.</p>
     </div>
 
-    <form action="https://formspree.io/f/mqeydjnz" method="POST" class="max-w-2xl mx-auto space-y-6">
-      <!-- Formspree: localize thanks page + reCAPTCHA language -->
+    <form action="https://formspree.io/f/mqeydjnz" method="POST" class="max-w-3xl mx-auto space-y-8">
       <input type="hidden" name="_language" value={locale} />
+
+      <!-- Name + Email + Phone -->
       <div class="grid sm:grid-cols-2 gap-6">
         <div>
-          <label for="name" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.name', locale)}</label>
-          <input type="text" id="name" name="name" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
+          <label for="firstName" class="label-upper text-[10px] text-brand-muted mb-2 block">First Name</label>
+          <input type="text" id="firstName" name="firstName" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
         </div>
         <div>
-          <label for="email" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.email', locale)}</label>
+          <label for="lastName" class="label-upper text-[10px] text-brand-muted mb-2 block">Last Name</label>
+          <input type="text" id="lastName" name="lastName" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div>
+          <label for="email" class="label-upper text-[10px] text-brand-muted mb-2 block">Email</label>
           <input type="email" id="email" name="email" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
         </div>
-      </div>
-
-      <div class="grid sm:grid-cols-2 gap-6">
         <div>
-          <label for="phone" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.phone', locale)}</label>
+          <label for="phone" class="label-upper text-[10px] text-brand-muted mb-2 block">Phone (optional)</label>
           <input type="tel" id="phone" name="phone" class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
         </div>
-        <div>
-          <label for="subject" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.subject', locale)}</label>
-          <select id="subject" name="subject" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors appearance-none">
-            <option value="" disabled selected>—</option>
-            {subjects.map((s) => <option value={s}>{s}</option>)}
-          </select>
+      </div>
+
+      <!-- I am a... -->
+      <div>
+        <label for="iAmA" class="label-upper text-[10px] text-brand-muted mb-2 block">I am a...</label>
+        <select id="iAmA" name="iAmA" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors appearance-none" onchange="document.getElementById('sportField').style.display = ['Professional athlete','Emerging athlete','Family member'].includes(this.value) ? 'block' : 'none'">
+          <option value="" disabled selected>— Select one</option>
+          <option value="Professional athlete">Professional athlete</option>
+          <option value="Emerging athlete">Emerging athlete</option>
+          <option value="Agent / manager">Agent / manager</option>
+          <option value="Sports club / organisation">Sports club / organisation</option>
+          <option value="Investor">Investor</option>
+          <option value="Family member">Family member</option>
+        </select>
+      </div>
+
+      <!-- Sport / discipline (conditional) -->
+      <div id="sportField" style="display:none;">
+        <label for="sport" class="label-upper text-[10px] text-brand-muted mb-2 block">Sport / Discipline</label>
+        <input type="text" id="sport" name="sport" placeholder="e.g. Football, Tennis, Basketball..." class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors" />
+      </div>
+
+      <!-- Country of residence -->
+      <div>
+        <label for="country" class="label-upper text-[10px] text-brand-muted mb-2 block">Country of Residence</label>
+        <select id="country" name="country" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors appearance-none">
+          <option value="" disabled selected>— Select</option>
+          <option value="Monaco">Monaco</option>
+          <option value="Italy">Italy</option>
+          <option value="France">France</option>
+          <option value="Switzerland">Switzerland</option>
+          <option value="Spain">Spain</option>
+          <option value="Germany">Germany</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States">United States</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <!-- What are you looking for help with? (multi-select checkboxes) -->
+      <div>
+        <p class="label-upper text-[10px] text-brand-muted mb-3">What are you looking for help with?</p>
+        <div class="grid sm:grid-cols-2 gap-3">
+          {[
+            'Sports management & representation',
+            'Image rights & sponsorship',
+            'Tax advisory & planning',
+            'Relocation to Monaco or Italy',
+            'Corporate structuring',
+            'Investment advisory',
+            'Career transition planning',
+            'Other',
+          ].map((item) => (
+            <label class="flex items-center gap-3 cursor-pointer text-sm text-gray-600">
+              <input type="checkbox" name="helpWith" value={item} class="accent-brand-gold" />
+              {item}
+            </label>
+          ))}
         </div>
       </div>
 
+      <!-- Timeline -->
       <div>
-        <label for="message" class="label-upper text-[10px] text-brand-muted mb-2 block">{t('contact.message', locale)}</label>
-        <textarea id="message" name="message" rows="5" required class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors resize-none"></textarea>
+        <label for="timeline" class="label-upper text-[10px] text-brand-muted mb-2 block">Timeline</label>
+        <select id="timeline" name="timeline" class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors appearance-none">
+          <option value="" disabled selected>— Select</option>
+          <option value="As soon as possible">As soon as possible</option>
+          <option value="Within the next 1–3 months">Within the next 1–3 months</option>
+          <option value="Planning for later this year">Planning for later this year</option>
+          <option value="Just exploring options for now">Just exploring options for now</option>
+        </select>
       </div>
 
-      <label class="flex items-start gap-3 cursor-pointer">
-        <input type="checkbox" name="consent" required class="mt-1 accent-brand-gold" />
-        <span class="text-xs text-brand-muted leading-relaxed">
-          {t('contact.consent', locale)} <a href="/privacy" class="text-brand-gold underline">{t('contact.privacyLink', locale)}</a>
-        </span>
-      </label>
+      <!-- Your situation -->
+      <div>
+        <label for="situation" class="label-upper text-[10px] text-brand-muted mb-2 block">Your Situation (optional)</label>
+        <textarea id="situation" name="situation" rows="5" placeholder="A brief description of your situation helps us respond with more precision. You don't need to share confidential details at this stage." class="w-full bg-white border border-brand-navy/10 px-4 py-3 text-sm focus:outline-none focus:border-brand-gold transition-colors resize-none"></textarea>
+      </div>
+
+      <!-- Preferred contact method -->
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div>
+          <p class="label-upper text-[10px] text-brand-muted mb-3">Preferred way to be contacted</p>
+          <div class="space-y-2">
+            {['Email', 'Phone call', 'Video call'].map((method, i) => (
+              <label class="flex items-center gap-3 cursor-pointer text-sm text-gray-600">
+                <input type="radio" name="contactMethod" value={method} class="accent-brand-gold" checked={i === 0} />
+                {method}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p class="label-upper text-[10px] text-brand-muted mb-3">Preferred language</p>
+          <div class="space-y-2">
+            {['English', 'Français', 'Italiano'].map((lang, i) => (
+              <label class="flex items-center gap-3 cursor-pointer text-sm text-gray-600">
+                <input type="radio" name="preferredLanguage" value={lang} class="accent-brand-gold" checked={i === 0} />
+                {lang}
+              </label>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Confidentiality note -->
+      <p class="text-xs text-brand-muted leading-relaxed">
+        All information shared through this form is treated with full confidentiality. We will only use it to respond to your enquiry.
+      </p>
 
       <button type="submit" class="bg-brand-gold text-brand-navy px-10 py-4 label-upper text-xs font-bold hover:bg-brand-navy hover:text-white transition-colors w-full sm:w-auto">
-        {t('contact.submit', locale)}
+        Send Enquiry
       </button>
     </form>
   </div>

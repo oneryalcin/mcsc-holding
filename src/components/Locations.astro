@@ -1,45 +1,252 @@
 ---
-import { t, type Locale } from '../i18n/utils';
+import { t, getLocalePath, type Locale } from '../i18n/utils';
 
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 
-const offices = [
-  { label: t('locations.monaco.label', locale), name: t('locations.monaco.name', locale), address: t('locations.monaco.address', locale) },
-  { label: t('locations.milan.label', locale), name: t('locations.milan.name', locale), address: t('locations.milan.address', locale) },
-  { label: t('locations.geneva.label', locale), name: t('locations.geneva.name', locale), address: t('locations.geneva.address', locale) },
+const locations = [
+  {
+    key: 'luxembourg',
+    label: t('locations.luxembourg.label', locale),
+    entity: t('locations.luxembourg.entity', locale),
+    tagline: t('locations.luxembourg.tagline', locale),
+    address: t('locations.luxembourg.address', locale),
+    desc: t('locations.luxembourg.desc', locale),
+    type: 'pillars' as const,
+    pillars: [
+      { title: t('locations.luxembourg.pillar1title', locale), items: t('locations.luxembourg.pillar1items', locale).split('|') },
+      { title: t('locations.luxembourg.pillar2title', locale), items: t('locations.luxembourg.pillar2items', locale).split('|') },
+      { title: t('locations.luxembourg.pillar3title', locale), items: t('locations.luxembourg.pillar3items', locale).split('|') },
+    ],
+  },
+  {
+    key: 'monaco',
+    label: t('locations.monaco.label', locale),
+    entity: t('locations.monaco.entity', locale),
+    tagline: t('locations.monaco.tagline', locale),
+    address: t('locations.monaco.address', locale),
+    desc: t('locations.monaco.desc', locale),
+    type: 'items' as const,
+    items: t('locations.monaco.items', locale).split('|'),
+  },
+  {
+    key: 'geneva',
+    label: t('locations.geneva.label', locale),
+    entity: t('locations.geneva.entity', locale),
+    tagline: t('locations.geneva.tagline', locale),
+    address: t('locations.geneva.address', locale),
+    desc: t('locations.geneva.desc', locale),
+    type: 'items' as const,
+    items: t('locations.geneva.items', locale).split('|'),
+  },
+  {
+    key: 'milan',
+    label: t('locations.milan.label', locale),
+    entity: t('locations.milan.entity', locale),
+    tagline: t('locations.milan.tagline', locale),
+    address: t('locations.milan.address', locale),
+    desc: t('locations.milan.desc', locale),
+    type: 'items' as const,
+    items: t('locations.milan.items', locale).split('|'),
+  },
+  {
+    key: 'london',
+    label: t('locations.london.label', locale),
+    entity: t('locations.london.entity', locale),
+    tagline: t('locations.london.tagline', locale),
+    address: t('locations.london.address', locale),
+    desc: t('locations.london.desc', locale),
+    type: 'branches' as const,
+    branches: [
+      { name: t('locations.london.branch1name', locale), desc: t('locations.london.branch1desc', locale) },
+      { name: t('locations.london.branch2name', locale), desc: t('locations.london.branch2desc', locale) },
+      { name: t('locations.london.branch3name', locale), desc: t('locations.london.branch3desc', locale) },
+      { name: t('locations.london.branch4name', locale), desc: t('locations.london.branch4desc', locale) },
+    ],
+  },
 ];
 ---
 
-<section class="py-24 bg-brand-cream" id="locations">
-  <div class="mx-auto max-w-7xl px-6 text-center">
-    <div class="bg-white/50 border border-brand-navy/10 p-12 min-h-[480px] flex items-center justify-center relative overflow-hidden">
-      <img
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7sJiw1vxx5oh9U7nOf1YpP0WF6IhG7SGSF4SnsjQVRoaRuvP9syYw9zWYR5RwIVNAbCuWyqtZ1ZbtpFXAablC650KcAzfYZq83XGS8o6n7D508NpSyTgtbt7WdqnuCVaxs6kZK1LU_thIauH9y7YNx48UviO_zTJ5V2x4oDnkuBv-sQB0GDv1YqDRLm35lgALdDdVua-GLb5NgiT6q6_EVTEAkcroe9IraSx1t2MYcGVPtXu7PvfGbHorRB8E8cLQnFo8A112XEAU"
-        alt="" class="opacity-10 absolute inset-0 w-full h-full object-cover" loading="lazy" aria-hidden="true"
-      />
-      <div class="absolute inset-0 z-0 pointer-events-none hidden md:block">
-        <div class="absolute top-[44%] left-[49.5%] flex flex-col items-center">
-          <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(196,164,74,0.8)]"></div>
-          <div class="w-6 h-6 border border-brand-gold rounded-full absolute -top-1.5 pin-glow"></div>
-        </div>
-        <div class="absolute top-[46%] left-[50.8%] flex flex-col items-center">
-          <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(196,164,74,0.8)]"></div>
-          <div class="w-6 h-6 border border-brand-gold rounded-full absolute -top-1.5 pin-glow" style="animation-delay: 0.5s;"></div>
-        </div>
-        <div class="absolute top-[43%] left-[49.8%] flex flex-col items-center">
-          <div class="w-2.5 h-2.5 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(196,164,74,0.8)]"></div>
+<section class="py-16 bg-brand-cream" id="locations">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-12">
+      <span class="text-brand-gold text-sm font-semibold tracking-widest uppercase mb-4 block">{t('locations.label', locale)}</span>
+      <h2 class="text-4xl md:text-5xl">{t('locations.headline', locale)}</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+      <!-- Map (left) -->
+      <div class="bg-white border border-brand-navy/10 relative overflow-hidden aspect-[4/3]">
+        <div class="absolute inset-0 opacity-20" style="background-image: url('/images/europe-map.avif'); background-size: 300%; background-position: 45% 72%; background-repeat: no-repeat;" aria-hidden="true"></div>
+        <div class="absolute inset-0 z-10">
+          <!-- London -->
+          <div class="absolute top-[14.5%] left-[23%] flex flex-col items-center group cursor-pointer loc-pin" data-location="london">
+            <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(163,142,100,0.8)] pin-dot"></div>
+            <div class="w-7 h-7 border border-brand-gold rounded-full absolute -top-2 pin-glow"></div>
+            <span class="mt-2 bg-brand-navy text-white text-[9px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">London</span>
+          </div>
+          <!-- Luxembourg -->
+          <div class="absolute top-[29%] left-[44.5%] flex flex-col items-center group cursor-pointer loc-pin" data-location="luxembourg">
+            <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(163,142,100,0.8)] pin-dot"></div>
+            <div class="w-7 h-7 border border-brand-gold rounded-full absolute -top-2 pin-glow" style="animation-delay: 0.2s;"></div>
+            <span class="mt-2 bg-brand-navy text-white text-[9px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">Luxembourg</span>
+          </div>
+          <!-- Geneva -->
+          <div class="absolute top-[54%] left-[47%] flex flex-col items-center group cursor-pointer loc-pin" data-location="geneva">
+            <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(163,142,100,0.8)] pin-dot"></div>
+            <div class="w-7 h-7 border border-brand-gold rounded-full absolute -top-2 pin-glow" style="animation-delay: 0.4s;"></div>
+            <span class="mt-2 bg-brand-navy text-white text-[9px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">Geneva</span>
+          </div>
+          <!-- Milan -->
+          <div class="absolute top-[62%] left-[60%] flex flex-col items-center group cursor-pointer loc-pin" data-location="milan">
+            <div class="w-3 h-3 bg-brand-gold rounded-full shadow-[0_0_10px_rgba(163,142,100,0.8)] pin-dot"></div>
+            <div class="w-7 h-7 border border-brand-gold rounded-full absolute -top-2 pin-glow" style="animation-delay: 0.6s;"></div>
+            <span class="mt-2 bg-brand-navy text-white text-[9px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">Milan</span>
+          </div>
+          <!-- Monaco -->
+          <div class="absolute top-[73%] left-[48%] flex flex-col items-center group cursor-pointer loc-pin" data-location="monaco">
+            <div class="w-3.5 h-3.5 bg-brand-gold rounded-full shadow-[0_0_12px_rgba(163,142,100,0.9)] pin-dot"></div>
+            <div class="w-8 h-8 border border-brand-gold rounded-full absolute -top-2 pin-glow" style="animation-delay: 0.8s;"></div>
+            <span class="mt-2 bg-brand-gold text-brand-navy text-[10px] font-bold px-3 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest whitespace-nowrap">Monaco (HQ)</span>
+          </div>
         </div>
       </div>
-      <div class="z-10 grid grid-cols-1 md:grid-cols-3 gap-12 w-full">
-        {offices.map((office) => (
-          <div class="group cursor-default">
-            <p class="text-brand-gold text-sm font-bold label-upper mb-2 group-hover:text-brand-navy transition-colors">{office.label}</p>
-            <p class="text-brand-navy font-semibold text-lg">{office.name}</p>
-            <p class="text-xs text-brand-muted mt-2 font-light">{office.address}</p>
+
+      <!-- Right column -->
+      <div class="flex flex-col overflow-y-auto self-stretch">
+        <!-- Default: all location cards (hidden initially, Monaco detail shown) -->
+        <div id="loc-overview" class="flex flex-col gap-4 hidden flex-1">
+          {locations.map((loc) => (
+            <div class="bg-white p-5 border-l-4 border-brand-navy shadow-sm cursor-pointer loc-card hover:border-brand-gold transition-colors" data-location={loc.key}>
+              <p class="text-brand-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-1">{loc.label}</p>
+              <p class="text-brand-navy font-serif text-lg">{loc.entity}</p>
+              <p class="text-xs text-gray-500 mt-1">{loc.tagline}</p>
+            </div>
+          ))}
+        </div>
+
+        <!-- Detail views (hidden by default) -->
+        {locations.map((loc) => (
+          <div id={`loc-detail-${loc.key}`} class:list={[loc.key === 'monaco' ? '' : 'hidden', 'group relative bg-white p-6 rounded-sm border-2 border-brand-gold shadow-xl flex-1 overflow-hidden']}>
+            <div class="flex flex-col h-full relative z-10">
+              <!-- Sticky header -->
+              <div class="border-b border-brand-gold/20 pb-4 mb-4 shrink-0">
+                <p class="text-brand-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-1">{loc.label}</p>
+                <h3 class="text-xl font-serif text-brand-navy mb-1">{loc.entity}</h3>
+                <p class="text-xs text-gray-600 italic">{loc.tagline}</p>
+              </div>
+
+              <!-- Scrollable content -->
+              <div class="flex-1 overflow-y-auto min-h-0">
+                {loc.desc && <p class="text-[13px] text-gray-600 font-light leading-relaxed mb-4">{loc.desc}</p>}
+
+                {loc.type === 'pillars' && loc.pillars && (
+                  <div class="space-y-3 mb-4">
+                    {loc.pillars.map((pillar) => (
+                      <div class="pl-3 border-l-2 border-brand-gold">
+                        <h4 class="text-[10px] font-bold uppercase tracking-wider text-brand-navy mb-1">{pillar.title}</h4>
+                        <ul class="space-y-1">
+                          {pillar.items.map((item) => (
+                            <li class="flex items-start gap-2 text-[12px] text-brand-navy leading-snug">
+                              <span class="w-1.5 h-1.5 bg-brand-gold rounded-full mt-1.5 shrink-0"></span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {loc.type === 'items' && loc.items && (
+                  <div class="space-y-3 mb-4">
+                    <div class="pl-3 border-l-2 border-brand-gold">
+                      <h4 class="text-[10px] font-bold uppercase tracking-wider text-brand-navy mb-1">Scope of Activities</h4>
+                      <ul class="space-y-1">
+                        {loc.items.map((item) => (
+                          <li class="flex items-start gap-2 text-[12px] text-brand-navy leading-snug">
+                            <span class="w-1.5 h-1.5 bg-brand-gold rounded-full mt-1.5 shrink-0"></span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {loc.type === 'branches' && loc.branches && (
+                  <div class="space-y-3 mb-4">
+                    {loc.branches.map((b) => (
+                      <div class="pl-3 border-l-2 border-brand-gold">
+                        <h4 class="text-[10px] font-bold uppercase tracking-wider text-brand-navy mb-1">{b.name}</h4>
+                        <p class="text-[12px] text-brand-navy leading-snug">{b.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <!-- Sticky address -->
+              <div class="pt-3 border-t border-brand-gold/20 shrink-0">
+                <p class="text-brand-gold text-[9px] font-bold uppercase tracking-[0.2em] mb-1">Address</p>
+                <p class="text-brand-navy font-serif text-xs">{loc.address}</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  const overview = document.getElementById('loc-overview');
+  const pins = document.querySelectorAll('.loc-pin');
+  const cards = document.querySelectorAll('.loc-card');
+  const backs = document.querySelectorAll('.loc-back');
+
+  function showDetail(key: string) {
+    overview?.classList.add('hidden');
+    document.querySelectorAll('[id^="loc-detail-"]').forEach(el => el.classList.add('hidden'));
+    document.getElementById(`loc-detail-${key}`)?.classList.remove('hidden');
+
+    // Highlight active pin and show its label
+    pins.forEach(pin => {
+      const dot = pin.querySelector('.pin-dot') as HTMLElement;
+      const label = pin.querySelector('span') as HTMLElement;
+      if ((pin as HTMLElement).dataset.location === key) {
+        dot.classList.add('scale-150');
+        dot.style.boxShadow = '0 0 16px rgba(163,142,100,1)';
+        label.classList.remove('opacity-0');
+        label.classList.add('opacity-100');
+      } else {
+        dot.classList.remove('scale-150');
+        dot.style.boxShadow = '';
+        label.classList.add('opacity-0');
+        label.classList.remove('opacity-100');
+      }
+    });
+  }
+
+  function showOverview() {
+    overview?.classList.remove('hidden');
+    document.querySelectorAll('[id^="loc-detail-"]').forEach(el => el.classList.add('hidden'));
+    pins.forEach(pin => {
+      const dot = pin.querySelector('.pin-dot') as HTMLElement;
+      dot.classList.remove('scale-150');
+      dot.style.boxShadow = '';
+    });
+  }
+
+  // Highlight Monaco pin on load
+  showDetail('monaco');
+
+  // Click to switch locations
+  pins.forEach(pin => {
+    pin.addEventListener('click', () => showDetail((pin as HTMLElement).dataset.location!));
+  });
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => showDetail((card as HTMLElement).dataset.location!));
+  });
+</script>

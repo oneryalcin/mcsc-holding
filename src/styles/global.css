@@ -1,21 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Colors — from spec Section 11 */
-  --color-brand-navy: #1a1f2e;
-  --color-brand-gold: #c4a44a;
-  --color-brand-cream: #f5f0e8;
+  /* Brand Colors */
+  --color-brand-navy: #121926;
+  --color-brand-gold: #A38E64;
+  --color-brand-cream: #F5F3EF;
+  --color-brand-sand: #EAE6DF;
   --color-brand-dark: #1a1a1a;
   --color-brand-muted: #8a8a8a;
 
   /* Typography */
   --font-serif: "Playfair Display", serif;
-  --font-sans: "DM Sans", sans-serif;
+  --font-sans: "Inter", sans-serif;
 }
 
 /* Base styles */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -28,6 +30,12 @@ h1, h2, h3, .heading-serif {
   font-family: var(--font-serif);
 }
 
+/* Material Symbols — ensure icon font overrides body font */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
 /* Label style — spec: uppercase, letter-spacing 0.15em */
 .label-upper {
   text-transform: uppercase;
@@ -38,12 +46,13 @@ h1, h2, h3, .heading-serif {
 
 /* Hero overlay */
 .hero-overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(26, 31, 46, 0.8) 0%,
-    rgba(26, 31, 46, 0.6) 50%,
-    rgba(26, 31, 46, 0.85) 100%
-  );
+  background: linear-gradient(rgba(18, 25, 38, 0.75), rgba(18, 25, 38, 0.75));
+}
+
+/* Map Grain Texture */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
 }
 
 /* Card hover lift */

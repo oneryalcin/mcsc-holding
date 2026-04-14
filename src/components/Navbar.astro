@@ -7,36 +7,41 @@ const { locale = 'en' } = Astro.props;
 const basePath = locale === defaultLocale ? '' : `/${locale}`;
 
 const navItems = [
-  { label: t('nav.home', locale), href: `${basePath}/#home` },
+  { label: t('nav.home', locale), href: `${basePath}/` },
   { label: t('nav.theGroup', locale), href: `${basePath}/#the-group` },
+  { label: t('nav.locations', locale), href: `${basePath}/#locations` },
   { label: t('nav.expertise', locale), href: `${basePath}/#expertise` },
   { label: t('nav.keyPeople', locale), href: `${basePath}/#key-people` },
-  { label: t('nav.locations', locale), href: `${basePath}/#locations` },
   { label: t('nav.insights', locale), href: `${basePath}/#insights` },
   { label: t('nav.contact', locale), href: `${basePath}/#contact` },
+  { label: t('nav.faq', locale), href: getLocalePath('/faq', locale) },
 ];
 ---
 
 <header
-  class="fixed w-full z-50 bg-brand-navy/95 backdrop-blur-sm text-white border-b border-brand-gold/20"
+  class="fixed w-full z-50 bg-white/95 backdrop-blur-sm text-brand-navy border-b border-brand-gold/20"
   id="site-header"
 >
-  <nav class="mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
+  <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
     <!-- Logo -->
-    <a href={`${basePath}/`} class="flex items-center gap-2">
-      <span class="text-2xl font-serif tracking-widest text-brand-gold font-bold">MCSC</span>
-      <span class="text-sm font-sans font-light border-l border-brand-gold/40 pl-2 mt-0.5">MANAGEMENT</span>
+    <a href={`${basePath}/`} class="flex items-center gap-3">
+      <img
+        src="/images/mcsc-logo.png"
+        alt="MCSC Group Logo"
+        class="h-10 md:h-12 w-auto object-contain"
+      />
+      <span class="font-serif text-2xl tracking-tighter hidden md:block text-brand-navy">GROUP</span>
     </a>
 
     <!-- Desktop Nav -->
-    <ul class="hidden lg:flex gap-8">
+    <ul class="hidden xl:flex gap-8 text-[10px] uppercase tracking-widest font-bold">
       {navItems.map((item, i) => (
         <li>
           <a
             href={item.href}
             class:list={[
-              'label-upper text-[11px] nav-link',
-              i === 0 ? 'text-brand-gold' : 'text-white/80',
+              'nav-link',
+              i === 0 ? 'text-brand-gold' : 'text-brand-navy',
             ]}
           >
             {item.label}
@@ -46,13 +51,13 @@ const navItems = [
     </ul>
 
     <!-- Language Switcher -->
-    <div class="hidden lg:flex items-center gap-2 text-[10px] label-upper">
+    <div class="hidden xl:flex items-center gap-2 text-[10px] font-bold opacity-80 bg-brand-cream p-2 rounded-sm">
       {locales.map((l, i) => (
         <>
-          {i > 0 && <span class="text-white/20">|</span>}
+          {i > 0 && <span>|</span>}
           <a
             href={getLocalePath('/', l)}
-            class:list={[l === locale ? 'text-brand-gold' : 'text-white/50 hover:text-white transition-colors']}
+            class:list={[l === locale ? 'text-brand-gold' : 'text-brand-navy']}
           >
             {l.toUpperCase()}
           </a>
@@ -62,22 +67,22 @@ const navItems = [
 
     <!-- Mobile Hamburger -->
     <button
-      class="lg:hidden flex flex-col gap-1.5 p-2"
+      class="xl:hidden flex flex-col gap-1.5 p-2"
       id="mobile-menu-btn"
       aria-label="Open menu"
     >
-      <span class="block w-6 h-px bg-brand-gold transition-transform" id="burger-top"></span>
-      <span class="block w-6 h-px bg-brand-gold transition-opacity" id="burger-mid"></span>
-      <span class="block w-4 h-px bg-brand-gold transition-transform ml-auto" id="burger-bot"></span>
+      <span class="block w-6 h-px bg-brand-navy transition-transform" id="burger-top"></span>
+      <span class="block w-6 h-px bg-brand-navy transition-opacity" id="burger-mid"></span>
+      <span class="block w-4 h-px bg-brand-navy transition-transform ml-auto" id="burger-bot"></span>
     </button>
   </nav>
 
   <!-- Mobile Menu -->
-  <div class="lg:hidden hidden bg-brand-navy/98 border-t border-brand-gold/10" id="mobile-menu">
+  <div class="xl:hidden hidden bg-white/98 border-t border-brand-gold/10" id="mobile-menu">
     <ul class="flex flex-col py-6 px-6 gap-6">
       {navItems.map((item) => (
         <li>
-          <a href={item.href} class="label-upper text-sm text-white/80 nav-link mobile-nav-link">
+          <a href={item.href} class="label-upper text-sm text-brand-navy/80 nav-link mobile-nav-link">
             {item.label}
           </a>
         </li>
@@ -87,7 +92,7 @@ const navItems = [
       {locales.map((l) => (
         <a
           href={getLocalePath('/', l)}
-          class:list={[l === locale ? 'text-brand-gold' : 'text-white/50']}
+          class:list={[l === locale ? 'text-brand-gold' : 'text-brand-navy/50']}
         >
           {l.toUpperCase()}
         </a>

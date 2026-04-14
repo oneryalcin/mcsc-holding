@@ -5,47 +5,26 @@ interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 
 const items = [
-  {
-    label: t('licenses.monaco', locale),
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB7zG6lACWZj9_E-eCgduK3R2re8apmnjFRdm19Kf1yzF_muwQOqzLMMLjY2V7tQ0LcP4qDi90FM539ezp52b-LakwS_PsqR8xULpbIYxRD0bO2F45SrSZhB62LeIFOOz2nHMBBdLtdrUlMBhQd87wy0ZKyZSz9eYpgSug4lmfwKHX3abiHq_SzdTLzXxsqUo5gFokjV-FUF-RMiB1henu1aiOMq6xB30BaPhC1UH6qJY22GqDBz75RNyElMRFjioQmQeqnOpq6V0bJ',
-  },
-  { label: t('licenses.fifa', locale), icon: 'fifa' },
-  { label: t('licenses.sfaa', locale), text: 'SFAA' },
-  { label: t('licenses.transferroom', locale), text: 'TR', accent: true },
+  { label: t('licenses.fifa', locale), sublabel: t('licenses.fifaSub', locale), icon: 'sports_soccer' },
+  { label: t('licenses.sfaa', locale), sublabel: t('licenses.sfaaSub', locale), icon: 'groups' },
+  { label: t('licenses.fa', locale), sublabel: t('licenses.faSub', locale), icon: 'shield' },
+  { label: t('licenses.tep', locale), sublabel: t('licenses.tepSub', locale), icon: 'gavel' },
+  { label: t('licenses.azek', locale), sublabel: t('licenses.azekSub', locale), icon: 'trending_up' },
 ];
 ---
 
-<section class="py-16 bg-brand-navy border-b border-brand-gold/10" id="licenses">
-  <div class="mx-auto max-w-7xl px-6">
-    <div class="text-center mb-12">
-      <h2 class="text-white text-2xl font-serif tracking-wide uppercase">
-        {t('licenses.title', locale)}
-      </h2>
-      <div class="h-px w-20 bg-brand-gold mx-auto mt-3"></div>
-    </div>
-
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 items-start text-center">
+<section class="py-12 border-brand-gold/10 bg-brand-sand" id="licenses">
+  <div class="container mx-auto px-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
       {items.map((item) => (
-        <div class="flex flex-col items-center">
-          <div class="w-28 h-28 mb-5 bg-white/5 flex items-center justify-center p-4 rounded">
-            {item.image ? (
-              <img src={item.image} alt={item.label} class="max-h-full opacity-90" />
-            ) : item.icon === 'fifa' ? (
-              <svg class="w-16 h-16 text-brand-gold" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" />
-              </svg>
-            ) : (
-              <span class:list={[
-                'text-3xl font-bold tracking-tighter',
-                item.accent ? 'bg-green-600 text-white px-3 py-1' : 'text-white',
-              ]}>
-                {item.text}
-              </span>
-            )}
+        <div class="flex items-center gap-4 p-5 rounded-lg border border-brand-gold/10 hover:border-brand-gold/30 transition-all bg-white/50">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-gold/10 text-brand-gold">
+            <span class="material-symbols-outlined text-2xl text-brand-gold">{item.icon}</span>
           </div>
-          <p class="text-brand-cream/60 text-xs label-upper leading-relaxed">
-            <span set:html={item.label.replace(/(Monaco|2024|Agents Association|Association|Membership)/g, '<span class="text-white font-medium">$1</span>')} />
-          </p>
+          <div class="text-left">
+            <p class="text-xs font-bold uppercase tracking-wider text-brand-navy leading-tight">{item.label}</p>
+            <p class="text-[10px] mt-1 text-gray-600">{item.sublabel}</p>
+          </div>
         </div>
       ))}
     </div>
