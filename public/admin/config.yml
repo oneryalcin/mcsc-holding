@@ -26,4 +26,19 @@ collections:
       - { name: "publishDate", label: "Publish Date", widget: "datetime", i18n: duplicate }
       - { name: "coverImage", label: "Cover Image", widget: "image", i18n: duplicate }
       - { name: "excerpt", label: "Excerpt", widget: "text", i18n: true }
+      - name: "tags"
+        label: "Team Members"
+        widget: "select"
+        i18n: duplicate
+        multiple: true
+        required: false
+        options:
+          - { label: "Gian Marco Gilardi", value: "gian-marco-gilardi" }
+          - { label: "Francesco Prazzo", value: "francesco-prazzo" }
+          - { label: "Nathan Cordero di Montezemolo", value: "nathan-cordero-di-montezemolo" }
+          - { label: "Gianmatteo Terruzzi", value: "gianmatteo-terruzzi" }
+          - { label: "Martina Bestagno", value: "martina-bestagno" }
+          - { label: "Avv. Cosimo Andrea Vestuti", value: "cosimo-andrea-vestuti" }
+          - { label: "Avv. Alessandro Belluzzo", value: "alessandro-belluzzo" }
+          - { label: "Avv. Paolo Zanazza", value: "paolo-zanazza" }
       - { name: "body", label: "Body", widget: "markdown", i18n: true }

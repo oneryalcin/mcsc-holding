@@ -6,15 +6,29 @@ interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 
 const all = await getLocalizedInsights(locale);
-const articles = all.slice(0, 3);
 
 const dateLocale = locale === 'fr' ? 'fr-FR' : locale === 'it' ? 'it-IT' : 'en-US';
 ---
 
 <section class="py-24 bg-white" id="insights">
   <div class="mx-auto max-w-7xl px-6">
-    <div class="flex justify-between items-center mb-16">
-      <h2 class="text-4xl">{t('insights.headline', locale)}</h2>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
+      <div>
+        <h2 class="text-4xl">{t('insights.headline', locale)}</h2>
+        <div class="flex gap-4 mt-4" id="insight-filters">
+          {['All', 'Insights', 'News', 'Events'].map((cat, i) => (
+            <button
+              data-filter={cat === 'All' ? 'all' : cat}
+              class:list={[
+                'px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors insight-filter',
+                i === 0 ? 'border-brand-gold text-brand-gold' : 'border-brand-gold/30 hover:border-brand-gold hover:text-brand-gold',
+              ]}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
       <a
         href={getLocalePath('/insights/', locale)}
         class="text-xs font-bold label-upper border-b border-brand-gold pb-1 hover:text-brand-gold transition-colors"
@@ -23,21 +37,54 @@ const dateLocale = locale === 'fr' ? 'fr-FR' : locale === 'it' ? 'it-IT' : 'en-U
       </a>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-8">
-      {articles.map(({ entry, slug }) => (
-        <article class="group">
+    <div class="grid md:grid-cols-3 gap-8" id="insight-grid">
+      {all.map(({ entry, slug }, i) => (
+        <article class:list={['group insight-card', i >= 3 ? 'hidden' : '']} data-category={entry.data.category}>
           <a href={getLocalePath(`/insights/${slug}`, locale)} class="block">
             <div class="mb-6 overflow-hidden aspect-video">
               <img src={entry.data.coverImage} alt={entry.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
             </div>
-            <span class="text-[10px] label-upper text-brand-gold font-bold">
+            <span class="text-[10px] uppercase text-brand-gold font-bold tracking-widest">
               {entry.data.category} &bull; {new Date(entry.data.publishDate!).toLocaleDateString(dateLocale, { month: 'short', year: 'numeric' })}
             </span>
             <h3 class="text-xl mt-3 mb-4 group-hover:text-brand-gold transition-colors font-serif">{entry.data.title}</h3>
-            <p class="text-sm text-brand-muted line-clamp-3">{entry.data.excerpt}</p>
+            <p class="text-sm text-gray-500 line-clamp-3">{entry.data.excerpt}</p>
           </a>
         </article>
       ))}
     </div>
   </div>
 </section>
+
+<script>
+  const filters = document.querySelectorAll('.insight-filter');
+  const cards = document.querySelectorAll('.insight-card');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = (btn as HTMLElement).dataset.filter;
+
+      // Update active button styling
+      filters.forEach(b => {
+        b.classList.remove('border-brand-gold', 'text-brand-gold');
+        b.classList.add('border-brand-gold/30');
+      });
+      btn.classList.add('border-brand-gold', 'text-brand-gold');
+      btn.classList.remove('border-brand-gold/30');
+
+      // Hide all first
+      cards.forEach(card => (card as HTMLElement).classList.add('hidden'));
+
+      // Show latest 3 matching the filter
+      let shown = 0;
+      cards.forEach(card => {
+        if (shown >= 3) return;
+        const category = (card as HTMLElement).dataset.category;
+        if (filter === 'all' || category === filter) {
+          (card as HTMLElement).classList.remove('hidden');
+          shown++;
+        }
+      });
+    });
+  });
+</script>

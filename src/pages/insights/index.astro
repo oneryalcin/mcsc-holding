@@ -9,36 +9,82 @@ const locale = 'en' as const;
 const articles = await getLocalizedInsights(locale);
 ---
 
-<Layout locale={locale} title="Insights & News | MCSC Management" description="Latest news, insights and events from MCSC Management.">
+<Layout locale={locale} title="Insights | MCSC Group" description="Latest insights, news and events from MCSC Group.">
   <Navbar locale={locale} />
   <main>
     <section class="pt-32 pb-16 bg-brand-navy text-white">
       <div class="mx-auto max-w-7xl px-6">
-        <span class="text-brand-gold label-upper mb-4 block">{t('insights.headline', locale)}</span>
-        <h1 class="text-4xl md:text-5xl">All Articles</h1>
+        <h1 class="text-4xl md:text-5xl">{t('insights.headline', locale)}</h1>
+        <div class="flex gap-4 mt-6" id="insight-filters">
+          {['All', 'Insights', 'News', 'Events'].map((cat, i) => (
+            <button
+              data-filter={cat === 'All' ? 'all' : cat}
+              class:list={[
+                'px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors insight-filter',
+                i === 0 ? 'border-brand-gold text-brand-gold' : 'border-white/30 text-white/60 hover:border-brand-gold hover:text-brand-gold',
+              ]}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
     </section>
 
     <section class="py-16 bg-white">
       <div class="mx-auto max-w-7xl px-6">
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-3 gap-8" id="insight-grid">
           {articles.map(({ entry, slug }) => (
-            <article class="group">
+            <article class="group insight-card" data-category={entry.data.category}>
               <a href={`/insights/${slug}`} class="block">
                 <div class="mb-6 overflow-hidden aspect-video">
                   <img src={entry.data.coverImage} alt={entry.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 </div>
-                <span class="text-[10px] label-upper text-brand-gold font-bold">
+                <span class="text-[10px] uppercase text-brand-gold font-bold tracking-widest">
                   {entry.data.category} &bull; {new Date(entry.data.publishDate!).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                 </span>
                 <h3 class="text-xl mt-3 mb-4 group-hover:text-brand-gold transition-colors font-serif">{entry.data.title}</h3>
-                <p class="text-sm text-brand-muted line-clamp-3">{entry.data.excerpt}</p>
+                <p class="text-sm text-gray-500 line-clamp-3">{entry.data.excerpt}</p>
               </a>
             </article>
           ))}
         </div>
+
+        <p id="no-results" class="hidden text-center text-gray-400 py-16">No articles in this category yet.</p>
       </div>
     </section>
   </main>
   <Footer locale={locale} />
 </Layout>
+
+<script>
+  const filters = document.querySelectorAll('.insight-filter');
+  const cards = document.querySelectorAll('.insight-card');
+  const noResults = document.getElementById('no-results');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = (btn as HTMLElement).dataset.filter;
+
+      filters.forEach(b => {
+        b.classList.remove('border-brand-gold', 'text-brand-gold');
+        b.classList.add('border-white/30', 'text-white/60');
+      });
+      btn.classList.add('border-brand-gold', 'text-brand-gold');
+      btn.classList.remove('border-white/30', 'text-white/60');
+
+      let visible = 0;
+      cards.forEach(card => {
+        const category = (card as HTMLElement).dataset.category;
+        if (filter === 'all' || category === filter) {
+          (card as HTMLElement).style.display = '';
+          visible++;
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+
+      noResults?.classList.toggle('hidden', visible > 0);
+    });
+  });
+</script>

@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Footer from '../components/Footer.astro';
+import { t } from '../i18n/utils';
+
+const locale = 'en' as const;
+
+const faqs = [
+  { q: t('faq.q1', locale), a: t('faq.a1', locale) },
+  { q: t('faq.q2', locale), a: t('faq.a2', locale) },
+  { q: t('faq.q3', locale), a: t('faq.a3', locale) },
+  { q: t('faq.q4', locale), a: t('faq.a4', locale) },
+  { q: t('faq.q5', locale), a: t('faq.a5', locale) },
+  { q: t('faq.q6', locale), a: t('faq.a6', locale) },
+  { q: t('faq.q7', locale), a: t('faq.a7', locale) },
+  { q: t('faq.q8', locale), a: t('faq.a8', locale) },
+];
+---
+
+<Layout locale={locale} title="FAQ | MCSC Group" description="Frequently asked questions about MCSC Group services, structure, and how we work.">
+  <Navbar locale={locale} />
+  <main>
+    <section class="pt-32 pb-16 bg-brand-navy text-white">
+      <div class="container mx-auto max-w-5xl px-6">
+        <span class="text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold">FAQ</span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">Frequently Asked Questions</h1>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
+      <div class="container mx-auto max-w-3xl px-6">
+        <div class="divide-y divide-brand-navy/10">
+          {faqs.map((faq) => (
+            <details class="group py-6">
+              <summary class="flex items-center justify-between cursor-pointer list-none">
+                <h3 class="text-lg font-serif text-brand-navy pr-8">{faq.q}</h3>
+                <span class="text-brand-gold text-2xl shrink-0 group-open:rotate-45 transition-transform duration-200">+</span>
+              </summary>
+              <p class="mt-4 text-sm text-gray-600 leading-relaxed">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <ContactForm locale={locale} />
+  </main>
+  <Footer locale={locale} />
+</Layout>

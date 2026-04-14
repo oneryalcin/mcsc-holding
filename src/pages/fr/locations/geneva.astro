@@ -1,0 +1,59 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import { t } from '../../../i18n/utils';
+
+const locale = 'fr' as const;
+const items = t('locations.geneva.items', locale).split('|');
+---
+
+<Layout
+  locale={locale}
+  title="MCSC Services Suisse — Geneva | MCSC Group"
+  description="MCSC Services Suisse represents the Group's flagship platform for sports management, athlete advisory, image rights exploitation, and club-related transactions."
+>
+  <Navbar locale={locale} />
+  <main>
+    <section class="pt-32 pb-16 bg-brand-navy text-white">
+      <div class="container mx-auto max-w-5xl px-6">
+        <div class="mb-6">
+          <a href="/fr/#locations" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; Back to Locations</a>
+        </div>
+        <span class="text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold">Switzerland</span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">MCSC Services Suisse</h1>
+        <p class="text-white/60 text-lg mt-4 max-w-2xl font-light">Athlete management & image rights</p>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
+      <div class="container mx-auto max-w-5xl px-6">
+        <p class="text-gray-600 text-lg leading-relaxed max-w-3xl">{t('locations.geneva.desc', locale)}</p>
+      </div>
+    </section>
+
+    <section class="py-16 bg-brand-cream">
+      <div class="container mx-auto max-w-5xl px-6">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-brand-navy mb-8">Scope of Activities</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          {items.map((item) => (
+            <div class="flex items-start gap-3 bg-white p-6 border-l-2 border-brand-gold">
+              <span class="w-1.5 h-1.5 bg-brand-gold rounded-full mt-2 shrink-0"></span>
+              <p class="text-sm text-gray-600 leading-relaxed">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
+      <div class="container mx-auto max-w-5xl px-6">
+        <div class="border-l-2 border-brand-gold pl-6">
+          <p class="text-brand-gold text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Office Address</p>
+          <p class="text-brand-navy font-serif text-xl">Rue de la Corraterie 14, 1204 Genève</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer locale={locale} />
+</Layout>

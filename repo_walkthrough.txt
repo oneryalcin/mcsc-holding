@@ -1,0 +1,2038 @@
+ 
+  PART    TOPIC                              KEY TAKEAWAY
+  ────    ─────                              ────────────
+  1       Big Picture                        Static site, no server, CDN-served HTML
+  2       Astro Components & Routing         File = URL, .astro = build-time template
+  3       i18n System                        3 layers: URL routing, t() strings, content files
+  4       Content & CMS                      Markdown + Zod validation + Decap CMS git workflow
+  5       Styling                            Tailwind 4 @theme tokens, two fonts, five utilities
+  6       SEO                                hreflang, JSON-LD, Open Graph, auto-sitemap
+  7       External Services                  Formspree (forms), Netlify Identity (auth), Google Fonts
+  8       Build & Deploy                     Local builds + netlify deploy = zero build minutes
+ 
+
+ Part 1: The Big Picture — How Everything Connects
+
+  Think of this repo as a static website factory. There is no server running in production. At build time,
+  Astro reads your source files, renders every page to plain HTML/CSS, and spits out a dist/ folder. Netlify
+  serves that folder. That's it.
+
+  Here's the full system at a glance:
+
+                              ┌──────────────────────────────────┐
+                              │         CONTENT AUTHORS          │
+                              │   (editors via Decap CMS at      │
+                              │    /admin/ in the browser)       │
+                              └──────────────┬───────────────────┘
+                                             │
+                                      git commit via
+                                      Netlify Git Gateway
+                                             │
+                                             v
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                         GITHUB REPO  (main branch)                       │
+  │                                                                          │
+  │  src/                                                                    │
+  │  ├── pages/           ← Routes (file = URL)                              │
+  │  ├── components/      ← Reusable UI blocks (.astro)                      │
+  │  ├── layouts/         ← Page shells (Layout, ArticleLayout)              │
+  │  ├── content/         ← Markdown articles + YAML team data               │
+  │  ├── i18n/            ← Translations (JSON) + locale helpers (TS)        │
+  │  └── styles/          ← Tailwind + brand tokens                          │
+  │                                                                          │
+  │  public/                                                                 │
+  │  ├── admin/           ← Decap CMS config + entry point                   │
+  │  ├── robots.txt                                                          │
+  │  └── images/uploads/  ← CMS media                                        │
+  └──────────────────────┬───────────────────────────────────────────────────┘
+                         │
+                    push to main
+                         │
+                         v
+                ┌────────────────┐        ┌─────────────────────┐
+                │  NETLIFY BUILD │───────>│   dist/  (static)   │
+                │  `astro build` │        │   HTML + CSS + JS   │
+                └────────────────┘        └──────────┬──────────┘
+                                                     │
+                                              served via CDN
+                                                     │
+                                                     v
+                                          ┌──────────────────┐
+                                          │    VISITORS      │
+                                          │  mcsc-holding.com│
+                                          └──────────────────┘
+                                                     │
+                                            form submissions
+                                                     │
+                                                     v
+                                          ┌──────────────────┐
+                                          │   FORMSPREE      │
+                                          │  (email delivery)│
+                                          └──────────────────┘
+
+  The request lifecycle (there is none)
+
+  This is the most important mental model shift. Unlike Next.js, Django, or Express — there is no server
+  processing requests at runtime. Every URL a visitor hits is a pre-built .html file sitting on Netlify's
+  CDN. The "dynamic" parts are:
+
+  1. Contact form — browser POSTs directly to Formspree (third-party). No backend.
+  2. CMS — runs entirely in the browser at /admin/. Authenticates via Netlify Identity, then commits files to
+   GitHub through Netlify's Git Gateway. Those commits trigger a rebuild.
+
+  The build pipeline
+
+  Developer pushes code ──┐
+                          ├──> GitHub main ──> Netlify detects ──> runs `astro build` ──> deploys dist/
+  CMS editor publishes ───┘
+
+  Both developers and content editors converge on the same Git workflow. The CMS is just a friendly UI for
+  making git commits.
+
+  ┌───────────────────┬─────────────────────────────────────────────────┐
+  │      Package      │                      Role                       │
+  ├───────────────────┼─────────────────────────────────────────────────┤
+  │ astro             │ Static site generator — the core                │
+  ├───────────────────┼─────────────────────────────────────────────────┤
+  │ tailwindcss       │ Utility-first CSS framework                     │
+  ├───────────────────┼─────────────────────────────────────────────────┤
+  │ @tailwindcss/vite │ Vite plugin to wire Tailwind into Astro's build │
+  ├───────────────────┼─────────────────────────────────────────────────┤
+  │ @astrojs/sitemap  │ Auto-generates sitemap XML at build time        │
+  └───────────────────┴─────────────────────────────────────────────────┘
+
+  No React, no Vue, no database driver, no API client. The simplicity is deliberate.
+
+  How a page gets built (tracing one request)
+
+  Let's say a visitor hits mcsc-holding.com/fr/. Here's what happened at build time to create that page:
+
+  astro build
+      │
+      ├── reads src/pages/fr/index.astro
+      │       │
+      │       ├── sets locale = 'fr'
+      │       ├── imports Layout, Navbar, Hero, ... Footer
+      │       │       │
+      │       │       ├── each component calls t('key', 'fr')
+      │       │       │       │
+      │       │       │       └── looks up key in src/i18n/fr.json
+      │       │       │
+      │       │       └── InsightsNews calls getLocalizedInsights('fr')
+      │       │               │
+      │       │               ├── reads ALL markdown in src/content/insights/
+      │       │               ├── groups by slug, picks .fr variant
+      │       │               └── falls back to .en if .fr is missing
+      │       │
+      │       └── renders to HTML string
+      │
+      └── writes dist/fr/index.html
+
+  At runtime, Netlify just serves dist/fr/index.html. Zero computation.
+
+  ---
+  That's the 30,000-foot view. Ready for Part 2: Astro's Component Model & Routing — how .astro files work,
+  how file-based routing maps to URLs, and why there's no client-side JavaScript framework?
+
+
+
+
+
+✻ Sautéed for 1m 5s
+
+❯ continue
+
+⏺ Part 2: Astro's Component Model & Routing
+
+  What is an .astro file?
+
+  Every .astro file is a single-file component split into two halves by a --- fence. The top
+  half is server-side TypeScript that runs only at build time. The bottom half is an HTML
+  template. There is no virtual DOM, no hydration, no client-side rendering.
+
+  ┌─────────────────────────────────┐
+  │  ---                            │  ← Fence open
+  │  // TypeScript (build-time)     │
+  │  import X from './X.astro';     │
+  │  const data = await fetch(...); │
+  │  ---                            │  ← Fence close
+  │                                 │
+  │  <div>                          │  ← HTML template
+  │    <X prop={data} />            │     (with JSX-like expressions)
+  │    <p>{data.title}</p>          │
+  │  </div>                         │
+  └─────────────────────────────────┘
+
+  The key insight: everything between the fences is thrown away after build. It never ships to
+   the browser. This is why the bundle is tiny — visitors get pure HTML and CSS, no framework
+  runtime.
+
+  The three kinds of .astro files in this repo
+
+  src/
+  ├── pages/              ← PAGES: define URLs
+  │   ├── index.astro          /
+  │   ├── privacy.astro        /privacy/
+  │   ├── legal.astro          /legal/
+  │   ├── insights/
+  │   │   ├── index.astro      /insights/
+  │   │   └── [slug].astro     /insights/nil-rights-european-football/
+  │   ├── fr/
+  │   │   ├── index.astro      /fr/
+  │   │   ├── privacy.astro    /fr/privacy/
+  │   │   ├── legal.astro      /fr/legal/
+  │   │   └── insights/
+  │   │       ├── index.astro  /fr/insights/
+  │   │       └── [slug].astro /fr/insights/nil-rights-european-football/
+  │   └── it/                  (same mirror as fr/)
+  │
+  ├── components/         ← COMPONENTS: reusable building blocks
+  │   ├── Navbar.astro
+  │   ├── Hero.astro
+  │   ├── ContactForm.astro
+  │   └── ... (12 total)
+  │
+  └── layouts/            ← LAYOUTS: page shells that wrap content
+      ├── Layout.astro         (base: <html>, <head>, SEO, fonts)
+      └── ArticleLayout.astro  (article: hero image, prose styling)
+
+  File-based routing: file path = URL
+
+  Astro's rule is dead simple. Take the file path under src/pages/, strip the extension, and
+  that's your URL:
+
+  FILE PATH                              URL
+  ─────────────────────────────────────  ──────────────────────
+  src/pages/index.astro                  /
+  src/pages/privacy.astro                /privacy/
+  src/pages/insights/index.astro         /insights/
+  src/pages/insights/[slug].astro        /insights/:slug/     (dynamic)
+  src/pages/fr/index.astro               /fr/
+  src/pages/fr/insights/[slug].astro     /fr/insights/:slug/
+
+  There is no router config file. No routes.ts. The filesystem is the router.
+
+  Dynamic routes: [slug].astro
+
+  The square brackets mean "this page is generated once per item." Look at how
+  src/pages/insights/[slug].astro works:
+
+  ┌─────────────────────────────────────────────────────┐
+  │  ---                                                │
+  │  export async function getStaticPaths() {           │
+  │    const articles = await getLocalizedInsights('en');│
+  │    return articles.map(({ entry, slug }) => ({      │
+  │      params: { slug },    ← URL parameter           │
+  │      props: { entry },    ← data passed to template │
+  │    }));                                             │
+  │  }                                                  │
+  │                                                     │
+  │  const { entry } = Astro.props;                     │
+  │  const { Content } = await render(entry);           │
+  │  ---                                                │
+  │                                                     │
+  │  <ArticleLayout title={entry.data.title} ...>       │
+  │    <Content />                                      │
+  │  </ArticleLayout>                                   │
+  └─────────────────────────────────────────────────────┘
+
+  At build time, Astro calls getStaticPaths(), gets back a list like:
+
+  [
+    { params: { slug: "nil-rights-european-football" },     props: { entry: ... } },
+    { params: { slug: "governance-high-net-worth-athletes"}, props: { entry: ... } },
+    { params: { slug: "monaco-summit-recap" },              props: { entry: ... } },
+  ]
+
+  Then it renders the template three times, producing three HTML files:
+
+  dist/
+  └── insights/
+      ├── nil-rights-european-football/index.html
+      ├── governance-high-net-worth-athletes/index.html
+      └── monaco-summit-recap/index.html
+
+  How components compose: the homepage
+
+  The homepage (src/pages/index.astro) is the clearest example of composition. It's just a
+  vertical stack of components:
+
+  ┌──────────────────────────────────────────────┐
+  │  Layout  (locale='en')                       │
+  │  ┌─────────────────────────────────────────┐ │
+  │  │  <html>, <head>, SEO meta, fonts,       │ │
+  │  │  JSON-LD, hreflang, Netlify Identity    │ │
+  │  │                                         │ │
+  │  │  <body>                                 │ │
+  │  │    <slot />  ← children go here         │ │
+  │  │  </body>                                │ │
+  │  └─────────────────────────────────────────┘ │
+  │                                              │
+  │  What fills the <slot />:                    │
+  │                                              │
+  │  ┌──────────────────────┐                    │
+  │  │  Navbar              │  fixed header      │
+  │  ├──────────────────────┤                    │
+  │  │  Hero                │  full-screen       │
+  │  ├──────────────────────┤                    │
+  │  │  Licenses            │  credentials bar   │
+  │  ├──────────────────────┤                    │
+  │  │  TheGroup            │  about section     │
+  │  ├──────────────────────┤                    │
+  │  │  StrategicPillars    │  4 expertise cards │
+  │  ├──────────────────────┤                    │
+  │  │  KeyPeople           │  team grid         │
+  │  ├──────────────────────┤                    │
+  │  │  Locations           │  3 offices         │
+  │  ├──────────────────────┤                    │
+  │  │  InsightsNews        │  latest articles   │
+  │  ├──────────────────────┤                    │
+  │  │  LinkedInCTA         │  social CTA        │
+  │  ├──────────────────────┤                    │
+  │  │  ContactForm         │  Formspree form    │
+  │  ├──────────────────────┤                    │
+  │  │  Footer              │  links + legal     │
+  │  └──────────────────────┘                    │
+  └──────────────────────────────────────────────┘
+
+  Every component receives locale as a prop. That's the only coordination needed — each
+  component independently calls t(key, locale) to get its translated strings.
+
+  Where's the JavaScript?
+
+  Almost nowhere. This site ships essentially zero JavaScript to visitors, with two
+  exceptions:
+
+  1. Navbar hamburger — a small inline <script> in Navbar.astro that toggles the mobile menu.
+  ~20 lines, no framework.
+  2. Netlify Identity widget — loaded in Layout.astro for CMS authentication. Only relevant to
+   editors hitting /admin/.
+
+  This is Astro's "zero JS by default" philosophy. You opt in to JavaScript, not out. If you
+  ever need React or Vue interactivity, Astro supports "islands" — isolated interactive
+  components — but this site hasn't needed any.
+
+  The <slot /> pattern
+
+  Layouts use <slot /> (borrowed from Web Components) to inject children:
+
+  Layout.astro                          Page using it
+  ─────────────                         ──────────────
+  <html>                                <Layout locale="fr">
+    <head>...</head>                      <Navbar locale="fr" />
+    <body>                                <Hero locale="fr" />
+      <slot />  ◄──── children go here    ...
+    </body>                             </Layout>
+  </html>
+
+  ArticleLayout.astro nests inside Layout.astro, adding article-specific chrome (hero image,
+  prose styles), then uses its own <slot /> for the rendered Markdown body.
+
+  Layout
+  └── ArticleLayout
+      └── <slot />  ← rendered Markdown content goes here
+
+  ---
+  That covers the component model and routing. Ready for Part 3: The i18n System — how three
+  languages are wired through translations, content localization, and URL routing?
+
+✻ Cooked for 43s
+
+❯ continue
+
+⏺ Part 3: The i18n System — Three Languages, One Codebase
+
+  Internationalization in this repo operates on three independent layers, each solving a
+  different problem. Understanding which layer does what is the key to not getting confused.
+
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                     THE THREE i18n LAYERS                        │
+  │                                                                  │
+  │  LAYER 1: URL ROUTING            "Which language page am I on?"  │
+  │  ─────────────────────                                           │
+  │  Astro config + filesystem       /         → English             │
+  │                                  /fr/      → French              │
+  │                                  /it/      → Italian             │
+  │                                                                  │
+  │  LAYER 2: UI TRANSLATIONS        "What does the button say?"     │
+  │  ────────────────────────                                        │
+  │  JSON files + t() function       t('contact.submit', 'fr')       │
+  │                                  → "Envoyer"                     │
+  │                                                                  │
+  │  LAYER 3: CONTENT LOCALIZATION   "Which article body do I show?" │
+  │  ─────────────────────────────                                   │
+  │  Markdown file variants          test-title-sports.en.md         │
+  │  + getLocalizedInsights()        test-title-sports.fr.md         │
+  │                                  test-title-sports.it.md         │
+  └──────────────────────────────────────────────────────────────────┘
+
+  Let's trace each layer.
+
+  ---
+  Layer 1: URL Routing
+
+  Configured in astro.config.mjs:
+
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr', 'it'],
+    routing: {
+      prefixDefaultLocale: false,   // ← English has NO /en/ prefix
+    },
+  }
+
+  This means the URL structure is asymmetric:
+
+  English (default)          French               Italian
+  ─────────────────          ──────               ───────
+  /                          /fr/                 /it/
+  /insights/                 /fr/insights/        /it/insights/
+  /insights/my-article/      /fr/insights/...     /it/insights/...
+  /privacy/                  /fr/privacy/         /it/privacy/
+  /legal/                    /fr/legal/           /it/legal/
+
+  This is not automatic. Astro doesn't duplicate pages for you. Each locale has its own
+  physical page files:
+
+  src/pages/
+  ├── index.astro                 ← English home (locale = 'en')
+  ├── fr/
+  │   └── index.astro             ← French home  (locale = 'fr')
+  └── it/
+      └── index.astro             ← Italian home (locale = 'it')
+
+  The French and Italian pages are near-identical copies of the English ones. The only
+  difference is one line:
+
+  English:   const locale = 'en' as const;
+  French:    const locale = 'fr' as const;
+  Italian:   const locale = 'it' as const;
+
+  Everything else — the imports, the component tree — is the same. The locale prop cascades
+  down, and each component translates itself.
+
+  Helper functions in src/i18n/utils.ts handle URL awareness:
+
+  getLocaleFromUrl(url)          Parses "/fr/insights/" → 'fr'
+                                 Parses "/insights/"    → 'en' (default)
+
+  getLocalePath(path, locale)    getLocalePath('/insights/', 'fr') → '/fr/insights/'
+                                 getLocalePath('/insights/', 'en') → '/insights/'
+
+  ---
+  Layer 2: UI Translations
+
+  This is the simplest layer. Three JSON files hold key-value pairs:
+
+  src/i18n/
+  ├── en.json    { "nav.home": "Home",    "contact.submit": "Send Message",     ... }
+  ├── fr.json    { "nav.home": "Accueil", "contact.submit": "Envoyer",          ... }
+  └── it.json    { "nav.home": "Home",    "contact.submit": "Invia il Messaggio", ... }
+
+  The t() function does the lookup with a double fallback:
+
+  t(key, locale)
+      │
+      ├── 1. Try translations[locale][key]     ← "Do we have it in French?"
+      │      found? return it
+      │
+      ├── 2. Try translations['en'][key]       ← "Fall back to English"
+      │      found? return it
+      │
+      └── 3. Return the key itself             ← "contact.submit" as last resort
+
+  t('contact.submit', 'fr')
+
+    Step 1: fr.json["contact.submit"] → "Envoyer"  ✓  return "Envoyer"
+
+  t('some.missing.key', 'fr')
+
+    Step 1: fr.json["some.missing.key"] → undefined
+    Step 2: en.json["some.missing.key"] → undefined
+    Step 3: return "some.missing.key"    (visible in HTML — easy to spot)
+
+  Every component uses this pattern:
+
+  ---
+  import { t, type Locale } from '../i18n/utils';
+  const { locale = 'en' } = Astro.props;
+  ---
+
+  <h2>{t('group.headline', locale)}</h2>
+  <p>{t('group.body', locale)}</p>
+
+  There are ~88 translation keys. They cover navbar, hero, licenses, group description,
+  expertise cards, people section, locations, insights, contact form, and footer.
+
+  ---
+  Layer 3: Content Localization (the tricky one)
+
+  UI labels are short strings. But articles are entire Markdown documents with frontmatter.
+  This layer handles which version of an article to show for a given locale.
+
+  The file naming convention
+
+  src/content/insights/
+  ├── nil-rights-european-football.md        ← English only (no suffix)
+  ├── governance-high-net-worth-athletes.md  ← English only (no suffix)
+  ├── monaco-summit-recap.md                 ← English only (no suffix)
+  ├── test-title-sports.en.md                ← English variant
+  ├── test-title-sports.fr.md                ← French variant
+  └── test-title-sports.it.md                ← Italian variant
+
+  Two patterns coexist:
+  - Single-language articles: just slug.md → treated as English
+  - Multilingual articles: slug.en.md, slug.fr.md, slug.it.md
+
+  The Astro ID gotcha
+
+  Here's where it gets interesting. Astro's glob loader strips dots from filenames when
+  creating IDs:
+
+  FILENAME                        ASTRO ID
+  ──────────────────────────      ────────────────────────────
+  test-title-sports.en.md    →   "test-title-sportsen"     (dot removed!)
+  test-title-sports.fr.md    →   "test-title-sportsfr"
+  monaco-summit-recap.md     →   "monaco-summit-recap"     (no dot, no change)
+
+  The getLocalizedInsights() function in src/i18n/content.ts must reverse-engineer this.
+  Here's its logic:
+
+  getLocalizedInsights(locale)
+      │
+      │  PHASE 1: DETECT locale variants
+      │  ────────────────────────────────
+      │  For each entry ID, check: does it end with "en", "fr", or "it"?
+      │  AND does a sibling with a different locale suffix exist?
+      │
+      │    "test-title-sportsen"  ends with "en"
+      │    "test-title-sportsfr"  exists?  YES → base = "test-title-sports"
+      │                                         this IS a locale variant
+      │
+      │    "monaco-summit-recap"  ends with... nothing standard
+      │                           → plain English file, no variants
+      │
+      │  PHASE 2: GROUP by base slug
+      │  ───────────────────────────
+      │
+      │    "test-title-sports" → { en: entry1, fr: entry2, it: entry3 }
+      │    "monaco-summit-recap" → { en: entry4 }
+      │    ...
+      │
+      │  PHASE 3: RESOLVE per locale with fallback
+      │  ──────────────────────────────────────────
+      │
+      │  For locale='fr':
+      │
+      │    "test-title-sports":
+      │       fr variant exists AND has title? → USE French version
+      │       (merge: FR fields override EN, empty fields fall back to EN)
+      │
+      │    "monaco-summit-recap":
+      │       no fr variant → USE English version as fallback
+      │
+      │  PHASE 4: SORT by publishDate descending
+      │
+      └── return resolved articles
+
+  The merge strategy is important. When a French variant exists but has an empty coverImage,
+  it inherits the English one:
+
+  EN frontmatter:                    FR frontmatter:
+    title: "NIL Rights"               title: "Droits NIL"
+    coverImage: "photo.jpg"           coverImage: ""          ← empty
+    excerpt: "English excerpt"        excerpt: "Extrait FR"
+
+  MERGED result for locale='fr':
+    title: "Droits NIL"              ← FR wins (non-empty)
+    coverImage: "photo.jpg"          ← EN fallback (FR was empty)
+    excerpt: "Extrait FR"            ← FR wins (non-empty)
+
+  Why the "garden" problem matters
+
+  The word "garden" ends with "en". Is it a locale suffix? No. The code handles this by
+  checking whether sibling locale variants exist:
+
+  "garden" ends with "en"
+    → does "gardfr" exist? NO
+    → does "gardit" exist? NO
+    → conclusion: "en" is part of the word, NOT a locale suffix
+    → treat as plain English file with slug "garden"
+
+  This is a heuristic, not a guarantee. It works because the CMS always creates files in
+  locale sets (slug.en.md + slug.fr.md + slug.it.md together).
+
+  ---
+  How all three layers connect for a single page request
+
+  Let's trace /fr/insights/test-title-sports/ from build to browser:
+
+  BUILD TIME
+  ──────────
+
+  1. Astro finds src/pages/fr/insights/[slug].astro
+         │
+         ▼
+  2. Calls getStaticPaths()
+         │
+         ├── getLocalizedInsights('fr') runs
+         │       │
+         │       ├── Reads ALL .md files from src/content/insights/
+         │       ├── Groups by base slug
+         │       ├── For "test-title-sports": picks FR variant, merges with EN
+         │       └── Returns [{ slug: "test-title-sports", entry: mergedFR }, ...]
+         │
+         └── Returns [{ params: { slug: "test-title-sports" }, props: { entry } }]
+                │
+                ▼
+  3. Renders ArticleLayout with FR entry data
+         │
+         ├── title = "Test Title Sports" (from FR frontmatter)
+         ├── Layout wraps with <html lang="fr">
+         ├── Navbar calls t('nav.home', 'fr') → "Accueil"
+         └── Markdown body rendered to HTML
+                │
+                ▼
+  4. Writes dist/fr/insights/test-title-sports/index.html
+
+  RUNTIME
+  ───────
+
+  5. Visitor hits /fr/insights/test-title-sports/
+  6. Netlify CDN serves the pre-built HTML file
+  7. Done. No computation.
+
+  ---
+  The language switcher
+
+  In Navbar.astro, the language switcher links are built with getLocalePath():
+
+  Current page: /fr/insights/    (locale = 'fr')
+
+  EN link: getLocalePath('/', 'en') → "/"
+  FR link: getLocalePath('/', 'fr') → "/fr/"
+  IT link: getLocalePath('/', 'it') → "/it/"
+
+  Note: the switcher always links to the homepage of each locale, not the equivalent page. So
+  clicking "IT" from /fr/insights/ takes you to /it/, not /it/insights/. This is a design
+  choice, not a limitation.
+
+  ---
+  That's the full i18n system. Ready for Part 4: Content Collections & Decap CMS — how content
+   enters the system, the editorial workflow, and how Markdown becomes rendered pages?
+
+✻ Sautéed for 1m 2s
+
+❯ continue
+
+⏺ Part 4: Content Collections & Decap CMS — From Editor to Page
+
+  This part covers the content pipeline: how articles and team data are defined, how editors
+  create content through a GUI, and how that content becomes HTML pages.
+
+  ---
+  Two content collections
+
+  Astro's Content Collections API gives you typed, validated data from flat files. This repo
+  defines two collections in src/content.config.ts:
+
+  src/content/
+  │
+  ├── insights/                          COLLECTION: insights
+  │   ├── nil-rights-european-football.md    loader: glob('**/*.md')
+  │   ├── governance-high-net-worth-athletes.md
+  │   ├── monaco-summit-recap.md
+  │   ├── test-title-sports.en.md
+  │   ├── test-title-sports.fr.md
+  │   └── test-title-sports.it.md
+  │
+  └── team/                              COLLECTION: team
+      ├── elena-visconti.yaml                loader: glob('**/*.yaml')
+      ├── jean-paul-dupont.yaml
+      └── marcus-sterling.yaml
+
+  Each collection has a Zod schema that validates every file at build time:
+
+  INSIGHTS SCHEMA                         TEAM SCHEMA
+  ───────────────                         ───────────
+  title:       string (optional)          name:     string (required)
+  category:    "News"|"Events"|"Insights" role:     string (required)
+  publishDate: date (coerced)             quote:    string (required)
+  coverImage:  string (optional)          image:    string (required)
+  excerpt:     string (optional)          category: "Partners"|"Advisors"|"Providers"
+                                          order:    number (default: 0)
+
+  If an editor commits a Markdown file with category: "Podcast", the build fails with a Zod
+  validation error. The schema is your safety net.
+
+  Anatomy of a content file
+
+  Insight article (nil-rights-european-football.md):
+
+  ---                                    ← YAML frontmatter (becomes entry.data)
+  title: "NIL Rights in European Football"
+  category: "Insights"
+  publishDate: 2024-02-10
+  coverImage: "https://lh3.google..."
+  excerpt: "How name, image, and..."
+  ---                                    ← fence
+
+  ## The Rise of NIL                     ← Markdown body (becomes <Content />)
+
+  European football is undergoing...
+
+  Team member (elena-visconti.yaml):
+
+  name: "Elena Visconti"
+  role: "Managing Director, Milan Office"
+  quote: "True governance in sport..."
+  image: "https://lh3.google..."
+  category: "Partners"
+  order: 1
+
+  How content flows to pages
+
+  ┌──────────────────────┐
+  │   .md / .yaml file   │
+  │   in src/content/    │
+  └──────────┬───────────┘
+             │
+       astro build reads it
+             │
+             ▼
+  ┌──────────────────────┐
+  │  Zod schema          │
+  │  validates frontmatter│
+  │                      │
+  │  ✓ pass → continues  │
+  │  ✗ fail → build error│
+  └──────────┬───────────┘
+             │
+             ▼
+  ┌───────────────────────────────────────────────┐
+  │  getCollection('insights')                    │
+  │  returns Array<{ id, data, body }>            │
+  │                                               │
+  │  For insights:                                │
+  │    getLocalizedInsights(locale) wraps this,   │
+  │    groups by slug, resolves locale, merges    │
+  │                                               │
+  │  For team:                                    │
+  │    getCollection('team') used directly        │
+  │    in KeyPeople.astro                         │
+  └──────────────────────┬────────────────────────┘
+                         │
+              passed as props to pages
+                         │
+                         ▼
+  ┌───────────────────────────────────────────────┐
+  │  [slug].astro                                 │
+  │                                               │
+  │  const { Content } = await render(entry);     │
+  │                                               │
+  │  <ArticleLayout title={entry.data.title}>     │
+  │    <Content />   ← Markdown → HTML            │
+  │  </ArticleLayout>                             │
+  └───────────────────────────────────────────────┘
+
+  The render() function is the magic step — it takes a Markdown entry and returns a <Content
+  /> Astro component that emits the rendered HTML. The prose styling in ArticleLayout.astro
+  then makes it look like a proper article.
+
+  ---
+  Decap CMS: the editor GUI
+
+  Decap CMS (formerly Netlify CMS) is a client-side React app that runs at /admin/. It has no
+  backend of its own — it talks directly to GitHub through Netlify's Git Gateway.
+
+  ┌──────────────────────────────────────────────────────────────┐
+  │                        EDITOR'S BROWSER                      │
+  │                                                              │
+  │  ┌────────────────────────────────────────────────────────┐  │
+  │  │  /admin/  (Decap CMS SPA)                              │  │
+  │  │                                                        │  │
+  │  │  ┌──────────┐  ┌──────────────────────────────────┐    │  │
+  │  │  │ Sidebar  │  │  WYSIWYG Editor                  │    │  │
+  │  │  │          │  │                                  │    │  │
+  │  │  │ Insights │  │  Title: [NIL Rights in Euro...]  │    │  │
+  │  │  │  └ New   │  │  Category: [Insights ▼]          │    │  │
+  │  │  │  └ Draft │  │  Date: [2024-02-10]              │    │  │
+  │  │  │  └ Ready │  │  Cover: [Upload/Select]          │    │  │
+  │  │  │          │  │  Excerpt: [How name, image...]   │    │  │
+  │  │  │          │  │                                  │    │  │
+  │  │  │          │  │  Body:                           │    │  │
+  │  │  │          │  │  ┌─────────────────────────────┐ │    │  │
+  │  │  │          │  │  │ ## The Rise of NIL          │ │    │  │
+  │  │  │          │  │  │                             │ │    │  │
+  │  │  │          │  │  │ European football is...     │ │    │  │
+  │  │  │          │  │  └─────────────────────────────┘ │    │  │
+  │  │  └──────────┘  └──────────────────────────────────┘    │  │
+  │  │                                                        │  │
+  │  │  [Save]  [Publish]                                     │  │
+  │  └────────────────────────────────────────────────────────┘  │
+  │           │                                                  │
+  │           │ API calls                                        │
+  │           ▼                                                  │
+  │  ┌──────────────────┐                                        │
+  │  │ Netlify Identity │  ← authenticates the editor            │
+  │  │ (OAuth widget)   │                                        │
+  │  └──────────┬───────┘                                        │
+  └─────────────┼────────────────────────────────────────────────┘
+                │
+                ▼
+       ┌─────────────────┐       ┌───────────────────┐
+       │ Netlify         │───────│ GitHub API        │
+       │ Git Gateway     │       │                   │
+       │ (proxy)         │       │ Creates commits   │
+       └─────────────────┘       │ or pull requests  │
+                                 └────────┬──────────┘
+                                          │
+                                          ▼
+                                 ┌──────────────────┐
+                                 │ GitHub repo      │
+                                 │ main branch      │
+                                 │                  │
+                                 │ New/modified .md │
+                                 │ files appear     │
+                                 └────────┬─────────┘
+                                          │
+                                    triggers rebuild
+                                          │
+                                          ▼
+                                 ┌───────────────────┐
+                                 │ Netlify Build     │
+                                 │ astro build       │
+                                 │ → deploy dist/    │
+                                 └───────────────────┘
+
+  The editorial workflow
+
+  The CMS config enables publish_mode: editorial_workflow. This means content doesn't go
+  straight to main. Instead:
+
+  EDITOR ACTION              GIT RESULT                    STATUS IN CMS
+  ─────────────              ──────────                    ─────────────
+  "Save"                     Creates a new branch          "Draft"
+                             + pull request on GitHub
+
+  "Mark as Ready"            Updates the PR                "In Review"
+                             (label change)
+
+  "Publish"                  Merges the PR into main       "Published"
+                             → triggers Netlify build
+                             → live on site
+
+  This is why you see PRs like cms/insights/test-title-sports in the git history — those are
+  CMS-initiated branches.
+
+  CMS i18n: how multilingual content is created
+
+  The CMS config declares i18n with structure: multiple_files:
+
+  i18n:
+    structure: multiple_files      ← one file PER locale
+    locales: [en, fr, it]
+    default_locale: en
+
+  When an editor creates an article called "test-title-sports", the CMS generates three files:
+
+  src/content/insights/
+  ├── test-title-sports.en.md     ← English
+  ├── test-title-sports.fr.md     ← French
+  └── test-title-sports.it.md     ← Italian
+
+  Each field in the CMS config declares its i18n behavior:
+
+  fields:
+    - { name: "title",    i18n: true      }   ← translated per locale
+    - { name: "category", i18n: duplicate  }   ← same value copied to all locales
+    - { name: "coverImage", i18n: duplicate }  ← same value copied to all locales
+    - { name: "excerpt",  i18n: true      }   ← translated per locale
+    - { name: "body",     i18n: true      }   ← translated per locale
+
+  i18n: true       → editor writes DIFFERENT content per language tab
+  i18n: duplicate  → value is COPIED identically to all locale files
+
+  So publishDate and coverImage are the same across all three files, but title, excerpt, and
+  body can differ.
+
+  Media handling
+
+  media_folder: "public/images/uploads"    ← where files are saved in the repo
+  public_folder: "/images/uploads"         ← URL path used in Markdown/frontmatter
+
+  When an editor uploads an image through the CMS, it commits the file to
+  public/images/uploads/ and references it as /images/uploads/photo.jpg in the Markdown. At
+  build time, Astro copies public/ to dist/ as-is, so the URL just works.
+
+  In practice, most images in this repo are externally hosted on Google's CDN
+  (lh3.googleusercontent.com), so the upload folder is mostly for future CMS uploads.
+
+  ---
+  The full content lifecycle, end to end
+
+  EDITOR                   GITHUB                NETLIFY              VISITOR
+  ──────                   ──────                ───────              ───────
+
+  Opens /admin/
+    │
+    ├─ Logs in via
+    │  Netlify Identity
+    │
+    ├─ Creates new article
+    │  (fills EN, FR, IT tabs)
+    │
+    ├─ Clicks "Save"
+    │      │
+    │      └──────────────► PR created ──────► Preview deploy
+    │                       (3 .md files)      (optional)
+    │
+    ├─ Clicks "Publish"
+    │      │
+    │      └──────────────► PR merged  ──────► astro build ─────► New article
+    │                       to main            runs               live at
+    │                                                             /insights/slug/
+    │                                                             /fr/insights/slug/
+    │                                                             /it/insights/slug/
+    │
+    done.
+
+  ---
+  That's the content pipeline. Ready for Part 5: Styling & Design System — how Tailwind 4,
+  brand tokens, custom utilities, and animations create the visual identity?
+
+✻ Crunched for 59s
+
+❯ continue
+
+⏺ Part 5: Styling & Design System — Tailwind 4, Brand Tokens, and Visual Identity
+
+  This site has a luxury/corporate aesthetic — think Monaco wealth management, not Silicon
+  Valley startup. The styling system is built to enforce that consistently.
+
+  ---
+  How Tailwind 4 is wired in
+
+  Tailwind CSS 4 is a major departure from v3. There's no tailwind.config.js. Configuration
+  lives in CSS itself. Here's the wiring:
+
+  astro.config.mjs                     src/styles/global.css
+  ────────────────                     ─────────────────────
+  vite: {                              @import "tailwindcss";
+    plugins: [tailwindcss()]
+  }                                    @theme {
+       │                                 --color-brand-navy: #1a1f2e;
+       │ Vite plugin scans               --color-brand-gold: #c4a44a;
+       │ .astro files for                ...
+       │ class names                   }
+       │                                    │
+       ▼                                    │
+   Generates only the                       │
+   CSS classes actually                     ▼
+   used in templates              Extends Tailwind's design tokens
+                                  so you can write: bg-brand-navy
+                                                    text-brand-gold
+                                                    etc.
+
+  The @theme block is Tailwind 4's replacement for tailwind.config.js. Any CSS custom property
+   you define there becomes a utility class:
+
+  @theme DEFINITION                      USAGE IN TEMPLATES
+  ─────────────────                      ──────────────────
+  --color-brand-navy: #1a1f2e;     →     bg-brand-navy
+                                          text-brand-navy
+                                          border-brand-navy
+
+  --color-brand-gold: #c4a44a;     →     bg-brand-gold
+                                          text-brand-gold
+                                          border-brand-gold
+
+  --font-serif: "Playfair Display";→     font-serif
+  --font-sans: "DM Sans";         →     font-sans
+
+  The brand palette
+
+  ┌───────────────────────────────────────────────────────────────┐
+  │                        BRAND COLORS                           │
+  │                                                               │
+  │  ┌─────────────┐  Navy  #1a1f2e                             │
+  │  │█████████████│  Primary dark — navbar, hero overlays,       │
+  │  │█████████████│  headings, cards. The "authority" color.     │
+  │  └─────────────┘                                              │
+  │                                                               │
+  │  ┌─────────────┐  Gold  #c4a44a                             │
+  │  │▓▓▓▓▓▓▓▓▓▓▓▓▓│  Accent — labels, CTAs, active states,       │
+  │  │▓▓▓▓▓▓▓▓▓▓▓▓▓│  links, hover highlights. The "luxury" color.│
+  │  └─────────────┘                                              │
+  │                                                               │
+  │  ┌─────────────┐  Cream  #f5f0e8                            │
+  │  │░░░░░░░░░░░░░│  Background — body, sections. Warm off-white │
+  │  │░░░░░░░░░░░░░│  that avoids clinical stark-white.           │
+  │  └─────────────┘                                              │
+  │                                                               │
+  │  ┌─────────────┐  Dark   #1a1a1a                            │
+  │  │█████████████│  Body text — near-black, easier on eyes      │
+  │  └─────────────┘  than pure #000.                           │
+  │                                                               │
+  │  ┌─────────────┐  Muted  #8a8a8a                            │
+  │  │▒▒▒▒▒▒▒▒▒▒▒▒▒│  Secondary text — subtitles, labels,         │
+  │  └─────────────┘  metadata, placeholder-like content.         │
+  │                                                               │
+  └───────────────────────────────────────────────────────────────┘
+
+  Typography: two fonts, strict roles
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │                                                             │
+  │  Playfair Display  (serif)        DM Sans  (sans-serif)     │
+  │  ══════════════════════════       ═══════════════════════   │
+  │                                                             │
+  │  USED FOR:                        USED FOR:                 │
+  │  • h1, h2, h3 headings           • Body text                │
+  │  • .heading-serif class           • Navigation labels       │
+  │  • Article prose headings         • Form inputs             │
+  │  • Hero text                      • Buttons                 │
+  │                                   • Everything else         │
+  │                                                             │
+  │  CONVEYS:                         CONVEYS:                  │
+  │  Tradition, authority,            Clarity, modernity,       │
+  │  editorial weight                 readability               │
+  │                                                             │
+  └─────────────────────────────────────────────────────────────┘
+
+  This is enforced globally in global.css:
+
+  body {
+    font-family: var(--font-sans);        /* DM Sans everywhere by default */
+  }
+
+  h1, h2, h3, .heading-serif {
+    font-family: var(--font-serif);       /* Playfair Display for headings */
+  }
+
+  Fonts are loaded from Google Fonts in Layout.astro with preconnect hints for performance:
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Pla
+  yfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+
+  Custom utility classes
+
+  Beyond Tailwind's built-in utilities, global.css defines five custom classes used throughout
+   components:
+
+  CLASS             WHERE USED                    WHAT IT DOES
+  ─────             ──────────                    ────────────
+  .label-upper      Section labels, nav links,    uppercase + letter-spacing: 0.15em
+                    form labels, CTAs             + font-weight: 600 + font-size: 0.75rem
+
+                                                  Creates that luxury "SPORTS MANAGEMENT"
+                                                  small-caps look seen throughout
+
+  .hero-overlay     Hero section background       Three-stop gradient overlay
+                                                  (dark → medium → dark) on hero image
+                                                  so white text stays readable
+
+  .card-hover       StrategicPillars cards,       translateY(-6px) + shadow on hover
+                    Insights cards                Subtle "lift off the page" effect
+
+  .img-bw           KeyPeople photos              grayscale(100%) by default,
+                                                  color on hover (0.7s ease)
+                                                  Classic editorial photography treatment
+
+  .line-clamp-3     Insight card excerpts         Truncates text to 3 lines with
+                                                  ellipsis overflow
+
+  Animations
+
+  Three CSS keyframe animations, each purposefully subtle:
+
+  ┌─────────────────────────────────────────────────────────────────┐
+  │                                                                 │
+  │  pin-pulse  (.pin-glow)           Used by: Locations component  │
+  │  ─────────────────────                                          │
+  │  Scale 1.0 → 1.6 → 1.0           Pulsing glow behind map        │
+  │  Opacity 1 → 0.4 → 1             pins. Says "we're here"        │
+  │  2s infinite                      without being distracting.    │
+  │                                                                 │
+  │  gentle-bounce  (.scroll-bounce)  Used by: Hero component       │
+  │  ──────────────────────────                                     │
+  │  translateY 0 → 8px → 0          Scroll-down indicator arrow    │
+  │  2s infinite                      gently bouncing. Universal    │
+  │                                   "there's more below" cue.     │
+  │                                                                 │
+  │  (no keyframe, just transition)   Used by: Navbar               │
+  │  .nav-link  hover → gold          0.3s color transition on      │
+  │                                   navigation links.             │
+  │                                                                 │
+  └─────────────────────────────────────────────────────────────────┘
+
+  Responsive strategy
+
+  No breakpoint config file — Tailwind's defaults are used directly in templates. The pattern
+  is mobile-first with breakpoint prefixes:
+
+  PATTERN IN TEMPLATES                 MEANING
+  ────────────────────                 ───────
+  class="grid grid-cols-1              1 col on mobile
+         md:grid-cols-2                2 cols at 768px+
+         lg:grid-cols-3"              3 cols at 1024px+
+
+  class="text-3xl                      Smaller on mobile
+         sm:text-4xl                   Grows at 640px+
+         md:text-5xl"                  Largest at 768px+
+
+  class="hidden lg:flex"               Hidden on mobile,
+                                       flex on desktop (navbar)
+
+  class="lg:hidden"                    Visible on mobile only
+                                       (hamburger button)
+
+  The Navbar is the most complex responsive piece — it has a full hamburger menu with animated
+   burger icon (three <span> lines that rotate into an X via inline JS style transforms).
+
+  Article prose styling
+
+  ArticleLayout.astro includes a <style is:global> block that styles the rendered Markdown.
+  This is separate from Tailwind — it's plain CSS targeting .prose descendants:
+
+  .prose                              Container: dark text, line-height 1.8
+    ├── h2                            Serif font, navy, 1.75rem, top margin 2.5rem
+    ├── h3                            Serif font, navy, 1.35rem
+    ├── p                             Bottom margin 1.25rem
+    ├── strong                        Navy color, weight 600
+    ├── ul/ol                         Indented 1.5rem, disc/decimal markers
+    ├── li                            Bottom margin 0.5rem
+    └── a                             Gold color, underlined
+
+  This is is:global because Astro normally scopes <style> to the component. Since <Content />
+  renders Markdown outside the component's scope, the styles must be global to reach it.
+
+  The visual hierarchy at a glance
+
+  ELEMENT                  FONT              COLOR           TREATMENT
+  ───────                  ────              ─────           ─────────
+  Section label            DM Sans           Gold            .label-upper
+  Section heading          Playfair          Navy/White      text-4xl/5xl
+  Body paragraph           DM Sans           Dark/Muted      text-base/lg
+  Navigation               DM Sans           White/Gold      .label-upper 11px
+  Buttons/CTAs             DM Sans           Navy on Gold    .label-upper + hover invert
+  Cards                    Mixed             Navy bg          .card-hover lift
+  Team photos              —                 —               .img-bw grayscale
+  Links                    DM Sans           Gold            underline
+
+  ---
+  That's the styling system. Ready for Part 6: SEO & Structured Data — hreflang tags, JSON-LD
+  schemas, Open Graph, sitemap generation, and robots.txt?
+
+✻ Cooked for 59s
+
+❯ continue
+
+⏺ Part 6: SEO & Structured Data — Making the Site Visible to Machines
+
+  SEO in a static site has a huge advantage: every page is pre-rendered HTML. Search engines see
+  exactly what visitors see. No JavaScript rendering required, no hydration delays, no "please wait"
+   spinners. But you still need to tell machines what the content means. This repo does that across
+  five mechanisms.
+
+  ---
+  The five SEO mechanisms
+
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                                                                   │
+  │  1. META TAGS            What shows in Google search results      │
+  │  2. HREFLANG TAGS        Which language version to show whom      │
+  │  3. JSON-LD              Rich snippets, knowledge panel data      │
+  │  4. OPEN GRAPH / TWITTER What shows when someone shares a link    │
+  │  5. SITEMAP + ROBOTS     What to crawl, what to ignore            │
+  │                                                                   │
+  └───────────────────────────────────────────────────────────────────┘
+
+  All of 1-4 live in Layout.astro (the base layout every page uses). Mechanism 5 is file-based.
+
+  ---
+  1. Meta tags
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  Every page passes title and description as props to Layout.astro. Defaults exist if none are
+  provided:
+
+  Default title:       "MCSC Management | Global Sports Consulting & Management"
+  Default description: "Providing clear governance and strategic advisory for
+                        the next generation of sporting icons and entities."
+
+  Article pages override these via ArticleLayout.astro:
+
+  title:       "{Article Title} | MCSC Management"
+  description: {article excerpt from frontmatter}
+
+  ---
+  2. Hreflang tags — cross-language signals
+
+  This is the most critical SEO mechanism for a multilingual site. Hreflang tags tell Google: "this
+  page exists in other languages — here's where to find them."
+
+  Layout.astro generates these dynamically:
+
+  CURRENT PAGE: /fr/insights/
+
+  GENERATED TAGS:
+  ┌────────────────────────────────────────────────────────────────────┐
+  │ <link rel="alternate" hreflang="en"                                │
+  │       href="https://mcsc-management.com/insights/" />              │
+  │                                                                    │
+  │ <link rel="alternate" hreflang="fr"                                │
+  │       href="https://mcsc-management.com/fr/insights/" />           │
+  │                                                                    │
+  │ <link rel="alternate" hreflang="it"                                │
+  │       href="https://mcsc-management.com/it/insights/" />           │
+  │                                                                    │
+  │ <link rel="alternate" hreflang="x-default"                         │
+  │       href="https://mcsc-management.com/insights/" />              │
+  └────────────────────────────────────────────────────────────────────┘
+
+  The logic strips the locale prefix from the current URL, then rebuilds it for each locale:
+
+  currentPath = Astro.url.pathname.replace(/^\/(fr|it)/, '') || '/';
+
+  FOR EACH LOCALE:
+    en  →  https://mcsc-management.com{currentPath}           (no prefix)
+    fr  →  https://mcsc-management.com/fr{currentPath}
+    it  →  https://mcsc-management.com/it{currentPath}
+
+  x-default → same as English (the fallback for unmatched locales)
+
+  What Google does with this:
+
+  GOOGLE SEARCH              USER'S LANGUAGE     RESULT SERVED
+  ──────────────             ───────────────     ─────────────
+  "MCSC management"          Browser lang: fr    → /fr/
+  "MCSC management"          Browser lang: it    → /it/
+  "MCSC management"          Browser lang: de    → /  (x-default = English)
+  "MCSC management"          Browser lang: en    → /
+
+  ---
+  3. JSON-LD structured data
+
+  JSON-LD is invisible to visitors but parsed by search engines to build rich results (knowledge
+  panels, breadcrumbs, article cards). This repo emits three schemas.
+
+  Organization (every page, via Layout.astro)
+
+  ┌──────────────────────────────────────────────────────┐
+  │  {                                                   │
+  │    "@type": "Organization",                          │
+  │    "name": "MCSC Management",                        │
+  │    "foundingDate": "1993",                           │
+  │    "address": [                                      │
+  │      { "addressLocality": "Monaco",  "country": "MC" }│
+  │      { "addressLocality": "Milan",   "country": "IT" }│
+  │      { "addressLocality": "Geneva",  "country": "CH" }│
+  │    ]                                                 │
+  │  }                                                   │
+  │                                                      │
+  │  WHAT GOOGLE DOES WITH IT:                           │
+  │  ┌───────────────────────────────┐                   │
+  │  │ MCSC Management               │                   │
+  │  │ Sports advisory firm          │                   │
+  │  │ Founded: 1993                 │  ← Knowledge      │
+  │  │ Locations: Monaco, Milan,     │     panel         │
+  │  │            Geneva             │                   │
+  │  └───────────────────────────────┘                   │
+  └──────────────────────────────────────────────────────┘
+
+  WebSite (every page, via Layout.astro)
+
+  {
+    "@type": "WebSite",
+    "name": "MCSC Management",
+    "url": "https://mcsc-management.com"
+  }
+
+  Enables sitelinks search box and confirms site identity.
+
+  Article (article pages only, via ArticleLayout.astro)
+
+  ┌──────────────────────────────────────────────────────┐
+  │  {                                                   │
+  │    "@type": "Article",                               │
+  │    "headline": "NIL Rights in European Football",    │
+  │    "datePublished": "2024-02-10T00:00:00.000Z",      │
+  │    "image": "https://lh3.google...",                 │
+  │    "publisher": {                                    │
+  │      "@type": "Organization",                        │
+  │      "name": "MCSC Management"                       │
+  │    },                                                │
+  │    "mainEntityOfPage": "https://mcsc-holding.com/..."│
+  │  }                                                   │
+  │                                                      │
+  │  WHAT GOOGLE DOES WITH IT:                           │
+  │  ┌───────────────────────────────┐                   │
+  │  │ ┌─────┐  NIL Rights in        │                   │
+  │  │ │     │  European Football    │  ← Article        │
+  │  │ │ img │  MCSC · Feb 10, 2024  │     rich result   │
+  │  │ └─────┘                       │                   │
+  │  └───────────────────────────────┘                   │
+  └──────────────────────────────────────────────────────┘
+
+  How JSON-LD is injected
+
+  Astro's set:html directive is used to inject raw JSON into a <script> tag without escaping:
+
+  ---
+  const orgJsonLd = JSON.stringify({ "@context": "https://schema.org", ... });
+  ---
+
+  <script type="application/ld+json" set:html={orgJsonLd} />
+
+  This is safe because the data is constructed at build time from hardcoded values, not user input.
+
+  ---
+  4. Open Graph & Twitter cards
+
+  These control what appears when someone shares a link on social media, Slack, iMessage, etc.
+
+  LAYOUT.ASTRO EMITS:
+
+  <meta property="og:title"       content="MCSC Management | Global Sports..." />
+  <meta property="og:description" content="Providing clear governance..." />
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="MCSC Management" />
+  <meta name="twitter:card"       content="summary_large_image" />
+  <meta name="twitter:title"      content="MCSC Management | Global Sports..." />
+  <meta name="twitter:description" content="Providing clear governance..." />
+
+  When someone pastes a link in Slack or Twitter:
+
+  ┌───────────────────────────────────────┐
+  │  mcsc-holding.com                     │
+  │  ┌──────────────────────────────────┐ │
+  │  │                                  │ │
+  │  │  (og:image would go here —       │ │
+  │  │   not currently set per-page)    │ │
+  │  │                                  │ │
+  │  ├──────────────────────────────────┤ │
+  │  │ MCSC Management | Global Sports  │ │
+  │  │ Providing clear governance and   │ │
+  │  │ strategic advisory for the next  │ │
+  │  │ generation of sporting icons...  │ │
+  │  └──────────────────────────────────┘ │
+  └───────────────────────────────────────┘
+
+  ---
+  5. Sitemap & robots.txt
+
+  Sitemap (auto-generated)
+
+  The @astrojs/sitemap integration generates sitemap-index.xml at build time. It discovers every
+  page Astro builds and lists them:
+
+  astro.config.mjs:
+    site: 'https://mcsc-holding.com'     ← required for absolute URLs
+    integrations: [sitemap()]            ← the plugin
+
+  BUILD OUTPUT:
+    dist/sitemap-index.xml               ← index pointing to child sitemaps
+    dist/sitemap-0.xml                   ← actual URL list
+
+  CONTENTS (roughly):
+    https://mcsc-holding.com/
+    https://mcsc-holding.com/insights/
+    https://mcsc-holding.com/insights/nil-rights-european-football/
+    https://mcsc-holding.com/privacy/
+    https://mcsc-holding.com/legal/
+    https://mcsc-holding.com/fr/
+    https://mcsc-holding.com/fr/insights/
+    ...
+    https://mcsc-holding.com/it/
+    ...
+
+  You never edit the sitemap manually. Add a page → rebuild → it's in the sitemap.
+
+  Robots.txt (manual, static)
+
+  public/robots.txt                      Copied as-is to dist/robots.txt
+
+  ┌───────────────────────────────────────────────────────────┐
+  │  User-agent: *                                            │
+  │  Allow: /                    ← crawl everything           │
+  │                                                           │
+  │  User-agent: OAI-SearchBot                                │
+  │  Allow: /                    ← explicitly allow AI crawl  │
+  │                                                           │
+  │  User-agent: Googlebot                                    │
+  │  Allow: /                                                 │
+  │                                                           │
+  │  User-agent: Bingbot                                      │
+  │  Allow: /                                                 │
+  │                                                           │
+  │  Disallow: /admin/           ← hide CMS from all bots     │
+  │                                                           │
+  │  Sitemap: https://mcsc-holding.com/sitemap-index.xml      │
+  └───────────────────────────────────────────────────────────┘
+
+  The Disallow: /admin/ is important — without it, search engines might index the CMS login page,
+  which is useless to visitors.
+
+  ---
+  How it all fits together for a single page
+
+  VISITOR SEES:                    GOOGLE SEES:                  SLACK/TWITTER SEES:
+  ─────────────                    ───────────                   ──────────────────
+
+  Normal webpage                   <title> → search result       og:title → card title
+                                   <meta description> → snippet  og:description → preview
+                                   hreflang → language routing    og:image → thumbnail
+                                   JSON-LD → rich results        twitter:card → layout
+                                   sitemap → page discovery
+                                   robots.txt → crawl rules
+
+  ---
+  That's the full SEO picture. Ready for Part 7: Forms & External Services — how Formspree handles
+  submissions, Netlify Identity powers auth, and how these third-party services are wired in with
+  zero backend code?
+
+✻ Worked for 55s
+
+❯ yes
+
+⏺ Part 7: Forms & External Services — Zero Backend, Three Services
+
+  This site has no server. Yet it handles contact form submissions, CMS authentication, and media delivery.
+  The trick: delegate each job to a specialized third-party service and wire them together with plain HTML
+  and a few <script> tags.
+
+  ---
+  The three external services
+
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │                                                                       │
+  │   SERVICE             WHAT IT DOES              HOW IT'S CONNECTED    │
+  │   ───────             ────────────              ──────────────────    │
+  │                                                                       │
+  │   Formspree           Receives form POSTs,      <form action="url">   │
+  │                       sends emails, spam         Pure HTML, no JS     │
+  │                       filtering                                       │
+  │                                                                       │
+  │   Netlify Identity    Authenticates CMS          <script> widget +    │
+  │                       editors (OAuth/email)      Git Gateway proxy    │
+  │                                                                       │
+  │   Google Fonts        Serves Playfair Display    <link> in <head>     │
+  │                       and DM Sans typefaces      with preconnect      │
+  │                                                                       │
+  └───────────────────────────────────────────────────────────────────────┘
+
+  Let's trace each one.
+
+  ---
+  Formspree: the contact form
+
+  How it works
+
+  There is no JavaScript submission logic. The form is a plain HTML <form> that POSTs directly to Formspree's
+   endpoint:
+
+  VISITOR'S BROWSER                           FORMSPREE
+  ─────────────────                           ────────
+
+  User fills form, clicks "Send"
+          │
+          │  POST https://formspree.io/f/mqeydjnz
+          │
+          │  Form data (multipart):
+          │    name:      "Jean Dupont"
+          │    email:     "jean@example.com"
+          │    phone:     "+33 6 12 34 56 78"
+          │    subject:   "Sports Management"
+          │    message:   "I'd like to discuss..."
+          │    consent:   "on"
+          │    _language:  "fr"
+          │
+          └──────────────────────────────────────────► Receives POST
+                                                           │
+                                                      ┌────┴─────────┐
+                                                      │ Spam filter  │
+                                                      │ (reCAPTCHA,  │
+                                                      │  honeypot)   │
+                                                      └────┬─────────┘
+                                                           │
+                                                      ┌────┴─────────┐
+                                                      │ Email to     │
+                                                      │ site owner   │
+                                                      └────┬─────────┘
+                                                           │
+                                                      ┌────┴─────────┐
+                                                      │ Redirect     │
+                                                      │ user to      │
+                                                      │ thank-you    │
+                                                      └──────────────┘
+
+  The form anatomy
+
+  <form action="https://formspree.io/f/mqeydjnz" method="POST">
+
+  The form ID mqeydjnz is tied to a Formspree account. Formspree knows which email address to deliver to
+  based on this ID.
+
+  Hidden field: _language
+
+  <input type="hidden" name="_language" value={locale} />
+
+  This sends the current page locale ("en", "fr", or "it") along with the form data. It lets the site owner
+  know which language version the visitor was browsing when they submitted. Formspree can also use this to
+  localize its own confirmation page.
+
+  Field structure
+
+  ┌───────────────────────────────────────────────────────┐
+  │                   CONTACT FORM                        │
+  │                                                       │
+  │  ┌─────────────────┐  ┌─────────────────┐             │
+  │  │ Name *          │  │ Email *         │             │
+  │  │ [text input]    │  │ [email input]   │             │
+  │  └─────────────────┘  └─────────────────┘             │
+  │                                                       │
+  │  ┌─────────────────┐  ┌───────────────────┐           │
+  │  │ Phone           │  │ Subject *         │           │
+  │  │ [tel input]     │  │ [select dropdown] │           │
+  │  └─────────────────┘  │  ├ General Inquiry│           │
+  │                       │  ├ Sports Mgmt    │           │
+  │                       │  ├ Advisory       │           │
+  │                       │  ├ Investments    │           │
+  │                       │  └ Media          │           │
+  │                       └───────────────────┘           │
+  │                                                       │
+  │  ┌──────────────────────────────────────┐             │
+  │  │ Message *                            │             │
+  │  │ [textarea, 5 rows]                   │             │
+  │  └──────────────────────────────────────┘             │
+  │                                                       │
+  │  [✓] I consent to data processing...                  │
+  │      (links to /privacy)                              │
+  │                                                       │
+  │  [ SEND MESSAGE ]                                     │
+  │                                                       │
+  └───────────────────────────────────────────────────────┘
+
+    * = required (HTML required attribute)
+
+  Every label, placeholder, and option is translated via t():
+
+  Subject options are built dynamically:
+
+    const subjects = [
+      t('contact.subjects.general', locale),      "General Inquiry" / "Demande Générale"
+      t('contact.subjects.sportsMgmt', locale),   "Sports Management" / "Gestion Sportive"
+      t('contact.subjects.advisory', locale),     ...
+      t('contact.subjects.investments', locale),  ...
+      t('contact.subjects.media', locale),        ...
+    ];
+
+  What Formspree gives you for free
+
+  - Spam filtering — built-in, no CAPTCHA widget needed in HTML
+  - Email delivery — configurable in the Formspree dashboard
+  - Submission archive — all submissions viewable at formspree.io
+  - No CORS issues — Formspree accepts cross-origin POSTs by design
+  - No backend — the site never sees the form data; Formspree handles it end-to-end
+
+  ---
+  Netlify Identity: CMS authentication
+
+  This is the most "invisible" service. It exists solely to let content editors log into Decap CMS at
+  /admin/.
+
+  The authentication flow
+
+  EDITOR                          BROWSER                    NETLIFY                 GITHUB
+  ──────                          ───────                    ───────                 ──────
+
+  Navigates to
+  mcsc-holding.com/admin/
+          │
+          ▼
+                            Loads Decap CMS SPA
+                            (public/admin/index.html)
+                                    │
+                            Decap says "please log in"
+                                    │
+                                    ▼
+                            Netlify Identity widget
+                            pops up login modal
+                                    │
+  Editor enters                     │
+  email + password ────────────────►│
+  (or OAuth)                        │
+                                    ├───────────────► Validates
+                                    │                 credentials
+                                    │                     │
+                                    │◄────────────────────┘
+                                    │  JWT token
+                                    │
+                            Decap CMS now has
+                            an auth token
+                                    │
+                                    ├── "Create article" ──────────► Git Gateway ─────► GitHub API
+                                    │                                 (Netlify       creates commit
+                                    │                                  proxy)        on branch
+                                    │
+                                    ├── "Upload image" ────────────► Git Gateway ─────► GitHub API
+                                    │                                                 commits file
+                                    │
+                                    └── "Publish" ─────────────────► Git Gateway ─────► GitHub API
+                                                                                      merges PR
+
+  How it's wired in code
+
+  Two pieces in Layout.astro:
+
+  Piece 1 — Load the Identity widget on every page (so it's available at /admin/):
+
+  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  Piece 2 — After login, redirect to the CMS:
+
+  <script is:inline>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+
+  This handles the edge case where an editor clicks a Netlify Identity confirmation email link — it lands on
+  the homepage, Identity fires, and this script bounces them to /admin/.
+
+  Why is:inline?
+
+  Astro normally processes <script> tags — bundling, deduplicating, adding type="module". The is:inline
+  directive tells Astro: leave this script exactly as-is. No bundling, no processing. This is necessary
+  because:
+
+  - The Identity widget is an external URL that must load synchronously
+  - The redirect script references window.netlifyIdentity which the external script creates
+
+  ---
+  Google Fonts
+
+  The simplest integration. Two fonts loaded via <link> tags in Layout.astro:
+
+  REQUEST CHAIN:
+
+  Browser loads page
+      │
+      ├── <link rel="preconnect" href="https://fonts.googleapis.com" />
+      │   (opens TCP connection early — saves ~100ms)
+      │
+      ├── <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      │   (fonts served from different domain than CSS)
+      │
+      └── <link href="https://fonts.googleapis.com/css2?family=..." rel="stylesheet" />
+              │
+              ▼
+      Google returns CSS with @font-face rules
+              │
+              ▼
+      Browser downloads .woff2 files from fonts.gstatic.com
+              │
+              ▼
+      Fonts render. Before loading: browser shows fallback system font.
+      `display=swap` in the URL ensures text is visible immediately
+      with a system font, then swaps to the web font when ready.
+
+  Weights loaded:
+
+  DM Sans:          300 (light), 400 (regular), 500 (medium), 600 (semibold)
+  Playfair Display: 400 (regular), 700 (bold)
+
+  ---
+  The dependency map
+
+  Here's how the three services relate to the site's features:
+
+  ┌─────────────────────────────┐
+  │        SITE FEATURES        │
+  ├──────────────┬──────────────┤
+  │              │              │
+  │  VISITOR     │  EDITOR      │
+  │  FACING      │  FACING      │
+  │              │              │
+  │  ┌────────┐  │  ┌────────┐  │
+  │  │ Contact│  │  │ CMS    │  │
+  │  │ Form   │  │  │ /admin/│  │
+  │  └───┬────┘  │  └───┬────┘  │
+  │      │       │      │       │
+  │      ▼       │      ▼       │
+  │  Formspree   │  Netlify     │
+  │              │  Identity    │
+  │              │      +       │
+  │              │  Git Gateway │
+  │              │      +       │
+  │              │  GitHub API  │
+  │              │              │
+  │  ┌─────────┐ │              │
+  │  │Typography││              │
+  │  └───┬─────┘ │              │
+  │      │       │              │
+  │      ▼       │              │
+  │  Google      │              │
+  │  Fonts       │              │
+  └──────────────┴──────────────┘
+
+  If Formspree goes down: form submissions fail, everything else works.
+  If Netlify Identity goes down: editors can't log into CMS, visitors unaffected.
+  If Google Fonts goes down: text renders in system fallback fonts, site still works.
+
+  No single service is a total site killer. This is a benefit of the static architecture — the core site is
+  just HTML files on a CDN.
+
+  ---
+  That's the services layer. Ready for Part 8: Build, Deploy & Netlify Tricks — the final part, covering
+  local development, the Netlify build pipeline, draft deploys without burning quotas, and practical workflow
+   tips?
+
+✻ Baked for 1m 1s
+
+❯ yes
+
+⏺ Part 8: Build, Deploy & Netlify Tricks — From Localhost to Production
+
+  This final part covers the full lifecycle: how you develop locally, how code reaches production, and how to
+  avoid burning Netlify build minutes unnecessarily.
+
+  ---
+  Local development
+
+  npm run dev
+
+  That's it. Astro starts a Vite dev server at localhost:4321 with hot module replacement (HMR). Edit an .astro
+   file, save, browser updates instantly.
+
+  What's actually happening:
+
+  npm run dev
+      │
+      └── astro dev
+              │
+              ├── Starts Vite dev server on :4321
+              ├── Tailwind CSS Vite plugin watches for class changes
+              ├── Content collections are loaded and watched
+              └── File changes → instant HMR (no full reload)
+
+  WHAT WORKS LOCALLY:
+    ✓  All pages and routes
+    ✓  Content collections (Markdown + YAML)
+    ✓  Tailwind styling
+    ✓  i18n routing and translations
+    ✓  Dynamic routes ([slug].astro)
+
+  WHAT DOES NOT WORK LOCALLY:
+    ✗  Decap CMS (/admin/) — needs Netlify Identity + Git Gateway
+    ✗  Formspree submissions — POST works but goes to real Formspree
+    ✗  Sitemap generation — only at build time, not in dev
+
+  Production build
+
+  npm run build
+      │
+      └── astro build
+              │
+              ├── Reads astro.config.mjs
+              ├── Discovers all pages in src/pages/
+              ├── For each [slug].astro, calls getStaticPaths()
+              ├── Renders every page to HTML
+              ├── Tailwind extracts and minifies used CSS only
+              ├── @astrojs/sitemap generates sitemap XMLs
+              ├── Copies public/ to dist/ as-is
+              └── Output: dist/
+                   ├── index.html
+                   ├── privacy/index.html
+                   ├── legal/index.html
+                   ├── insights/index.html
+                   ├── insights/nil-rights.../index.html
+                   ├── insights/governance.../index.html
+                   ├── insights/monaco.../index.html
+                   ├── fr/index.html
+                   ├── fr/insights/index.html
+                   ├── fr/insights/[each article]/index.html
+                   ├── it/...
+                   ├── admin/index.html
+                   ├── admin/config.yml
+                   ├── robots.txt
+                   ├── favicon.svg
+                   ├── sitemap-index.xml
+                   └── sitemap-0.xml
+
+  Preview the build locally:
+
+  npm run preview
+
+  This serves dist/ on localhost:4321 — exactly what Netlify will serve. Good for catching build-only issues
+  (broken sitemap, missing assets, wrong paths).
+
+  ---
+  The Netlify deployment pipeline
+
+  TRIGGER                              PIPELINE
+  ───────                              ────────
+
+  Developer pushes to main ──┐
+                             │
+  CMS editor publishes ──────┤
+  (merges PR to main)        │
+                             ▼
+                      ┌──────────────────────┐
+                      │  Netlify detects     │
+                      │  new commit on main  │
+                      └──────────┬───────────┘
+                                 │
+                      ┌──────────▼───────────┐
+                      │  PROVISION           │
+                      │  Install Node 22+    │
+                      │  npm install         │
+                      │  (4 dependencies)    │
+                      └──────────┬───────────┘
+                                 │
+                      ┌──────────▼──────────┐
+                      │  BUILD              │
+                      │  astro build        │  ← consumes build minutes
+                      │  → generates dist/  │
+                      └──────────┬──────────┘
+                                 │
+                      ┌──────────▼──────────┐
+                      │  DEPLOY             │
+                      │  Upload dist/ to    │
+                      │  Netlify CDN        │
+                      │  Atomic swap: old   │
+                      │  site → new site    │
+                      └──────────┬──────────┘
+                                 │
+                      ┌──────────▼──────────┐
+                      │  LIVE               │
+                      │  mcsc-holding.com   │
+                      │  serves new version │
+                      └─────────────────────┘
+
+  Each build consumes build minutes from your Netlify plan. The free tier gives 300 minutes/month. This site
+  builds fast (small, static, 4 deps), but CMS publishes also trigger builds, so they can add up.
+
+  ---
+  Deploy previews (PR-based)
+
+  Every pull request gets its own preview URL automatically:
+
+  DEVELOPER WORKFLOW:
+
+  git checkout -b feature/new-section
+  # ... make changes ...
+  git push -u origin feature/new-section
+  gh pr create
+      │
+      ▼
+  Netlify sees new PR
+      │
+      ├── Builds the branch
+      ├── Deploys to: deploy-preview-6--mcsc-holding.netlify.app
+      └── Posts URL as a comment on the PR
+
+  CMS EDITORIAL WORKFLOW:
+
+  Editor clicks "Save" in Decap CMS
+      │
+      ▼
+  CMS creates PR (e.g., cms/insights/new-article)
+      │
+      ├── Netlify builds the PR branch
+      ├── Preview URL generated
+      └── Editor can review at preview URL before publishing
+
+  These preview deploys are useful but they still burn build minutes.
+
+  ---
+  Saving build minutes: the Netlify CLI approach
+
+  This is what you asked about. The key insight: you can upload a local build to Netlify without triggering
+  their build pipeline.
+
+  Setup (one time)
+
+  npm install -g netlify-cli
+  netlify login                    # opens browser for OAuth
+  netlify link                     # links this directory to your Netlify site
+
+  The workflow
+
+  LOCAL MACHINE                                    NETLIFY
+  ─────────────                                    ───────
+
+  npm run build          Build locally
+      │                  (your CPU, your time,
+      │                   zero Netlify minutes)
+      │
+      ▼
+  dist/ folder ready
+      │
+      │
+      ├── OPTION A: Draft deploy (shareable preview, NOT production)
+      │
+      │   netlify deploy --dir=dist
+      │       │
+      │       └──────────────────────────────────► Uploads dist/
+      │                                            Returns unique URL:
+      │                                            https://64a3f2b1--mcsc-holding.netlify.app
+      │
+      │   Share that URL with anyone.
+      │   It won't expire but also won't
+      │   affect production.
+      │
+      │
+      └── OPTION B: Production deploy (replaces live site)
+
+          netlify deploy --dir=dist --prod
+              │
+              └──────────────────────────────────► Uploads dist/
+                                                   Atomically replaces
+                                                   mcsc-holding.com
+
+  The cost comparison:
+
+  METHOD                        BUILD MINUTES USED    BUILD LOCATION
+  ──────                        ──────────────────    ──────────────
+  Push to main (auto-deploy)    ~1-2 minutes          Netlify servers
+  PR preview deploy             ~1-2 minutes          Netlify servers
+  netlify deploy --dir=dist     0 minutes             Your machine
+  netlify deploy --prod         0 minutes             Your machine
+
+  Practical scenario
+
+  You're iterating on CSS changes and want to preview on mobile. Instead of pushing 10 commits:
+
+  # Change something
+  npm run build && netlify deploy --dir=dist
+
+    Draft URL: https://abc123--mcsc-holding.netlify.app
+
+  # Open on phone, check it, adjust
+  npm run build && netlify deploy --dir=dist
+
+    Draft URL: https://def456--mcsc-holding.netlify.app
+
+  # Happy with it? Ship to production
+  npm run build && netlify deploy --dir=dist --prod
+
+    Live URL: https://mcsc-holding.com
+
+  # Zero build minutes consumed. Push the code to git afterward.
+  git add src/styles/global.css
+  git commit -m "Adjust card hover shadow"
+  git push
+
+  Wait — won't that push trigger a Netlify build? Yes. To prevent that:
+
+  Locking deploys
+
+  In the Netlify dashboard: Deploys → Lock published deploy
+
+  LOCKED STATE:
+    ┌──────────────────────────────────────────┐
+    │  Pushes to main → Netlify sees them      │
+    │                 → Does NOT build         │
+    │                 → Does NOT deploy        │
+    │                                          │
+    │  netlify deploy --prod → still works     │
+    │  (manual deploys bypass the lock)        │
+    └──────────────────────────────────────────┘
+
+  This is the "budget mode": lock deploys, only use CLI deploys. Unlock when you want auto-deploys back (e.g.,
+  for CMS editorial workflow, which needs auto-deploy to work).
+
+  ---
+  Stopping CMS-triggered builds
+
+  Each time an editor publishes through Decap CMS, it merges a PR to main, which triggers a build. If editors
+  publish frequently, this eats minutes. Options:
+
+  OPTION                          TRADE-OFF
+  ──────                          ─────────
+  Lock deploys                    CMS publishes won't go live until
+                                  you manually unlock + rebuild
+
+  Build hooks with                Only specific events trigger builds,
+    branch deploy controls        but more complex to configure
+
+  Batch CMS publishes             Tell editors to save drafts, then
+                                  you do one manual deploy per day
+
+  For a small team, the simplest approach: leave auto-deploy on, and monitor usage in the Netlify dashboard.
+  Only optimize if you're actually hitting limits.
+
+  ---
+  The complete workflow map
+
+                          ┌───────────────────────────┐
+                          │     DEVELOPMENT           │
+                          │                           │
+                          │  npm run dev              │
+                          │  localhost:4321           │
+                          │  Edit → save → HMR        │
+                          └────────────┬──────────────┘
+                                       │
+                                ready to share?
+                                       │
+                      ┌────────────────┼────────────────┐
+                      │                │                │
+                      ▼                ▼                ▼
+             ┌──────────────┐  ┌─────────────┐  ┌──────────────┐
+             │ LOCAL PREVIEW│  │ DRAFT DEPLOY│  │ GIT PUSH     │
+             │              │  │             │  │              │
+             │ npm run build│  │ npm run build│ │ git push     │
+             │ npm run preview││ netlify     │  │ origin main  │
+             │              │  │  deploy     │  │              │
+             │ Only you can │  │  --dir=dist │  │ Netlify auto-│
+             │ see it       │  │             │  │ builds       │
+             │              │  │ Shareable   │  │              │
+             │ 0 minutes    │  │ URL         │  │ ~1-2 min     │
+             │              │  │ 0 minutes   │  │ consumed     │
+             └──────────────┘  └─────────────┘  └──────────────┘
+                                                       │
+                                                       ▼
+                                              ┌──────────────┐
+                                              │ PRODUCTION   │
+                                              │ mcsc-holding │
+                                              │ .com         │
+                                              └──────────────┘
+
+  ---
+  Quick reference card
+
+  TASK                              COMMAND
+  ────                              ───────
+  Start dev server                  npm run dev
+  Build for production              npm run build
+  Preview production build          npm run preview
+  Draft deploy (no build minutes)   npm run build && netlify deploy --dir=dist
+  Prod deploy (no build minutes)    npm run build && netlify deploy --dir=dist --prod
+  Check Astro version               npx astro --version
+  Add an Astro integration          npx astro add <name>
+
+  ---
+  That's all eight parts. Here's what we covered:
+
+  PART    TOPIC                              KEY TAKEAWAY
+  ────    ─────                              ────────────
+  1       Big Picture                        Static site, no server, CDN-served HTML
+  2       Astro Components & Routing         File = URL, .astro = build-time template
+  3       i18n System                        3 layers: URL routing, t() strings, content files
+  4       Content & CMS                      Markdown + Zod validation + Decap CMS git workflow
+  5       Styling                            Tailwind 4 @theme tokens, two fonts, five utilities
+  6       SEO                                hreflang, JSON-LD, Open Graph, auto-sitemap
+  7       External Services                  Formspree (forms), Netlify Identity (auth), Google Fonts
+  8       Build & Deploy                     Local builds + netlify deploy = zero build minutes

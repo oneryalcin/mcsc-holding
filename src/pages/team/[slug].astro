@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { t } from '../../i18n/utils';
+import { getLocalizedInsights } from '../../i18n/content';
+
+const locale = 'en' as const;
+
+export async function getStaticPaths() {
+  const team = await getCollection('team');
+  return team.map((person) => ({
+    params: { slug: person.data.slug },
+    props: { person },
+  }));
+}
+
+const { person } = Astro.props;
+const bio = t(`team.${person.data.slug}.bio`, locale);
+const paragraphs = bio.split('\n').filter((p: string) => p.trim());
+
+// Get articles tagged with this person
+const allInsights = await getLocalizedInsights(locale);
+const taggedArticles = allInsights.filter(({ entry }) =>
+  entry.data.tags?.includes(person.data.slug)
+);
+---
+
+<Layout
+  locale={locale}
+  title={`${person.data.name} — ${person.data.role} | MCSC Group`}
+  description={paragraphs[0]?.slice(0, 160)}
+>
+  <Navbar locale={locale} />
+  <main>
+    <section class="pt-32 pb-16 bg-brand-navy text-white">
+      <div class="container mx-auto max-w-5xl px-6">
+        <div class="mb-6">
+          <a href="/#key-people" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; Back to Team</a>
+        </div>
+        <span class="text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold">{person.data.role}</span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{person.data.name}</h1>
+      </div>
+    </section>
+
+    <section class="py-16 bg-white">
+      <div class="container mx-auto max-w-5xl px-6">
+        <div class="grid md:grid-cols-3 gap-12">
+          <div class="md:col-span-1">
+            <img src={person.data.image} alt={person.data.name} class="w-full aspect-[3/4] object-cover grayscale" />
+          </div>
+          <div class="md:col-span-2 space-y-6 text-gray-600 leading-relaxed">
+            {paragraphs.map((p: string) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {taggedArticles.length > 0 && (
+      <section class="py-16 bg-brand-cream">
+        <div class="container mx-auto max-w-5xl px-6">
+          <h2 class="text-2xl font-serif mb-8">Related Insights</h2>
+          <div class="grid md:grid-cols-3 gap-8">
+            {taggedArticles.map(({ entry, slug }) => (
+              <article class="group">
+                <a href={`/insights/${slug}`} class="block">
+                  <div class="mb-4 overflow-hidden aspect-video">
+                    <img src={entry.data.coverImage} alt={entry.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  </div>
+                  <span class="text-[10px] uppercase text-brand-gold font-bold tracking-widest">
+                    {entry.data.category} &bull; {new Date(entry.data.publishDate!).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                  </span>
+                  <h3 class="text-lg mt-2 mb-2 group-hover:text-brand-gold transition-colors font-serif">{entry.data.title}</h3>
+                  <p class="text-sm text-gray-500 line-clamp-2">{entry.data.excerpt}</p>
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <ContactForm locale={locale} />
+  </main>
+  <Footer locale={locale} />
+</Layout>
