@@ -49,7 +49,7 @@ const taggedArticles = allInsights.filter(({ entry }) =>
       <div class="container mx-auto max-w-5xl px-6">
         <div class="grid md:grid-cols-3 gap-12">
           <div class="md:col-span-1">
-            <img src={person.data.image} alt={person.data.name} class="w-full aspect-[3/4] object-cover grayscale" />
+            <img src={person.data.image} alt={person.data.name} class="w-full aspect-[3/4] object-cover object-top" />
           </div>
           <div class="md:col-span-2 space-y-6 text-gray-600 leading-relaxed">
             {paragraphs.map((p: string) => (
