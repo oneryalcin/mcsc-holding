@@ -2,7 +2,7 @@
 title: A word from Gian Marco Gilardi about the creation of the MCSC Group
 category: News
 publishDate: 2026-04-14T22:30:00.000+01:00
-coverImage: /images/uploads/gian-marco-gilardi.jpg
+coverImage: /images/uploads/img_6093-2.jpg
 excerpt: >+
   "I created the MCSC Group with friends, starting from a very simple idea. The
   clientele, based on my personal experience, the clientele that we are offering
