@@ -13,8 +13,6 @@ excerpt: >+
 tags:
   - gian-marco-gilardi
 ---
-# **A word from Gian Marco Gilardi about the creation of the MCSC Group**
-
 "I created the MCSC Group with friends, starting from a very simple idea. The clientele, based on my personal experience, the clientele that we are offering our services and our advice is mainly a very complex and a very structured clientele that has different needs in different countries, in different situations, in different specifics.
 
 In my personal career, I've been working several years in banks, in family offices, and having become a sport agent, I thought with the changing environment, the service and the assistance to mainly sports people, entertainment people, and people around them, needs to be done differently. Today, what counts is the fact of being able to understand and to offer an assistance which is a 360 degrees assistance, mainly based on proven service providers, might it be internal to our group or external.
