@@ -2,7 +2,7 @@
 title: A word from Gian Marco Gilardi about the creation of the MCSC Group
 category: News
 publishDate: 2026-04-14T22:30:00.000+01:00
-coverImage: /images/uploads/connor-coyne-ogqwlzwrsai-unsplash.jpg
+coverImage: /images/uploads/gian-marco-gilardi.jpg
 excerpt: >+
   "I created the MCSC Group with friends, starting from a very simple idea. The
   clientele, based on my personal experience, the clientele that we are offering
@@ -13,7 +13,7 @@ excerpt: >+
 tags:
   - gian-marco-gilardi
 ---
-# **Title**
+# **A word from Gian Marco Gilardi about the creation of the MCSC Group**
 
 "I created the MCSC Group with friends, starting from a very simple idea. The clientele, based on my personal experience, the clientele that we are offering our services and our advice is mainly a very complex and a very structured clientele that has different needs in different countries, in different situations, in different specifics.
 
