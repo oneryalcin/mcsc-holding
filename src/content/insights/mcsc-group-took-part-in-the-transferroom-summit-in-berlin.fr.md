@@ -1,4 +1,5 @@
 ---
+locale: fr
 title: MCSC Group took part in the TransferRoom Summit in Berlin
 category: Events
 publishDate: 2025-03-01T08:49:00.000+01:00

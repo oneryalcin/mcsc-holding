@@ -6,54 +6,72 @@ interface Props {
   title?: string;
   description?: string;
   locale?: Locale;
+  ogImage?: string;
 }
 
 const {
   title = 'MCSC Group',
-  description = 'Providing clear governance and strategic advisory for the next generation of sporting icons and entities.',
+  description = 'International advisory group at the intersection of sports, entertainment, and private investments. Structured across Luxembourg, Monaco, Switzerland, Italy and UK.',
   locale = defaultLocale,
+  ogImage = '/images/mcsc-logo.png',
 } = Astro.props;
 
 // Build hreflang URLs from current path
 const currentPath = Astro.url.pathname.replace(/^\/(fr|it)/, '') || '/';
+const siteUrl = 'https://mcsc-group.com';
 
-// Organization JSON-LD (spec Section 9.2)
+// Organization JSON-LD
 const orgJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'MCSC Management',
-  url: 'https://mcsc-management.com',
-  logo: 'https://mcsc-management.com/favicon.svg',
-  description: 'Global sports advisory and governance firm.',
-  foundingDate: '1993',
+  name: 'MCSC Group',
+  url: siteUrl,
+  logo: `${siteUrl}/images/mcsc-logo.png`,
+  description: 'International advisory group at the intersection of sports, entertainment, and private investments.',
+  foundingDate: '2024',
   address: [
     {
       '@type': 'PostalAddress',
-      streetAddress: 'Le Panorama, 57 Rue Grimaldi',
+      streetAddress: '68 Rue de Strasbourg',
+      addressLocality: 'Luxembourg',
+      addressCountry: 'LU',
+    },
+    {
+      '@type': 'PostalAddress',
+      streetAddress: '17 Avenue Albert II',
       addressLocality: 'Monaco',
       addressCountry: 'MC',
     },
     {
       '@type': 'PostalAddress',
-      streetAddress: 'Via Montenapoleone, 8',
+      streetAddress: 'Via G.B. Pioda 14',
+      addressLocality: 'Lugano',
+      addressCountry: 'CH',
+    },
+    {
+      '@type': 'PostalAddress',
+      streetAddress: 'Via Rovani 7',
       addressLocality: 'Milan',
       addressCountry: 'IT',
     },
     {
       '@type': 'PostalAddress',
-      streetAddress: 'Rue de la Corraterie, 14',
-      addressLocality: 'Geneva',
-      addressCountry: 'CH',
+      streetAddress: '38 Craven Street',
+      addressLocality: 'London',
+      addressCountry: 'GB',
     },
   ],
-  sameAs: [],
+  sameAs: [
+    'https://www.linkedin.com/company/mcscgroup',
+    'https://www.instagram.com/mcscgroup',
+  ],
 });
 
 const websiteJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'MCSC Management',
-  url: 'https://mcsc-management.com',
+  name: 'MCSC Group',
+  url: siteUrl,
 });
 ---
 
@@ -70,18 +88,24 @@ const websiteJsonLd = JSON.stringify({
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="MCSC Management" />
+  <meta property="og:site_name" content="MCSC Group" />
+  <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+  <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
 
   <!-- hreflang -->
   {locales.map((l) => (
-    <link rel="alternate" hreflang={l} href={`https://mcsc-management.com${getLocalePath(currentPath, l)}`} />
+    <link rel="alternate" hreflang={l} href={`${siteUrl}${getLocalePath(currentPath, l)}`} />
   ))}
-  <link rel="alternate" hreflang="x-default" href={`https://mcsc-management.com${currentPath}`} />
+  <link rel="alternate" hreflang="x-default" href={`${siteUrl}${currentPath}`} />
+
+  <!-- Canonical -->
+  <link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`} />
 
   <!-- Google Fonts: Playfair Display + Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />

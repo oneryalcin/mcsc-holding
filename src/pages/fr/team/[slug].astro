@@ -25,19 +25,30 @@ const allInsights = await getLocalizedInsights(locale);
 const taggedArticles = allInsights.filter(({ entry }) =>
   entry.data.tags?.includes(person.data.slug)
 );
+const personJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: person.data.name,
+  jobTitle: person.data.role,
+  image: person.data.image.startsWith("http") ? person.data.image : `https://mcsc-group.com${person.data.image}`,
+  worksFor: { "@type": "Organization", name: "MCSC Group", url: "https://mcsc-group.com" },
+  url: `https://mcsc-group.com/fr/team/${person.data.slug}`,
+});
 ---
 
 <Layout
   locale={locale}
   title={`${person.data.name} — ${person.data.role} | MCSC Group`}
   description={paragraphs[0]?.slice(0, 160)}
+  ogImage={person.data.image}
 >
+  <script type="application/ld+json" set:html={personJsonLd} />
   <Navbar locale={locale} />
   <main>
     <section class="pt-32 pb-16 bg-brand-navy text-white">
       <div class="container mx-auto max-w-5xl px-6">
         <div class="mb-6">
-          <a href="/fr/#key-people" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; Retour à l'équipe</a>
+          <a href="/fr/#key-people" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; {t('ui.backToTeam', locale)}</a>
         </div>
         <span class="text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold">{person.data.role}</span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{person.data.name}</h1>
@@ -62,7 +73,7 @@ const taggedArticles = allInsights.filter(({ entry }) =>
     {taggedArticles.length > 0 && (
       <section class="py-16 bg-brand-cream">
         <div class="container mx-auto max-w-5xl px-6">
-          <h2 class="text-2xl font-serif mb-8">Articles associés</h2>
+          <h2 class="text-2xl font-serif mb-8">{t('ui.relatedInsights', locale)}</h2>
           <div class="grid md:grid-cols-3 gap-8">
             {taggedArticles.map(({ entry, slug }) => (
               <article class="group">

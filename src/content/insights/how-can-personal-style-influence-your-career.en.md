@@ -1,4 +1,5 @@
 ---
+locale: en
 title: How can personal style influence your career
 category: Insights
 publishDate: 2026-04-23T19:19:00.000+02:00

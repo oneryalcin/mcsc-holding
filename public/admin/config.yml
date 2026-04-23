@@ -21,6 +21,7 @@ collections:
     slug: "{{slug}}"
     i18n: true
     fields:
+      - { name: "locale", label: "Locale", widget: "hidden", default: "en", i18n: true }
       - { name: "title", label: "Title", widget: "string", i18n: true }
       - { name: "category", label: "Category", widget: "select", i18n: duplicate, options: ["News", "Events", "Insights"] }
       - { name: "publishDate", label: "Publish Date", widget: "datetime", i18n: duplicate }

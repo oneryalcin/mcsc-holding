@@ -1,4 +1,5 @@
 ---
+locale: en
 title: A word from Gian Marco Gilardi about the creation of the MCSC Group
 category: News
 publishDate: 2026-04-14T22:30:00.000+01:00

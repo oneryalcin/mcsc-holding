@@ -161,7 +161,7 @@ const locations = [
                 {loc.type === 'items' && loc.items && (
                   <div class="space-y-3 mb-4">
                     <div class="pl-3 border-l-2 border-brand-gold">
-                      <h4 class="text-[10px] font-bold uppercase tracking-wider text-brand-navy mb-1">Scope of Activities</h4>
+                      <h4 class="text-[10px] font-bold uppercase tracking-wider text-brand-navy mb-1">{t('ui.scopeOfActivities', locale)}</h4>
                       <ul class="space-y-1">
                         {loc.items.map((item) => (
                           <li class="flex items-start gap-2 text-[12px] text-brand-navy leading-snug">
@@ -188,7 +188,7 @@ const locations = [
 
               <!-- Sticky address -->
               <div class="pt-3 border-t border-brand-gold/20 shrink-0">
-                <p class="text-brand-gold text-[9px] font-bold uppercase tracking-[0.2em] mb-1">Address</p>
+                <p class="text-brand-gold text-[9px] font-bold uppercase tracking-[0.2em] mb-1">{t('ui.address', locale)}</p>
                 <p class="text-brand-navy font-serif text-xs">{loc.address}</p>
               </div>
             </div>

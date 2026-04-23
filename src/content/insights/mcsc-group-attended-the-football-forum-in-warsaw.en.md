@@ -1,4 +1,5 @@
 ---
+locale: en
 title: MCSC Group attended the Football Forum in Warsaw
 category: Events
 publishDate: 2025-04-01T08:53:00.000+02:00

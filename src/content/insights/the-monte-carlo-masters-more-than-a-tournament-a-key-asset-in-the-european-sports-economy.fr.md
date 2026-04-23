@@ -1,4 +1,5 @@
 ---
+locale: fr
 title: "The Monte-Carlo Masters: more than a tournament, a key asset in the
   European sports economy"
 category: Insights
