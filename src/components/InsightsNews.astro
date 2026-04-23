@@ -16,15 +16,20 @@ const dateLocale = locale === 'fr' ? 'fr-FR' : locale === 'it' ? 'it-IT' : 'en-U
       <div>
         <h2 class="text-4xl">{t('insights.headline', locale)}</h2>
         <div class="flex gap-4 mt-4" id="insight-filters">
-          {['All', 'Insights', 'News', 'Events'].map((cat, i) => (
+          {[
+            { label: t('insights.filterAll', locale), filter: 'all' },
+            { label: t('insights.filterInsights', locale), filter: 'Insights' },
+            { label: t('insights.filterNews', locale), filter: 'News' },
+            { label: t('insights.filterEvents', locale), filter: 'Events' },
+          ].map((cat, i) => (
             <button
-              data-filter={cat === 'All' ? 'all' : cat}
+              data-filter={cat.filter}
               class:list={[
                 'px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors insight-filter',
                 i === 0 ? 'border-brand-gold text-brand-gold' : 'border-brand-gold/30 hover:border-brand-gold hover:text-brand-gold',
               ]}
             >
-              {cat}
+              {cat.label}
             </button>
           ))}
         </div>

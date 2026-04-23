@@ -16,8 +16,8 @@ const articles = await getLocalizedInsights(locale);
       <div class="mx-auto max-w-7xl px-6">
         <h1 class="text-4xl md:text-5xl">{t('insights.headline', locale)}</h1>
         <div class="flex gap-4 mt-6" id="insight-filters">
-          {['All', 'Insights', 'News', 'Events'].map((cat, i) => (
-            <button data-filter={cat === 'All' ? 'all' : cat} class:list={['px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors insight-filter', i === 0 ? 'border-brand-gold text-brand-gold' : 'border-white/30 text-white/60 hover:border-brand-gold hover:text-brand-gold']}>{cat}</button>
+          {[{ label: t('insights.filterAll', locale), filter: 'all' }, { label: t('insights.filterInsights', locale), filter: 'Insights' }, { label: t('insights.filterNews', locale), filter: 'News' }, { label: t('insights.filterEvents', locale), filter: 'Events' }].map((cat, i) => (
+            <button data-filter={cat.filter} class:list={['px-4 py-2 border text-[10px] uppercase tracking-widest transition-colors insight-filter', i === 0 ? 'border-brand-gold text-brand-gold' : 'border-white/30 text-white/60 hover:border-brand-gold hover:text-brand-gold']}>{cat.label}</button>
           ))}
         </div>
       </div>
@@ -38,7 +38,7 @@ const articles = await getLocalizedInsights(locale);
             </article>
           ))}
         </div>
-        <p id="no-results" class="hidden text-center text-gray-400 py-16">Aucun article dans cette catégorie.</p>
+        <p id="no-results" class="hidden text-center text-gray-400 py-16">{t('insights.noResults', locale)}</p>
       </div>
     </section>
   </main>

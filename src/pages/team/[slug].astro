@@ -38,7 +38,7 @@ const taggedArticles = allInsights.filter(({ entry }) =>
     <section class="pt-32 pb-16 bg-brand-navy text-white">
       <div class="container mx-auto max-w-5xl px-6">
         <div class="mb-6">
-          <a href="/#key-people" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; Back to Team</a>
+          <a href="/#key-people" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; {t('ui.backToTeam', locale)}</a>
         </div>
         <span class="text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold">{person.data.role}</span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{person.data.name}</h1>
@@ -63,7 +63,7 @@ const taggedArticles = allInsights.filter(({ entry }) =>
     {taggedArticles.length > 0 && (
       <section class="py-16 bg-brand-cream">
         <div class="container mx-auto max-w-5xl px-6">
-          <h2 class="text-2xl font-serif mb-8">Related Insights</h2>
+          <h2 class="text-2xl font-serif mb-8">{t('ui.relatedInsights', locale)}</h2>
           <div class="grid md:grid-cols-3 gap-8">
             {taggedArticles.map(({ entry, slug }) => (
               <article class="group">
