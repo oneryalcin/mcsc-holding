@@ -26,13 +26,28 @@ const allInsights = await getLocalizedInsights(locale);
 const taggedArticles = allInsights.filter(({ entry }) =>
   entry.data.tags?.includes(person.data.slug)
 );
+const personJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: person.data.name,
+  jobTitle: person.data.role,
+  image: person.data.image.startsWith('http') ? person.data.image : `https://mcsc-group.com${person.data.image}`,
+  worksFor: {
+    '@type': 'Organization',
+    name: 'MCSC Group',
+    url: 'https://mcsc-group.com',
+  },
+  url: `https://mcsc-group.com/team/${person.data.slug}`,
+});
 ---
 
 <Layout
   locale={locale}
   title={`${person.data.name} — ${person.data.role} | MCSC Group`}
   description={paragraphs[0]?.slice(0, 160)}
+  ogImage={person.data.image}
 >
+  <script type="application/ld+json" set:html={personJsonLd} />
   <Navbar locale={locale} />
   <main>
     <section class="pt-32 pb-16 bg-brand-navy text-white">

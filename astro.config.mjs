@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mcsc-holding.com',
+  site: 'https://mcsc-group.com',
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr', 'it'],
