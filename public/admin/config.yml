@@ -41,4 +41,5 @@ collections:
           - { label: "Avv. Cosimo Andrea Vestuti", value: "cosimo-andrea-vestuti" }
           - { label: "Avv. Alessandro Belluzzo", value: "alessandro-belluzzo" }
           - { label: "Avv. Paolo Zanazza", value: "paolo-zanazza" }
+          - { label: "Arvine Zamani", value: "arvine-zamani" }
       - { name: "body", label: "Body", widget: "markdown", i18n: true }
