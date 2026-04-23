@@ -17,7 +17,7 @@ const people = allTeam.sort((a, b) => a.data.order - b.data.order);
       <h2 class="text-4xl md:text-5xl">{t('people.headline', locale)}</h2>
     </div>
 
-    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
       {people.map((person) => (
         <a href={getLocalePath(`/team/${person.data.slug}`, locale)} class="group flex flex-col">
           <div class="aspect-square overflow-hidden mb-6 relative bg-brand-cream/5">
