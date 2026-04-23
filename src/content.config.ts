@@ -4,6 +4,7 @@ import { glob } from 'astro/loaders';
 const insights = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/insights' }),
   schema: z.object({
+    locale: z.string().optional().default('en'),
     title: z.string().optional().default(''),
     category: z.enum(['News', 'Events', 'Insights']).optional(),
     publishDate: z.coerce.date().optional(),
