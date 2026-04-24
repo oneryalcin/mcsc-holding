@@ -10,6 +10,7 @@ excerpt: >
   season and occupies a unique position in the global tennis calendar.
 
   As one of the few ATP Masters 1000 tournaments not owned directly by the ATP Tour, Monte-Carlo represents an interesting economic model within professional tennis.
+tags: null
 ---
 Every April, the Monte-Carlo Masters marks the beginning of the European clay season and occupies a unique position in the global tennis calendar.
 

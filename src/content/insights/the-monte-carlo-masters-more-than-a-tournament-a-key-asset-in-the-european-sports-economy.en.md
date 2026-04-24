@@ -20,3 +20,5 @@ Beyond the competition itself, the tournament plays an important role in the bro
 For players and their teams, tournaments like Monte-Carlo are not only performance milestones. They are also high-visibility stages where athletic results, brand exposure and commercial opportunities often converge.
 
 In many ways, the Monte-Carlo Masters illustrates how major sporting events have evolved into strategic platforms that connect sport, global audiences and the wider sports business ecosystem.
+
+Follow all MCSC Group news on our official [LinkedIn](<>) and [Instagram](<>).
