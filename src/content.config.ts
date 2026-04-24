@@ -10,7 +10,7 @@ const insights = defineCollection({
     publishDate: z.coerce.date().optional(),
     coverImage: z.string().optional().default(''),
     excerpt: z.string().optional().default(''),
-    tags: z.array(z.string()).optional().default([]),
+    tags: z.preprocess((v) => v ?? [], z.array(z.string()).default([])),
   }),
 });
 
