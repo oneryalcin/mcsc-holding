@@ -7,6 +7,7 @@ coverImage: /images/uploads/mcsc_avatar_instagram.png
 excerpt: "MCSC Group participated in the TransferRoom Summit held in Berlin, a
   premier event that brought together over 500 participants, facilitating more
   than 2,800 meetings across 50 sessions. "
+tags: null
 ---
 MCSC Group participated in the TransferRoom Summit held in Berlin, a premier event that brought together over 500 participants, facilitating more than 2,800 meetings across 50 sessions. This summit provided an invaluable platform for direct engagement with clubs, agents, and stakeholders, allowing us to explore potential collaborations and stay abreast of the latest trends in the football transfer market.
 
