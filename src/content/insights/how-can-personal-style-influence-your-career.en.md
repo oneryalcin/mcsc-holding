@@ -16,3 +16,5 @@ MCSC Group's advisor Guewen Patural-Jouve shared some insights about the role of
 > In sport I would say style matters beyond the field because athletes are judged constantly as public brands as well as performers. Media appearances and event outfits can signal discipline, confidence, and commercial value.
 >
 > In business, a formal and context-appropriate attire is often read as professionalism and ethical seriousness. Research on attire and person perception shows that dress shapes inferences about wealth, power, and personality.
+
+Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/105730866/admin/dashboard/) and [Instagram](https://www.instagram.com/mcscgroup).
