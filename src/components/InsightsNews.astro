@@ -13,9 +13,9 @@ const dateLocale = locale === 'fr' ? 'fr-FR' : locale === 'it' ? 'it-IT' : 'en-U
 <section class="py-24 bg-white" id="insights">
   <div class="mx-auto max-w-7xl px-6">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
-      <div>
+      <div class="w-full md:w-auto">
         <h2 class="text-4xl">{t('insights.headline', locale)}</h2>
-        <div class="flex gap-4 mt-4" id="insight-filters">
+        <div class="flex flex-wrap gap-4 mt-4" id="insight-filters">
           {[
             { label: t('insights.filterAll', locale), filter: 'all' },
             { label: t('insights.filterInsights', locale), filter: 'Insights' },
