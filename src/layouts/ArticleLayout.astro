@@ -11,9 +11,10 @@ interface Props {
   category: string;
   publishDate: Date;
   locale?: Locale;
+  canonicalOverride?: string;
 }
 
-const { title, description, coverImage, category, publishDate, locale = 'en' } = Astro.props;
+const { title, description, coverImage, category, publishDate, locale = 'en', canonicalOverride } = Astro.props;
 
 const dateLocale = locale === 'fr' ? 'fr-FR' : locale === 'it' ? 'it-IT' : 'en-US';
 const formattedDate = publishDate.toLocaleDateString(dateLocale, {
@@ -39,7 +40,7 @@ const articleJsonLd = JSON.stringify({
 });
 ---
 
-<Layout title={`${title} | MCSC Group`} description={description} locale={locale} ogImage={coverImage}>
+<Layout title={`${title} | MCSC Group`} description={description} locale={locale} ogImage={coverImage} canonicalOverride={canonicalOverride}>
   <script type="application/ld+json" set:html={articleJsonLd} />
   <Navbar locale={locale} />
   <main>

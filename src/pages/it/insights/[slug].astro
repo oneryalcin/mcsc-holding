@@ -5,14 +5,15 @@ import { render } from 'astro:content';
 
 export async function getStaticPaths() {
   const articles = await getLocalizedInsights('it');
-  return articles.map(({ entry, slug }) => ({
+  return articles.map(({ entry, slug, isFallback }) => ({
     params: { slug },
-    props: { entry },
+    props: { entry, isFallback },
   }));
 }
 
-const { entry } = Astro.props;
+const { entry, isFallback } = Astro.props;
 const { Content } = await render(entry);
+const canonicalOverride = isFallback ? `https://mcsc-group.com/insights/${Astro.params.slug}/` : undefined;
 ---
 
 <ArticleLayout
@@ -21,6 +22,7 @@ const { Content } = await render(entry);
   coverImage={entry.data.coverImage!}
   category={entry.data.category!}
   publishDate={entry.data.publishDate!}
+  canonicalOverride={canonicalOverride}
 >
   <Content />
 </ArticleLayout>

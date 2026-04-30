@@ -35,14 +35,14 @@ export async function getLocalizedInsights(locale: Locale = 'en') {
   }
 
   // Resolve: pick locale version if it has content, else EN
-  const resolved: Array<{ entry: typeof all[0]; slug: string }> = [];
+  const resolved: Array<{ entry: typeof all[0]; slug: string; isFallback: boolean }> = [];
 
   for (const [slug, versions] of grouped) {
     const en = versions.get('en');
     if (!en || !en.data.title) continue;
 
     if (locale === 'en') {
-      resolved.push({ entry: en, slug });
+      resolved.push({ entry: en, slug, isFallback: false });
       continue;
     }
 
@@ -58,9 +58,9 @@ export async function getLocalizedInsights(locale: Locale = 'en') {
           ),
         },
       };
-      resolved.push({ entry: merged as typeof all[0], slug });
+      resolved.push({ entry: merged as typeof all[0], slug, isFallback: false });
     } else {
-      resolved.push({ entry: en, slug });
+      resolved.push({ entry: en, slug, isFallback: true });
     }
   }
 
