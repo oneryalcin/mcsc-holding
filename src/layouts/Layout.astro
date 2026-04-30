@@ -7,6 +7,7 @@ interface Props {
   description?: string;
   locale?: Locale;
   ogImage?: string;
+  canonicalOverride?: string;
 }
 
 const {
@@ -14,11 +15,13 @@ const {
   description = 'International advisory group at the intersection of sports, entertainment, and private investments. Structured across Luxembourg, Monaco, Switzerland, Italy and UK.',
   locale = defaultLocale,
   ogImage = '/images/mcsc-logo.png',
+  canonicalOverride,
 } = Astro.props;
 
 // Build hreflang URLs from current path
 const currentPath = Astro.url.pathname.replace(/^\/(fr|it)/, '') || '/';
 const siteUrl = 'https://mcsc-group.com';
+const canonicalUrl = canonicalOverride ?? `${siteUrl}${Astro.url.pathname}`;
 
 // Organization JSON-LD
 const orgJsonLd = JSON.stringify({
@@ -82,7 +85,11 @@ const websiteJsonLd = JSON.stringify({
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <title>{title}</title>
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 
   <!-- Open Graph -->
   <meta property="og:title" content={title} />
@@ -105,7 +112,7 @@ const websiteJsonLd = JSON.stringify({
   <link rel="alternate" hreflang="x-default" href={`${siteUrl}${currentPath}`} />
 
   <!-- Canonical -->
-  <link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`} />
+  <link rel="canonical" href={canonicalUrl} />
 
   <!-- Google Fonts: Playfair Display + Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
