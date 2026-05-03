@@ -6,15 +6,27 @@ const { locale = 'en' } = Astro.props;
 
 const basePath = locale === defaultLocale ? '' : `/${locale}`;
 
-const navItems = [
-  { label: t('nav.home', locale), href: `${basePath}/` },
-  { label: t('nav.theGroup', locale), href: `${basePath}/#the-group` },
-  { label: t('nav.locations', locale), href: `${basePath}/#locations` },
-  { label: t('nav.expertise', locale), href: `${basePath}/#expertise` },
-  { label: t('nav.keyPeople', locale), href: `${basePath}/#key-people` },
-  { label: t('nav.insights', locale), href: `${basePath}/#insights` },
-  { label: t('nav.contact', locale), href: `${basePath}/#contact` },
-  { label: t('nav.faq', locale), href: getLocalePath('/faq', locale) },
+type NavItem =
+  | { type: 'link'; label: string; href: string }
+  | { type: 'dropdown'; label: string; children: { label: string; href: string }[] };
+
+const navItems: NavItem[] = [
+  { type: 'link', label: t('nav.home', locale), href: `${basePath}/` },
+  { type: 'link', label: t('nav.theGroup', locale), href: `${basePath}/#the-group` },
+  { type: 'link', label: t('nav.locations', locale), href: `${basePath}/#locations` },
+  { type: 'link', label: t('nav.expertise', locale), href: `${basePath}/#expertise` },
+  {
+    type: 'dropdown',
+    label: t('nav.keyPeople', locale),
+    children: [
+      { label: t('nav.keyPeople', locale), href: `${basePath}/#key-people` },
+      { label: t('nav.partnerships', locale), href: getLocalePath('/partnerships', locale) },
+      { label: t('nav.providers', locale), href: getLocalePath('/providers', locale) },
+    ],
+  },
+  { type: 'link', label: t('nav.insights', locale), href: `${basePath}/#insights` },
+  { type: 'link', label: t('nav.contact', locale), href: `${basePath}/#contact` },
+  { type: 'link', label: t('nav.faq', locale), href: getLocalePath('/faq', locale) },
 ];
 ---
 
@@ -34,19 +46,48 @@ const navItems = [
     </a>
 
     <!-- Desktop Nav -->
-    <ul class="hidden xl:flex gap-8 text-[10px] uppercase tracking-widest font-bold">
+    <ul class="hidden xl:flex gap-8 text-[10px] uppercase tracking-widest font-bold items-center">
       {navItems.map((item, i) => (
-        <li>
-          <a
-            href={item.href}
-            class:list={[
-              'nav-link',
-              i === 0 ? 'text-brand-gold' : 'text-brand-navy',
-            ]}
-          >
-            {item.label}
-          </a>
-        </li>
+        item.type === 'link' ? (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                'nav-link',
+                i === 0 ? 'text-brand-gold' : 'text-brand-navy',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ) : (
+          <li class="relative group">
+            <button
+              type="button"
+              class="nav-link text-brand-navy flex items-center gap-1 uppercase tracking-widest font-bold text-[10px]"
+              aria-haspopup="true"
+            >
+              {item.label}
+              <svg class="w-2.5 h-2.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="absolute left-0 top-full pt-3 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity duration-150">
+              <ul class="bg-white border border-brand-gold/20 shadow-lg min-w-[260px] py-2">
+                {item.children.map((child) => (
+                  <li>
+                    <a
+                      href={child.href}
+                      class="block px-5 py-3 text-[10px] uppercase tracking-widest font-bold text-brand-navy hover:bg-brand-cream hover:text-brand-gold transition-colors"
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        )
       ))}
     </ul>
 
@@ -81,11 +122,35 @@ const navItems = [
   <div class="xl:hidden hidden bg-white/98 border-t border-brand-gold/10" id="mobile-menu">
     <ul class="flex flex-col py-6 px-6 gap-6">
       {navItems.map((item) => (
-        <li>
-          <a href={item.href} class="label-upper text-sm text-brand-navy/80 nav-link mobile-nav-link">
-            {item.label}
-          </a>
-        </li>
+        item.type === 'link' ? (
+          <li>
+            <a href={item.href} class="label-upper text-sm text-brand-navy/80 nav-link mobile-nav-link">
+              {item.label}
+            </a>
+          </li>
+        ) : (
+          <li>
+            <button
+              type="button"
+              class="mobile-dropdown-btn label-upper text-sm text-brand-navy/80 flex items-center gap-2 w-full text-left"
+              aria-expanded="false"
+            >
+              {item.label}
+              <svg class="w-3 h-3 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <ul class="mobile-dropdown-panel hidden flex-col gap-3 mt-3 pl-4 border-l border-brand-gold/30">
+              {item.children.map((child) => (
+                <li>
+                  <a href={child.href} class="label-upper text-xs text-brand-navy/70 nav-link mobile-nav-link block">
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </li>
+        )
       ))}
     </ul>
     <div class="flex gap-4 px-6 pb-6 text-xs label-upper">
@@ -127,6 +192,19 @@ const navItems = [
       mid!.style.opacity = '1';
       bot!.style.transform = '';
       bot!.style.width = '1rem';
+    });
+  });
+
+  document.querySelectorAll('.mobile-dropdown-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = btn.nextElementSibling as HTMLElement | null;
+      const arrow = btn.querySelector('svg');
+      if (!panel) return;
+      const isOpen = !panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', isOpen);
+      panel.classList.toggle('flex', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      if (arrow) (arrow as SVGElement).style.transform = isOpen ? '' : 'rotate(180deg)';
     });
   });
 </script>
