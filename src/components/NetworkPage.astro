@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import { t, type Locale } from '../i18n/utils';
+import { partnerships, providers, type NetworkEntry } from '../data/network';
+
+interface Props {
+  kind: 'partnerships' | 'providers';
+  locale?: Locale;
+}
+
+const { kind, locale = 'en' } = Astro.props;
+
+const entries: NetworkEntry[] = kind === 'partnerships' ? partnerships : providers;
+const headlineKey = kind === 'partnerships' ? 'partnerships.headline' : 'providers.headline';
+const headline = t(headlineKey, locale);
+const label = t('network.label', locale);
+const visit = t('network.visit', locale);
+---
+
+<Layout title={`${headline} | MCSC Group`} description={headline} locale={locale}>
+  <Navbar locale={locale} />
+  <main>
+    <!-- Hero -->
+    <section class="pt-32 pb-16 bg-brand-navy text-white">
+      <div class="mx-auto max-w-7xl px-6 text-center">
+        <span class="text-brand-gold text-sm font-semibold tracking-widest uppercase mb-4 block">{label}</span>
+        <h1 class="text-4xl md:text-5xl font-serif">{headline}</h1>
+      </div>
+    </section>
+
+    <!-- Cards grid -->
+    <section class="py-20 bg-brand-cream">
+      <div class="mx-auto max-w-7xl px-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {entries.map((entry) => (
+            <article class="bg-white border border-brand-sand/40 p-8 flex flex-col hover:shadow-lg transition-shadow">
+              {entry.logo && (
+                <div class="h-24 w-full mb-6 flex items-center justify-start">
+                  <img src={entry.logo} alt={`${entry.name} logo`} class="max-h-full max-w-[60%] object-contain" loading="lazy" />
+                </div>
+              )}
+              <h2 class="text-2xl font-serif text-brand-navy mb-4">{entry.name}</h2>
+              <p class="text-sm text-gray-600 leading-relaxed mb-6 whitespace-pre-line flex-1">
+                {entry.desc[locale]}
+              </p>
+              <a
+                href={entry.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[10px] font-bold uppercase tracking-widest text-brand-gold border-b border-brand-gold pb-1 self-start hover:text-brand-navy hover:border-brand-navy transition-colors"
+              >
+                {visit} &rarr;
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer locale={locale} />
+</Layout>
