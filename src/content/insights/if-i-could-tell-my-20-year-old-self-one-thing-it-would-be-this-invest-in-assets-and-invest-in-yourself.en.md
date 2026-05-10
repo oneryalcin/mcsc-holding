@@ -1,7 +1,7 @@
 ---
 locale: en
-title: "If I could tell my 20-year-old self one thing, it would be this: invest
-  in assets, and invest in yourself. "
+title: '"If I could tell my 20-year-old self one thing, it would be this: invest
+  in assets, and invest in yourself." - Elizaveta Tishchenko '
 category: Insights
 publishDate: 2026-05-10T15:47:00.000+02:00
 coverImage: /images/uploads/img_5657.jpg
