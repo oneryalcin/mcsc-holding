@@ -9,11 +9,11 @@ excerpt: >
   At MCSC, we see careers — whether in sport or beyond — as a combination of
   performance, structure and long-term positioning.
 ---
-We are pleased to announce our partnership with Legacy Sport & Art Management. 
+We are pleased to announce our partnership with **Legacy Sport & Art Management.** 
 
 At MCSC, we see careers — whether in sport or beyond — as a combination of performance, structure and long-term positioning.
 
-Legacy Sport & Art Management operates at the intersection of sport, culture and legacy, transforming key moments into enduring assets. Here you can find more information: **[https://legacysportart.com](https://www.linkedin.com/safety/go/?url=https%3A%2F%2Flegacysportart%2Ecom&urlhash=fjYI&mt=yRQ0sNJf2nnYZk99Z_p2D_M2CA-U_EzFq-R-uhXGiuxPjPRSLBnTU1I4bqVzxstPIdKwDC736hfLNtcH-lhOByo_H8fUgZeLOKkHm4qZjsGW9WZfmn2tmr6k7g&isSdui=true)**
+Legacy Sport & Art Management operates at the intersection of sport, culture and legacy, transforming key moments into enduring assets. [Here](https://legacysportart.com) you can find more information. 
 
 This partnership reflects a shared perspective:
 
