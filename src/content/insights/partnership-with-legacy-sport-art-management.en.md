@@ -23,4 +23,4 @@ By combining advisory and cultural positioning, we aim to bring a more holistic 
 
 We look forward to developing this collaboration.
 
-Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/105730866/admin/dashboard/) and [Instagram](https://www.instagram.com/mcscgroup).
+**Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/105730866/admin/dashboard/) and [Instagram](https://www.instagram.com/mcscgroup).**
