@@ -28,6 +28,16 @@ export const partnerships: NetworkEntry[] = [
       it: "Il programma Coldwell Banker Global Luxury℠ ridefinisce il mondo del marketing immobiliare di lusso. Il prestigio del nome Coldwell Banker®, unito a tecnologie all'avanguardia, strategie di marketing su misura e a una delle reti globali più solide del settore immobiliare — che comprende 96.000 agenti indipendenti in circa 3.000 uffici distribuiti in 40 paesi e territori — culmina in una rappresentanza straordinaria che attraversa oceani, continenti e barriere linguistiche.",
     },
   },
+  {
+    name: 'Repeople Network',
+    url: 'https://www.repeoplenetwork.net/',
+    logo: '/images/network/repeople-network.jpg',
+    desc: {
+      en: "Repeople Network facilitates connections and relationships among professionals in the world of real estate and alternative investments.\n\nThey foster the creation of strategic partnerships to build new business opportunities, within a framework of social and environmental responsibility. They aspire to become the go-to community for building meaningful human relationships, aimed at transforming the entrepreneurial world into a sustainable ecosystem driven by responsible investment.",
+      fr: "Repeople Network facilite les connexions et les relations entre professionnels du monde de l'immobilier et des investissements alternatifs.\n\nIls favorisent la création de partenariats stratégiques pour construire de nouvelles opportunités d'affaires, dans un cadre de responsabilité sociale et environnementale. Ils aspirent à devenir la communauté de référence pour nouer des relations humaines significatives, visant à transformer le monde entrepreneurial en un écosystème durable fondé sur l'investissement responsable.",
+      it: "Repeople Network facilita connessioni e relazioni tra professionisti nel mondo dell'immobiliare e degli investimenti alternativi.\n\nPromuovono la creazione di partnership strategiche per costruire nuove opportunità di business, nell'ambito di un quadro di responsabilità sociale e ambientale. Aspirano a diventare la comunità di riferimento per costruire relazioni umane significative, con l'obiettivo di trasformare il mondo imprenditoriale in un ecosistema sostenibile guidato dagli investimenti responsabili.",
+    },
+  },
 ];
 
 export const providers: NetworkEntry[] = [

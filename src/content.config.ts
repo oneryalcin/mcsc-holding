@@ -24,6 +24,7 @@ const team = defineCollection({
     image: z.string(),
     category: z.enum(['Partners', 'Advisors', 'Providers']),
     order: z.number().default(0),
+    honorific: z.string().optional(),
   }),
 });
 

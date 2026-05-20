@@ -6,11 +6,19 @@ const { locale = 'en' } = Astro.props;
 
 const basePath = locale === 'en' ? '' : `/${locale}`;
 
-const exploreLinks = [
+const groupLinks = [
   { label: t('nav.theGroup', locale), href: `${basePath}/#the-group` },
-  { label: t('nav.locations', locale), href: `${basePath}/#locations` },
   { label: t('nav.expertise', locale), href: `${basePath}/#expertise` },
+  { label: t('nav.serviceOffers', locale), href: `${basePath}/#service-offers` },
+  { label: t('nav.howWeWork', locale), href: getLocalePath('/how-we-work', locale) },
+  { label: t('nav.clientSituations', locale), href: getLocalePath('/client-situations', locale) },
+  { label: t('nav.locations', locale), href: `${basePath}/#locations` },
+];
+
+const otherLinks = [
   { label: t('nav.keyPeople', locale), href: `${basePath}/#key-people` },
+  { label: t('nav.partnerships', locale), href: getLocalePath('/partnerships', locale) },
+  { label: t('nav.providers', locale), href: getLocalePath('/providers', locale) },
   { label: t('nav.insights', locale), href: `${basePath}/#insights` },
   { label: t('nav.contact', locale), href: `${basePath}/#contact` },
   { label: t('nav.faq', locale), href: getLocalePath('/faq', locale) },
@@ -41,11 +49,18 @@ const exploreLinks = [
 
       <div>
         <h4 class="text-xs uppercase tracking-[0.2em] font-bold text-brand-gold mb-6">{t('footer.explore', locale)}</h4>
-        <ul class="space-y-4 text-sm font-light text-gray-300">
-          {exploreLinks.map((link) => (
-            <li><a href={link.href} class="hover:text-brand-gold transition-colors">{link.label}</a></li>
-          ))}
-        </ul>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm font-light text-gray-300">
+          <ul class="space-y-4">
+            {groupLinks.map((link) => (
+              <li><a href={link.href} class="hover:text-brand-gold transition-colors">{link.label}</a></li>
+            ))}
+          </ul>
+          <ul class="space-y-4">
+            {otherLinks.map((link) => (
+              <li><a href={link.href} class="hover:text-brand-gold transition-colors">{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div>
@@ -62,8 +77,6 @@ const exploreLinks = [
       <p>{t('footer.copyright', locale)}</p>
       <div class="flex gap-8">
         <a href={getLocalePath('/privacy', locale)} class="hover:text-brand-gold transition-colors">{t('footer.privacy', locale)}</a>
-        <a href={getLocalePath('/legal', locale)} class="hover:text-brand-gold transition-colors">{t('footer.terms', locale)}</a>
-        <a href="#" class="hover:text-brand-gold transition-colors">{t('footer.governance', locale)}</a>
       </div>
     </div>
   </div>
