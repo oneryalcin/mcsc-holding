@@ -1,5 +1,5 @@
 ---
-import { t, type Locale } from '../i18n/utils';
+import { t, getLocalePath, type Locale } from '../i18n/utils';
 
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
@@ -13,6 +13,16 @@ const { locale = 'en' } = Astro.props;
       <div class="space-y-6 text-gray-600 leading-relaxed">
         <p>{t('group.body1', locale)}</p>
         <p>{t('group.body2', locale)}</p>
+      </div>
+      <div class="flex flex-wrap gap-10 mt-10">
+        <a href={getLocalePath('/how-we-work', locale)} class="border-l-2 border-brand-gold pl-4 group hover:border-brand-navy transition-colors">
+          <p class="text-xl font-serif text-brand-navy group-hover:text-brand-gold transition-colors">{t('group.btn.methods', locale)}</p>
+          <p class="text-[10px] uppercase tracking-widest text-gray-400 mt-1">{t('group.btn.methods.sub', locale)}</p>
+        </a>
+        <a href={getLocalePath('/client-situations', locale)} class="border-l-2 border-brand-gold pl-4 group hover:border-brand-navy transition-colors">
+          <p class="text-xl font-serif text-brand-navy group-hover:text-brand-gold transition-colors">{t('group.btn.work', locale)}</p>
+          <p class="text-[10px] uppercase tracking-widest text-gray-400 mt-1">{t('group.btn.work.sub', locale)}</p>
+        </a>
       </div>
     </div>
 

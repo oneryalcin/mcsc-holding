@@ -6,15 +6,28 @@ const { locale = 'en' } = Astro.props;
 
 const basePath = locale === defaultLocale ? '' : `/${locale}`;
 
+const rawPath = Astro.url.pathname;
+const pathWithoutLocale = rawPath.replace(/^\/(fr|it)/, '') || '/';
+const switchPath = (l: Locale) => l === defaultLocale ? pathWithoutLocale : `/${l}${pathWithoutLocale}`;
+
 type NavItem =
   | { type: 'link'; label: string; href: string }
   | { type: 'dropdown'; label: string; children: { label: string; href: string }[] };
 
 const navItems: NavItem[] = [
   { type: 'link', label: t('nav.home', locale), href: `${basePath}/` },
-  { type: 'link', label: t('nav.theGroup', locale), href: `${basePath}/#the-group` },
-  { type: 'link', label: t('nav.locations', locale), href: `${basePath}/#locations` },
-  { type: 'link', label: t('nav.expertise', locale), href: `${basePath}/#expertise` },
+  {
+    type: 'dropdown',
+    label: t('nav.theGroup', locale),
+    children: [
+      { label: t('nav.theGroup', locale), href: `${basePath}/#the-group` },
+      { label: t('nav.expertise', locale), href: `${basePath}/#expertise` },
+      { label: t('nav.serviceOffers', locale), href: `${basePath}/#service-offers` },
+      { label: t('nav.howWeWork', locale), href: getLocalePath('/how-we-work', locale) },
+      { label: t('nav.clientSituations', locale), href: getLocalePath('/client-situations', locale) },
+      { label: t('nav.locations', locale), href: `${basePath}/#locations` },
+    ],
+  },
   {
     type: 'dropdown',
     label: t('nav.keyPeople', locale),
@@ -97,7 +110,7 @@ const navItems: NavItem[] = [
         <>
           {i > 0 && <span>|</span>}
           <a
-            href={getLocalePath('/', l)}
+            href={switchPath(l)}
             class:list={[l === locale ? 'text-brand-gold' : 'text-brand-navy']}
           >
             {l.toUpperCase()}
@@ -156,7 +169,7 @@ const navItems: NavItem[] = [
     <div class="flex gap-4 px-6 pb-6 text-xs label-upper">
       {locales.map((l) => (
         <a
-          href={getLocalePath('/', l)}
+          href={switchPath(l)}
           class:list={[l === locale ? 'text-brand-gold' : 'text-brand-navy/50']}
         >
           {l.toUpperCase()}

@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import { t, getLocalePath, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+
+const steps = [
+  { n: '01', title: t('methods.step1.title', locale).replace(/^\d+\.\s*/, ''), paragraphs: t('methods.step1.body', locale).split('\n\n') },
+  { n: '02', title: t('methods.step2.title', locale).replace(/^\d+\.\s*/, ''), paragraphs: t('methods.step2.body', locale).split('\n\n') },
+  { n: '03', title: t('methods.step3.title', locale).replace(/^\d+\.\s*/, ''), paragraphs: t('methods.step3.body', locale).split('\n\n') },
+];
+---
+
+<Layout title={`${t('methods.headline', locale)} | MCSC Group`} description={t('methods.intro.body', locale).slice(0, 160)} locale={locale}>
+  <Navbar locale={locale} />
+  <main>
+
+    <!-- Hero: full-width image with overlay text -->
+    <section class="relative h-[480px] flex items-end">
+      <img
+        src="/images/how-we-work-hero.avif"
+        alt="How We Work"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-white/60"></div>
+      <div class="relative z-10 px-12 pb-16 max-w-3xl">
+        <span class="text-brand-navy text-xs font-bold tracking-[0.25em] uppercase block mb-4">{t('methods.label', locale)}</span>
+        <h1 class="text-5xl md:text-6xl font-serif text-brand-navy mb-6">{t('methods.headline', locale)}</h1>
+        <blockquote class="border-l-4 border-brand-navy pl-4 text-gray-700 text-base">
+          {t('methods.intro.title', locale)}
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- Trusted partner -->
+    <section class="py-20 bg-white border-b border-brand-sand/30">
+      <div class="mx-auto max-w-7xl px-6 md:px-12">
+        <h2 class="text-3xl md:text-4xl font-serif text-brand-navy mb-6 max-w-lg">{t('methods.partner.title', locale)}</h2>
+        <p class="text-gray-600 leading-relaxed max-w-2xl">{t('methods.intro.body', locale)}</p>
+      </div>
+    </section>
+
+    <!-- Steps: 3 columns -->
+    <section class="py-24 bg-white">
+      <div class="mx-auto max-w-7xl px-6 md:px-12">
+        <div class="grid md:grid-cols-3 gap-12">
+          {steps.map((step) => (
+            <div>
+              <div class="flex items-center gap-4 mb-6">
+                <span class="text-4xl font-serif text-gray-200 font-bold">{step.n}</span>
+                <div class="flex-1 h-px bg-gray-200"></div>
+              </div>
+              <h3 class="text-xl font-serif text-brand-navy mb-4">{step.title}</h3>
+              {step.paragraphs.map((p: string) => (
+                <p class="text-gray-500 text-sm leading-relaxed mb-3">{p}</p>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing navy card -->
+    <section class="py-16 px-6 md:px-12">
+      <div class="mx-auto max-w-7xl">
+        <div class="bg-brand-navy p-12 md:p-16 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-serif text-brand-gold leading-tight mb-6">
+              {t('methods.approach.headline', locale)}
+            </h2>
+            <div class="w-12 h-0.5 bg-brand-gold"></div>
+          </div>
+          <div>
+            <blockquote class="text-gray-300 italic leading-relaxed mb-8">
+              "{t('methods.approach.body', locale)}"
+            </blockquote>
+            <a href={getLocalePath('/#expertise', locale)} class="text-[10px] font-bold uppercase tracking-[0.2em] text-white hover:text-brand-gold transition-colors">
+              {t('methods.approach.label', locale)} &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer locale={locale} />
+</Layout>

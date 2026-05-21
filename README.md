@@ -1,6 +1,6 @@
 # MCSC Management
 
-Corporate website for MCSC Management — a global sports advisory and management consulting firm based in Monaco, Milan, and Geneva.
+Corporate website for MCSC Management — a global sports advisory and management consulting firm based in Monaco, Milan, and Lugano.
 
 Built with Astro 6, Tailwind CSS 4, and Decap CMS. Trilingual (English, French, Italian). Deployed on Netlify.
 

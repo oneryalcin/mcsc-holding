@@ -4,28 +4,24 @@ import { t, type Locale } from '../i18n/utils';
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 
+function getItems(prefix: string) {
+  return [1,2,3,4,5,6,7]
+    .map(n => t(`${prefix}.item${n}`, locale))
+    .filter(v => v && !v.startsWith(prefix));
+}
+
 const offers = [
   {
     title: t('services.core.title', locale),
     desc: t('services.core.desc', locale),
-    items: [
-      t('services.core.item1', locale),
-      t('services.core.item2', locale),
-      t('services.core.item3', locale),
-      t('services.core.item4', locale),
-    ],
+    items: getItems('services.core'),
     cta: t('services.core.cta', locale),
     style: 'dark',
   },
   {
     title: t('services.elite.title', locale),
     desc: t('services.elite.desc', locale),
-    items: [
-      t('services.elite.item1', locale),
-      t('services.elite.item2', locale),
-      t('services.elite.item3', locale),
-      t('services.elite.item4', locale),
-    ],
+    items: getItems('services.elite'),
     cta: t('services.elite.cta', locale),
     style: 'featured',
     badge: t('services.elite.badge', locale),
@@ -33,12 +29,7 @@ const offers = [
   {
     title: t('services.institutional.title', locale),
     desc: t('services.institutional.desc', locale),
-    items: [
-      t('services.institutional.item1', locale),
-      t('services.institutional.item2', locale),
-      t('services.institutional.item3', locale),
-      t('services.institutional.item4', locale),
-    ],
+    items: getItems('services.institutional'),
     cta: t('services.institutional.cta', locale),
     style: 'dark',
   },
@@ -48,7 +39,6 @@ const offers = [
 <section class="py-24 bg-white border-y border-brand-sand/30" id="service-offers">
   <div class="container mx-auto px-6">
     <div class="text-center mb-16">
-      <span class="text-brand-gold text-sm font-semibold tracking-widest uppercase mb-4 block">{t('services.label', locale)}</span>
       <h2 class="text-4xl md:text-5xl">{t('services.headline', locale)}</h2>
     </div>
     <div class="grid md:grid-cols-3 gap-10">

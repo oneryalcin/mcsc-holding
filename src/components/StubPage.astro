@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import { t, getLocalePath, type Locale } from '../i18n/utils';
+
+interface Props {
+  kind: 'methods' | 'situations';
+  locale?: Locale;
+}
+
+const { kind, locale = 'en' } = Astro.props;
+const headline = t(`${kind}.headline`, locale);
+const label = t(`${kind}.label`, locale);
+---
+
+<Layout title={`${headline} | MCSC Group`} description={headline} locale={locale}>
+  <Navbar locale={locale} />
+  <main>
+    <section class="pt-32 pb-16 bg-brand-navy text-white">
+      <div class="mx-auto max-w-7xl px-6 text-center">
+        <span class="text-brand-gold text-sm font-semibold tracking-widest uppercase mb-4 block">{label}</span>
+        <h1 class="text-4xl md:text-5xl font-serif">{headline}</h1>
+      </div>
+    </section>
+    <section class="py-32 bg-brand-cream">
+      <div class="mx-auto max-w-7xl px-6 text-center text-gray-500 text-lg">
+        {t(`${kind}.body`, locale)}
+      </div>
+    </section>
+  </main>
+  <Footer locale={locale} />
+</Layout>

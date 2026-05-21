@@ -1231,7 +1231,7 @@
   │    "address": [                                      │
   │      { "addressLocality": "Monaco",  "country": "MC" }│
   │      { "addressLocality": "Milan",   "country": "IT" }│
-  │      { "addressLocality": "Geneva",  "country": "CH" }│
+  │      { "addressLocality": "Lugano",  "country": "CH" }│
   │    ]                                                 │
   │  }                                                   │
   │                                                      │
@@ -1241,7 +1241,7 @@
   │  │ Sports advisory firm          │                   │
   │  │ Founded: 1993                 │  ← Knowledge      │
   │  │ Locations: Monaco, Milan,     │     panel         │
-  │  │            Geneva             │                   │
+  │  │            Lugano             │                   │
   │  └───────────────────────────────┘                   │
   └──────────────────────────────────────────────────────┘
 

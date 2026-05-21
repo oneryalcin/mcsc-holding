@@ -18,6 +18,7 @@ export async function getStaticPaths() {
 }
 
 const { person } = Astro.props;
+const displayName = person.data.honorific ? `Me ${person.data.name}` : person.data.name;
 const bio = t(`team.${person.data.slug}.bio`, locale);
 const role = t(`team.${person.data.slug}.role`, locale);
 const paragraphs = bio.split('\n').filter((p: string) => p.trim());
@@ -29,7 +30,7 @@ const taggedArticles = allInsights.filter(({ entry }) =>
 const personJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Person",
-  name: person.data.name,
+  name: displayName,
   jobTitle: role,
   image: person.data.image.startsWith("http") ? person.data.image : `https://mcsc-group.com${person.data.image}`,
   worksFor: { "@type": "Organization", name: "MCSC Group", url: "https://mcsc-group.com" },
@@ -39,7 +40,7 @@ const personJsonLd = JSON.stringify({
 
 <Layout
   locale={locale}
-  title={`${person.data.name} — ${role} | MCSC Group`}
+  title={`${displayName} — ${role} | MCSC Group`}
   description={paragraphs[0]?.slice(0, 160)}
   ogImage={person.data.image}
 >
@@ -52,7 +53,7 @@ const personJsonLd = JSON.stringify({
           <a href="/fr/#key-people" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; {t('ui.backToTeam', locale)}</a>
         </div>
         <span class="text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold">{role}</span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{person.data.name}</h1>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{displayName}</h1>
       </div>
     </section>
 
