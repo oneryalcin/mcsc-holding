@@ -5,7 +5,7 @@ title: " Elizaveta Bracht-Tishchenko: «Build your personal brand around your
 category: Insights
 publishDate: 2026-05-21T18:49:00.000+02:00
 coverImage: /images/uploads/img_6180.jpg
-excerpt: >+
+excerpt: >
   How to reinvent yourself after two Olympic silver medals? She played for top
   clubs in Russia, Japan, Italy, Switzerland, Croatia and Germany, now Elizaveta
   shares her experience.
@@ -36,4 +36,6 @@ So if I had to distill the transition into a few principles:
 
 Build your personal brand around your next identity, not your last one. You were an athlete. Now you are someone who was an athlete and is becoming something else. The world is interested in both — but only if you lead them forward.
 
-Be willing to not know things. The printer moment will come for every athlete. How you respond to it will define the next chapter more than any medal ever could.
+Be willing to not know things. The printer moment will come for every athlete. How you respond to it will define the next chapter more than any medal ever could".
+
+**Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/105730866/admin/dashboard/) and [Instagram](https://www.instagram.com/mcscgroup).**
