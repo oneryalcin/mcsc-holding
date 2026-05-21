@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 const { person } = Astro.props;
-const displayName = person.data.honorific ? `Me. ${person.data.name}` : person.data.name;
+const displayName = person.data.honorific ? `Me ${person.data.name}` : person.data.name;
 const bio = t(`team.${person.data.slug}.bio`, locale);
 const role = t(`team.${person.data.slug}.role`, locale);
 const paragraphs = bio.split('\n').filter((p: string) => p.trim());
