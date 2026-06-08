@@ -20,3 +20,5 @@ In this specific case, we work with partners and with service providers since ma
 I consider in specific case the sports entertainment person like very similar to a family office client with complex needs, international diversified with several advisors and a timing factor that does not allow them to take care personally about their own needs. Here we come into the game, we understand their specific, we understand their way of living, we understand the fact that their career is very short to medium to long term but is very focused on the years of performance and will be totally different thereafter.
 
 We think that we are in the position of being able to assist and to deliver the specific service required for each moment of the career of the sports and entertainment person."
+
+Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/105730866/) and [Instagram](https://www.instagram.com/mcscgroup/).
