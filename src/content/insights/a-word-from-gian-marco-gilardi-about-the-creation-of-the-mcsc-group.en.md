@@ -21,4 +21,4 @@ I consider in specific case the sports entertainment person like very similar to
 
 We think that we are in the position of being able to assist and to deliver the specific service required for each moment of the career of the sports and entertainment person."
 
-Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/105730866/) and [Instagram](https://www.instagram.com/mcscgroup/).
+Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/mcscgroup) and [Instagram](https://www.instagram.com/mcscgroup/).
