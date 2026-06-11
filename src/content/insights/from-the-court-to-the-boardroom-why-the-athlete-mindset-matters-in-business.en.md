@@ -10,7 +10,7 @@ excerpt: Recently the advisor of MCSC Group Martina Bestagno attended the event
 tags:
   - martina-bestagno
 ---
-Recently the advisor of MCSC Group [Martina Bestagno](https://www.linkedin.com/in/martina-bestagno-452a03188/) attended the event organized by our partners [repeople-network](https://www.linkedin.com/company/repeople-network/). She shared her insights about this experience: 
+Recently the advisor of MCSC Group **Martina Bestagno** attended the event organized by our partners Repeople-network. She shared her insights about this experience: 
 
 «I had the privilege of attending the Repeople Partner & Sponsor Night at Golf Club de Bonmont — and it was exactly the kind of room I came to Geneva for.
 
@@ -19,3 +19,5 @@ Real estate, luxury, finance, lifestyle. People who build things. People who inv
 As Strategic Advisor at MCSC, I’m learning that the transition from elite sport to the business world isn’t a leap — it’s a translation. The same instincts that made me competitive on the court are the ones that make me curious, prepared, and present in rooms like this one.
 
 Grateful to repeople for bringing together such a remarkable crowd. And grateful for every conversation that reminded me: the game has changed, but the mindset hasn’t».
+
+Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/mcscgroup) and [Instagram](https://www.instagram.com/mcscgroup/).
