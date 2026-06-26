@@ -26,3 +26,5 @@ The addition of Alexandros Dohn to our Network of Advisors reinforces our commit
 We look forward to working together and creating new opportunities through the combination of expertise, competencies and international vision.
 
 Welcome to the MCSC ecosystem.
+
+Follow all MCSC Group news on our official [LinkedIn](https://www.linkedin.com/company/mcscgroup) and [Instagram](https://www.instagram.com/mcscgroup/).
