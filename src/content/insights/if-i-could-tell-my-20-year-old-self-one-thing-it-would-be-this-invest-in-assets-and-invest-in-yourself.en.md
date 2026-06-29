@@ -8,6 +8,8 @@ coverImage: /images/uploads/img_5657.jpg
 excerpt: She won two Olympic silver medals. She played for top clubs in Russia,
   Japan, Italy, Switzerland, Croatia and Germany. She earned serious money and
   at that time nobody taught her what to do with it.
+tags:
+  - elizaveta-bracht
 ---
 She won two Olympic silver medals. She played for top clubs in Russia, Japan, Italy, Switzerland, Croatia and Germany. She earned serious money and at that time nobody taught her what to do with it.
 
