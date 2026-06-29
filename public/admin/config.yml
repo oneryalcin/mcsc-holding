@@ -36,11 +36,18 @@ collections:
         options:
           - { label: "Gian Marco Gilardi", value: "gian-marco-gilardi" }
           - { label: "Francesco Prazzo", value: "francesco-prazzo" }
-          - { label: "Nathan Cordero di Montezemolo", value: "nathan-cordero-di-montezemolo" }
-          - { label: "Gianmatteo Terruzzi", value: "gianmatteo-terruzzi" }
-          - { label: "Martina Bestagno", value: "martina-bestagno" }
-          - { label: "Avv. Cosimo Andrea Vestuti", value: "cosimo-andrea-vestuti" }
-          - { label: "Avv. Alessandro Belluzzo", value: "alessandro-belluzzo" }
+          - { label: "Francesco Bongarrà", value: "francesco-bongarra" }
           - { label: "Avv. Paolo Zanazza", value: "paolo-zanazza" }
           - { label: "Arvine Zamani", value: "arvine-zamani" }
+          - { label: "Gianmatteo Terruzzi", value: "gianmatteo-terruzzi" }
+          - { label: "Avv. Cosimo Andrea Vestuti", value: "cosimo-andrea-vestuti" }
+          - { label: "Sofia Gilardi", value: "sofia-gilardi" }
+          - { label: "Nathan Cordero di Montezemolo", value: "nathan-cordero-di-montezemolo" }
+          - { label: "Avv. Alessandro Belluzzo", value: "alessandro-belluzzo" }
+          - { label: "Lada Alekseeva", value: "lada-alekseeva" }
+          - { label: "Massimo Pedrazzini", value: "massimo-pedrazzini" }
+          - { label: "Marco Cordero Di Montezemolo", value: "marco-cordero-di-montezemolo" }
+          - { label: "Elizaveta Bracht", value: "elizaveta-bracht" }
+          - { label: "Alexandros Dohn", value: "alexandros-dohn" }
+          - { label: "Martina Bestagno", value: "martina-bestagno" }
       - { name: "body", label: "Body", widget: "markdown", i18n: true }
