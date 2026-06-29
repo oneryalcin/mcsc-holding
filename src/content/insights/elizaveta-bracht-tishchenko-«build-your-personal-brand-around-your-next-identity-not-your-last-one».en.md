@@ -9,6 +9,8 @@ excerpt: >
   How to reinvent yourself after two Olympic silver medals? She played for top
   clubs in Russia, Japan, Italy, Switzerland, Croatia and Germany, now Elizaveta
   shares her experience.
+tags:
+  - elizaveta-bracht
 ---
 "For me, the transition out of elite sport wasn’t just a career change. It was a complete **life reconstruction**.
 
