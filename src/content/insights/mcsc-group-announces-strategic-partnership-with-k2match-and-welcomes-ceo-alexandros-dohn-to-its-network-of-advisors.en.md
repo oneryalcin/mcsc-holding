@@ -10,6 +10,7 @@ excerpt: MCSC Group is pleased to announce a new strategic partnership with
   Startups, ScaleUps, investors and business leaders.
 tags:
   - gian-marco-gilardi
+  - alexandros-dohn
 ---
 As part of this collaboration, Alexandros Dohn, CEO & Co-Founder of K2MATCH, joins the MCSC Group Network of Advisors, further strengthening the international expertise and multidisciplinary approach that define our ecosystem.
 
