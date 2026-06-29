@@ -6,28 +6,80 @@ interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 
 const allTeam = await getCollection('team');
-const people = allTeam.sort((a, b) => a.data.order - b.data.order);
+const teamBySlug = new Map(allTeam.map((person) => [person.data.slug, person]));
+
+const getPeople = (slugs: string[]) => slugs
+  .map((slug) => teamBySlug.get(slug))
+  .filter(Boolean);
+
+const boardRows = [
+  getPeople(['gian-marco-gilardi', 'francesco-prazzo', 'francesco-bongarra', 'paolo-zanazza']),
+  getPeople(['arvine-zamani', 'gianmatteo-terruzzi', 'cosimo-andrea-vestuti', 'sofia-gilardi', 'nathan-cordero-di-montezemolo']),
+  getPeople(['alessandro-belluzzo', 'lada-alekseeva']),
+];
+
+const advisorRows = [
+  getPeople(['massimo-pedrazzini', 'marco-cordero-di-montezemolo', 'elizaveta-bracht', 'alexandros-dohn', 'martina-bestagno']),
+];
+
+const rowGridClasses: Record<number, string> = {
+  2: 'md:grid-cols-2 max-w-xl',
+  4: 'md:grid-cols-4 max-w-5xl',
+  5: 'md:grid-cols-5 max-w-6xl',
+};
+
+const getDisplayName = (person: any) => {
+  if (!person.data.honorific) return person.data.name;
+  if (locale === 'fr') return `Me ${person.data.name}`;
+  if (locale === 'it') return `${person.data.honorific} ${person.data.name}`;
+  return person.data.name;
+};
 
 ---
 
 <section class="py-24 bg-brand-navy text-white" id="key-people">
   <div class="container mx-auto px-6">
-    <div class="mb-16">
-      <span class="text-brand-gold text-sm font-semibold tracking-widest uppercase mb-4 block">{t('people.label', locale)}</span>
-      <h2 class="text-4xl md:text-5xl">{t('people.headline', locale)}</h2>
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl">{t('people.boardPartners.title', locale)}</h2>
+      <div class="mt-5 mx-auto h-px w-80 max-w-full bg-white/10"></div>
     </div>
 
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-      {people.map((person) => (
-        <a href={getLocalePath(`/team/${person.data.slug}`, locale)} class="group flex flex-col">
-          <div class="aspect-square overflow-hidden mb-6 relative bg-brand-cream/5">
-            <img src={person.data.image} alt={person.data.name} class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" loading="lazy" />
-            <div class="absolute inset-0 bg-brand-gold/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <h3 class="text-xl font-serif mb-1 group-hover:text-brand-gold transition-colors">{person.data.honorific ? (locale === 'fr' ? `Me ${person.data.name}` : locale === 'it' ? `${person.data.honorific} ${person.data.name}` : person.data.name) : person.data.name}</h3>
-          <p class="text-brand-gold text-xs uppercase tracking-widest flex-1">{t(`team.${person.data.slug}.role`, locale)}</p>
-          <span class="text-brand-gold text-[10px] uppercase tracking-widest font-bold mt-4 inline-block">{t('ui.learnMore', locale)} &rarr;</span>
-        </a>
+    <div class="space-y-12">
+      {boardRows.map((row) => (
+        <div class={`mx-auto grid grid-cols-2 gap-x-8 gap-y-12 sm:gap-x-10 justify-items-center ${rowGridClasses[row.length] ?? 'md:grid-cols-3 max-w-4xl'}`}>
+          {row.map((person) => (
+            <a href={getLocalePath(`/team/${person.data.slug}`, locale)} class="group block w-full max-w-[170px] text-center">
+              <div class="aspect-[3/4] overflow-hidden mb-4 relative bg-white border border-white/25 shadow-sm">
+                <img src={person.data.image} alt={person.data.name} class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" loading="lazy" />
+                <div class="absolute inset-0 bg-brand-gold/15 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              </div>
+              <h3 class="text-lg md:text-xl font-serif leading-tight mb-1 group-hover:text-brand-gold transition-colors">{getDisplayName(person)}</h3>
+              <p class="text-brand-gold text-[10px] uppercase tracking-widest leading-snug">{t(`team.${person.data.slug}.role`, locale)}</p>
+            </a>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center mt-24 mb-14">
+      <h2 class="text-4xl md:text-5xl">{t('people.advisors.title', locale)}</h2>
+      <div class="mt-5 mx-auto h-px w-80 max-w-full bg-white/10"></div>
+    </div>
+
+    <div class="space-y-12">
+      {advisorRows.map((row) => (
+        <div class={`mx-auto grid grid-cols-2 gap-x-8 gap-y-12 sm:gap-x-10 justify-items-center ${rowGridClasses[row.length] ?? 'md:grid-cols-3 max-w-4xl'}`}>
+          {row.map((person) => (
+            <a href={getLocalePath(`/team/${person.data.slug}`, locale)} class="group block w-full max-w-[170px] text-center">
+              <div class="aspect-[3/4] overflow-hidden mb-4 relative bg-white border border-white/25 shadow-sm">
+                <img src={person.data.image} alt={person.data.name} class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" loading="lazy" />
+                <div class="absolute inset-0 bg-brand-gold/15 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              </div>
+              <h3 class="text-lg md:text-xl font-serif leading-tight mb-1 group-hover:text-brand-gold transition-colors">{getDisplayName(person)}</h3>
+              <p class="text-brand-gold text-[10px] uppercase tracking-widest leading-snug">{t(`team.${person.data.slug}.role`, locale)}</p>
+            </a>
+          ))}
+        </div>
       ))}
     </div>
   </div>
