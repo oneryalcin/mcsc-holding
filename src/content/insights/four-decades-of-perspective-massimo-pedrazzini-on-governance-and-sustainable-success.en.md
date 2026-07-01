@@ -3,12 +3,15 @@ locale: en
 title: "Four Decades of Perspective: Massimo Pedrazzini on Governance and
   Sustainable Success"
 category: Insights
-publishDate: 2026-07-01T12:56:00.000+02:00
+publishDate: 2026-07-01T13:10:00.000+02:00
+coverImage: /images/uploads/massimo_pedrazzini_profilo2025.jpg
 excerpt: For more than four decades, Massimo Pedrazzini has advised
   entrepreneurs, multinational groups, family offices and boards of directors on
   some of their most complex strategic decisions — spanning corporate
   governance, international taxation, M&A, succession planning and cross-border
   structuring.
+tags:
+  - massimo-pedrazzini
 ---
 For more than four decades, Massimo Pedrazzini has advised entrepreneurs, multinational groups, family offices and boards of directors on some of their most complex strategic decisions — spanning corporate governance, international taxation, M&A, succession planning and cross-border structuring.
 
