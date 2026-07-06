@@ -20,6 +20,9 @@ export function getLocaleFromUrl(url: URL): Locale {
 }
 
 export function getLocalePath(path: string, locale: Locale): string {
-  if (locale === defaultLocale) return path;
-  return `/${locale}${path}`;
+  const localized = locale === defaultLocale ? path : `/${locale}${path}`;
+  // Netlify serves directory URLs with a trailing slash; emit links in that
+  // form so internal navigation doesn't bounce through a 301.
+  if (localized.includes('#') || localized.includes('?') || localized.endsWith('/')) return localized;
+  return `${localized}/`;
 }

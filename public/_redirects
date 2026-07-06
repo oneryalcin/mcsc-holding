@@ -1,0 +1,7 @@
+# Netlify redirect rules — https://docs.netlify.com/routing/redirects/
+#
+# Whenever an insight slug is renamed or an article is removed, add a 301 here
+# so existing Google results and shared links keep working, e.g.:
+#   /insights/old-slug/    /insights/new-slug/    301
+#   /fr/insights/old-slug/ /fr/insights/new-slug/ 301
+#   /it/insights/old-slug/ /it/insights/new-slug/ 301

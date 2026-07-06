@@ -24,17 +24,24 @@ const formattedDate = publishDate.toLocaleDateString(dateLocale, {
 });
 
 // Article JSON-LD
+const siteUrl = Astro.site?.origin ?? 'https://mcsc-group.com';
 const articleJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
   description,
-  image: coverImage.startsWith('http') ? coverImage : `https://mcsc-group.com${coverImage}`,
+  image: coverImage.startsWith('http') ? coverImage : `${siteUrl}${coverImage}`,
   datePublished: publishDate.toISOString(),
+  dateModified: publishDate.toISOString(),
+  author: {
+    '@type': 'Organization',
+    name: 'MCSC Group',
+    url: siteUrl,
+  },
   publisher: {
     '@type': 'Organization',
     name: 'MCSC Group',
-    url: 'https://mcsc-group.com',
+    url: siteUrl,
   },
   mainEntityOfPage: Astro.url.href,
 });

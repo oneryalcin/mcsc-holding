@@ -38,11 +38,15 @@ Decap CMS at `/admin/` — git-gateway backend via Netlify Identity. Editorial w
 
 ### Styling
 
-Brand colors defined in `src/styles/global.css`: navy (#1a1f2e), gold (#c4a44a), cream (#f5f0e8). Fonts: Playfair Display (headings), DM Sans (body).
+Brand colors defined in `src/styles/global.css` (`@theme` block): navy (#121926), gold (#A38E64), cream (#F5F3EF), plus sand/dark/muted. Fonts: Playfair Display (headings), Inter (body).
+
+### URLs
+
+`trailingSlash: 'always'` in `astro.config.mjs` — Netlify serves each page as `/path/`, so all internal links must end with a trailing slash (`getLocalePath()` appends it automatically). When renaming/removing an insight slug, add a 301 in `public/_redirects`.
 
 ### Homepage Section Order
 
-Hero → Licenses → TheGroup → StrategicPillars → KeyPeople → Locations → InsightsNews → LinkedInCTA → ContactForm → Footer
+Hero → Licenses → TheGroup → KeyPeople → Locations → StrategicPillars → ServiceOffers → InsightsNews → ContactForm → Footer
 
 ### SEO
 
@@ -52,4 +56,4 @@ Layout.astro includes hreflang tags, JSON-LD (Organization + WebSite schema), Op
 
 - **Formspree** (contact form): form ID `mqeydjnz`
 - **Netlify Identity** (CMS auth)
-- **Google Fonts** (Playfair Display, DM Sans)
+- **Google Fonts** (Playfair Display, Inter)

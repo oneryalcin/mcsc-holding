@@ -27,7 +27,7 @@ const articles = await getLocalizedInsights(locale);
         <div class="grid md:grid-cols-3 gap-8" id="insight-grid">
           {articles.map(({ entry, slug }) => (
             <article class="group insight-card" data-category={entry.data.category}>
-              <a href={`/it/insights/${slug}`} class="block">
+              <a href={`/it/insights/${slug}/`} class="block">
                 <div class="mb-6 overflow-hidden aspect-video">
                   <img src={entry.data.coverImage} alt={entry.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 </div>
