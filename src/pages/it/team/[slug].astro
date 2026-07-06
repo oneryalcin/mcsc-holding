@@ -27,14 +27,15 @@ const allInsights = await getLocalizedInsights(locale);
 const taggedArticles = allInsights.filter(({ entry }) =>
   entry.data.tags?.includes(person.data.slug)
 );
+const siteUrl = Astro.site?.origin ?? "https://mcsc-group.com";
 const personJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Person",
   name: displayName,
   jobTitle: role,
-  image: person.data.image.startsWith("http") ? person.data.image : `https://mcsc-group.com${person.data.image}`,
-  worksFor: { "@type": "Organization", name: "MCSC Group", url: "https://mcsc-group.com" },
-  url: `https://mcsc-group.com/it/team/${person.data.slug}`,
+  image: person.data.image.startsWith("http") ? person.data.image : `${siteUrl}${person.data.image}`,
+  worksFor: { "@type": "Organization", name: "MCSC Group", url: siteUrl },
+  url: `${siteUrl}/it/team/${person.data.slug}/`,
 });
 ---
 
@@ -79,7 +80,7 @@ const personJsonLd = JSON.stringify({
           <div class="grid md:grid-cols-3 gap-8">
             {taggedArticles.map(({ entry, slug }) => (
               <article class="group">
-                <a href={`/it/insights/${slug}`} class="block">
+                <a href={`/it/insights/${slug}/`} class="block">
                   <div class="mb-4 overflow-hidden aspect-video">
                     <img src={entry.data.coverImage} alt={entry.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   </div>

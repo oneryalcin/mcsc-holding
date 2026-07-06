@@ -20,8 +20,10 @@ const {
 
 // Build hreflang URLs from current path
 const currentPath = Astro.url.pathname.replace(/^\/(fr|it)/, '') || '/';
-const siteUrl = 'https://mcsc-group.com';
+const siteUrl = Astro.site?.origin ?? 'https://mcsc-group.com';
 const canonicalUrl = canonicalOverride ?? `${siteUrl}${Astro.url.pathname}`;
+
+const ogLocales: Record<Locale, string> = { en: 'en_GB', fr: 'fr_FR', it: 'it_IT' };
 
 // Organization JSON-LD
 const orgJsonLd = JSON.stringify({
@@ -98,6 +100,10 @@ const websiteJsonLd = JSON.stringify({
   <meta property="og:site_name" content="MCSC Group" />
   <meta property="og:image" content={`${siteUrl}${ogImage}`} />
   <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
+  <meta property="og:locale" content={ogLocales[locale]} />
+  {locales.filter((l) => l !== locale).map((l) => (
+    <meta property="og:locale:alternate" content={ogLocales[l]} />
+  ))}
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -126,23 +132,27 @@ const websiteJsonLd = JSON.stringify({
   <!-- Structured Data -->
   <script type="application/ld+json" set:html={orgJsonLd} />
   <script type="application/ld+json" set:html={websiteJsonLd} />
-
-  <!-- Netlify Identity (required for Decap CMS login) -->
-  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body class="bg-brand-cream text-brand-dark antialiased">
   <slot />
 
-  <!-- Redirect to /admin/ after Netlify Identity login -->
+  <!-- Netlify Identity: invite/confirmation/recovery emails link to the site
+       root with a token in the hash. Only then load the widget and redirect
+       to /admin/ after login; every other visit skips the third-party JS. -->
   <script is:inline>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
+    if (/(invite_token|confirmation_token|recovery_token|email_change_token|access_token)/.test(window.location.hash)) {
+      var identityScript = document.createElement("script");
+      identityScript.src = "https://identity.netlify.com/v1/netlify-identity-widget.js";
+      identityScript.onload = function () {
+        window.netlifyIdentity.on("init", function (user) {
+          if (!user) {
+            window.netlifyIdentity.on("login", function () {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      };
+      document.head.appendChild(identityScript);
     }
   </script>
 

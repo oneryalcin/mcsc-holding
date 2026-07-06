@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
 const { entry, isFallback } = Astro.props;
 const { Content } = await render(entry);
-const canonicalOverride = isFallback ? `https://mcsc-group.com/insights/${Astro.params.slug}/` : undefined;
+const canonicalOverride = isFallback ? `${Astro.site?.origin ?? "https://mcsc-group.com"}/insights/${Astro.params.slug}/` : undefined;
 ---
 
 <ArticleLayout
