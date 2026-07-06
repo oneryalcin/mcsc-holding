@@ -4,7 +4,7 @@ title: "Beyond Creativity: Sofia Gilardi on Building Brands, Communities and
   Long-Term Value"
 category: Insights
 publishDate: 2026-07-06T11:08:00.000+02:00
-coverImage: /images/uploads/sofia-gilardi.jpeg
+coverImage: /images/uploads/sofia-gilardi-1.jpeg
 excerpt: In this conversation with MCSC Group, Sofia Gilardi shares her
   perspective on building brands with purpose, why discipline matters more than
   talent, how fashion can inspire the sports industry, and why the strongest
