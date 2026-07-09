@@ -43,7 +43,7 @@ The YAML `role` field exists but is dead for these views. One logical record is 
 - Displayed board row 1: gian-marco(order 1), francesco-prazzo(2), francesco-bongarrà(**11**), paolo-zanazza(**8**)
 - Sorting Partners by `order` produces a different sequence entirely; advisor `martina` (order 5) jumps from last to first.
 
-So `order` is populated with values that *look* authoritative but encode a different intent — sorting by it would silently reshuffle the leadership grid in all three locales. Additionally, the 4/5/2 (board) and 5 (advisors) row-breaks are hand-tuned and not derivable from any field. **Conclusion: homepage arrangement stays curated in code.** (See §3.1 for the honest boundary this draws.)
+So today `order` is populated with values that *look* authoritative but encode a different intent, and the 4/5/2 (board) / 5 (advisors) row-breaks are hand-tuned in the component. **Resolution (decided):** make the data authoritative by giving each member an editor-facing **`row`** (which visual row) + **`order`** (left-to-right position within that row), and **seed both by deriving them from the current rendered arrays** — so the layout stays pixel-identical *and* becomes CMS-controllable. The component then renders `category → row → order`; row length determines that row's column count (preserving 4/5/2). This is the human-meaningful semantics (seniority + deliberate grouping) made explicit in data rather than frozen in code. See §3.1.
 
 ### Coupling C — the Insights `tags` widget is a third roster copy
 
@@ -77,7 +77,7 @@ Downstream (whatever the pinned shape):
 - `content.config.ts` team schema: add `bio`; make `role`/`bio` optional so a blank locale falls back to EN.
 - `KeyPeople.astro` + all three `team/[slug].astro` read role/bio from the collection via a tiny `localeField(person, 'role', locale)` accessor (EN fallback). **No `getLocalizedTeam` grouping helper needed** — single-file means one entry per person, so `getStaticPaths` and the slug→person Map stay correct as-is.
 - Delete `team.<slug>.role/bio` keys from the 3 JSON files — **after** a repo-wide `grep 'team\.'` confirms nothing else references them.
-- **Homepage `boardRows`/`advisorRows` stay in `KeyPeople.astro`.** Documented as intentional curation. Adding a board member via CMS gives them a detail page + article-tagging immediately; homepage *placement* remains a deliberate one-line dev edit. This is the honest boundary — we don't claim otherwise.
+- **Homepage arrangement becomes data-driven (schema gains `row` + `order`).** `KeyPeople.astro`'s hardcoded `boardRows`/`advisorRows` arrays are replaced by: group members by `category` → group by `row` → sort by `order`. `row`/`order` are **seeded from the current arrays** in the migration so rendered output is byte-identical, then editable in the CMS. The grid is **fully dynamic**: a row's column count = the number of members with that `row` value (so 4/5/2 today is preserved, and editors can add a new row or resize any row just by editing `row` values). Column count is emitted via inline `grid-template-columns` (not dynamic Tailwind classes, which JIT won't generate) so any row size renders correctly.
 
 ### 3.2 Network becomes two content collections
 
@@ -107,8 +107,8 @@ Sign-off on v2 before code.
 ### Stage 1 — Key People
 - **1.0 Spike ✅ DONE:** pinned the on-disk shape from Decap v3 source + a parse test (no server/browser needed). Conclusion: **nested `{ en, fr, it }` object fields, no Decap i18n** (see §3.1). This is the shape reviewed and approved.
 - **1.1 Normalize filenames** so filename == `slug` field: rename `cosimo-vestuti.yaml`→`cosimo-andrea-vestuti.yaml`, `nathan-cordero.yaml`→`nathan-cordero-di-montezemolo.yaml`. Routes key off `person.data.slug`, so this is route-neutral (no `_redirects` needed). Optionally align image basenames.
-- **1.2 Migration script (throwaway):** fold `team.<slug>.role/bio` (keyed by **slug field**, not filename — catches the two renamed files) from the 3 JSON files into each YAML in the pinned shape. Spot-check ≥3 members incl. both renamed ones.
-- **1.3 Schema:** `content.config.ts` — add `bio`, make `role`/`bio` optional, drop the dead `quote` field.
+- **1.2 Migration script (throwaway):** (a) fold `team.<slug>.role/bio` (keyed by **slug field**, not filename — catches the two renamed files) from the 3 JSON files into each YAML as `{ en, fr, it }` objects; (b) **seed `row` + `order` for every member by deriving them from the current `boardRows`/`advisorRows` arrays** so layout is preserved exactly. Spot-check ≥3 members incl. both renamed ones.
+- **1.3 Schema:** `content.config.ts` — add `role`/`bio` as `{en,fr?,it?}` objects (EN required, FR/IT optional for fallback), add `row` (number), keep `order` (now = position within row), drop the dead `quote` field. Confirm `category` values actually match the two rendered sections (Partners → "Board & Partners", Advisors → "Advisors"); reconcile if not.
 - **1.4 Components:** `KeyPeople.astro` + 3× `team/[slug].astro` read role/bio from the collection via `person.data.role[locale]` (EN fallback). `boardRows`/`advisorRows` stay, with a comment marking them as curated.
 - **1.5 CMS:** add `team` collection to `config.yml`; convert Insights `tags` → `relation` widget.
 - **1.6 Cleanup:** `grep 'team\.'` repo-wide; delete migrated JSON keys only after confirming no other references.
@@ -133,7 +133,7 @@ Update `CLAUDE.md` CMS section with the collection inventory + the §3.4 recipe.
 |---|---|
 | **Wrong assumed Decap i18n shape** → schema/reader mismatch | RESOLVED by Stage 1.0 spike: nested-object fields verified against Decap v3 source + parse test before any schema code. |
 | **Build break** from route/lookup collisions | Nested-object fields keep one entry per person/entity → no duplicate `getStaticPaths` params, no Map overwrite. Verified as an explicit build gate (1.7/2.4). |
-| **Silent homepage reshuffle** | Homepage arrangement stays curated in code; `order` is *not* used for it. HTML diff gate proves zero visual change. |
+| **Silent homepage reshuffle** | `row`/`order` are *seeded from the current arrays*, so the first render is byte-identical; HTML diff gate proves zero visual change before editors touch anything. |
 | **Lost translations** in the JSON→YAML fold | Migration keyed by slug field; spot-check renamed members; EN fallback preserved; `grep` before deleting keys. |
 | **`/admin` can't be tested on localhost** (git-gateway needs Netlify Identity) | Real pre-merge gate = `build` + `dist/` HTML diff; `/admin/` round-trip verified on the **deploy preview**, and optionally via `local_backend`+`decap-server` in the spike. |
 | **Editor UX regression** (no drag-reorder for top-level entries; hand-typed `order` ints) | Accepted tradeoff, documented for editors; ordering changes are rare. |
@@ -144,7 +144,7 @@ Update `CLAUDE.md` CMS section with the collection inventory + the §3.4 recipe.
 
 1. **Network: two collections** (`partnerships` + `providers`) — clearer CMS UX, mirrors routes. ✅
 2. **Team i18n: nested `{ en, fr, it }` object fields, no Decap i18n machinery** (Stage 1.0 spike outcome — Decap-native single-file i18n was rejected because it nests all fields per-locale and breaks structural reads; §3.1). One file per person → no route collision. ✅
-3. **Homepage grouping: content-only; layout curated in code.** CMS owns text/image/honorific + detail pages + tagging; the 4/5/2 board rows stay in the component. ✅
+3. **Homepage grouping: editor-controlled via `row` + `order` fields; exact layout preserved.** Schema gains `row` (visual row) + `order` (position within row), both seeded from the current arrays so output is byte-identical. Editors can re-rank, re-group, and **add new rows**; grid is fully dynamic (column count = members in that row). CMS also owns text/image/honorific + detail pages + tagging. ✅
 4. **One PR, staged commits**, Stage 1 fully verified before Stage 2. ✅
 5. **Open:** any other sections editors want soon (services, licenses, locations, FAQ)? If yes, they become §3.4-recipe follow-ups.
 
