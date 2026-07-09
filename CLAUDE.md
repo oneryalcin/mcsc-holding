@@ -29,12 +29,19 @@ Node >=22.12.0 required.
 
 ### Content Collections (`src/content.config.ts`)
 
-- **insights**: Markdown files in `src/content/insights/` — frontmatter: title, category (News/Events/Insights), publishDate, coverImage, excerpt
-- **team**: YAML files in `src/content/team/` — fields: name, role, quote, image, category (Partners/Advisors/Providers), order
+- **insights**: Markdown files in `src/content/insights/` — frontmatter: title, category (News/Events/Insights), publishDate, coverImage, excerpt, tags (team slugs)
+- **team**: YAML files in `src/content/team/` — fields: name, slug, image, category (Partners/Advisors/Providers), honorific?, `row` + `order` (homepage layout), and `role`/`bio` as `{ en, fr, it }` objects. Filename == slug.
+- **partnerships** / **providers**: YAML files in `src/content/{partnerships,providers}/` — fields: name, url, logo?, order, desc as `{ en, fr, it }`. Consumed by `NetworkPage.astro` (sorted by `order`).
+
+**Translatable text pattern:** team `role`/`bio` and network `desc` store all three locales inline as a `{ en, fr, it }` object (EN required, FR/IT optional → fall back to EN), read as `data.field[locale] ?? data.field.en`. This is used *instead of* Decap's `multiple_files`/`single_file` i18n for these collections — Decap's native single-file i18n nests **every** field per-locale (breaking structural reads and triplicating data), so plain `object` widgets are used to get one file per record with clean top-level structural fields.
+
+**Homepage Key People layout is data-driven:** members group by `category` → `row` → `order`; a row's column count = number of members in it, so editors can re-rank, regroup, or add a whole new row from the CMS (`KeyPeople.astro`).
 
 ### CMS
 
-Decap CMS at `/admin/` — git-gateway backend via Netlify Identity. Editorial workflow (draft/review/publish). Config: `public/admin/config.yml`.
+Decap CMS at `/admin/` — git-gateway backend via Netlify Identity. Editorial workflow (draft/review/publish). Config: `public/admin/config.yml`. Collections: **insights, team, partnerships, providers**. Cross-references use `relation` widgets (e.g. Insights "Team Members" → team collection), never duplicated hardcoded lists.
+
+**Recipe to make a new section CMS-editable:** (1) model it as a content collection with a Zod schema in `content.config.ts` — translatable text as `{ en, fr, it }` object fields, not Decap i18n; (2) read it in components via `getCollection()` + `data.field[locale]` fallback, and drive ordering/grouping from data fields (never hardcode membership in the component); (3) expose it in `config.yml` (`format: yaml`, `extension: yaml`, `slug` derived from an id field so filename == slug); (4) verify with `npm run build` + a `dist/` HTML diff, and test the `/admin/` round-trip on a Netlify **deploy preview** (git-gateway can't be exercised on localhost).
 
 ### Styling
 
