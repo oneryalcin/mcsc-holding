@@ -62,11 +62,16 @@ So `order` is populated with values that *look* authoritative but encode a diffe
 
 ## 3. Target architecture
 
-### 3.1 Team collection becomes the whole record (single-file, field-level i18n)
+### 3.1 Team collection becomes the whole record (nested-locale-object fields)
 
-Each member stays **one YAML file = one collection entry** (no proliferation). Translatable `role`/`bio` move out of i18n JSON into the file using Decap **field-level i18n with `single_file` structure** (overriding the global `multiple_files` at the collection level). Non-translated fields (`name`, `image`, `category`, `order`, `honorific`) are `i18n: duplicate`.
+Each member stays **one YAML file = one collection entry** (no proliferation). Translatable `role`/`bio` move out of i18n JSON into the file as **plain Decap `object` widgets with `en`/`fr`/`it` string subfields** — *not* Decap's i18n machinery.
 
-> **Exact on-disk nesting is spike-verified first (Stage 1.0).** Decap `single_file` groups translated fields by locale within one file. The precise shape (locale-keyed blocks vs. field-nested locales, and where duplicated fields land) determines the Zod schema and the component read. **Fallback if the spike shows the shape is awkward:** flat suffixed fields (`role_en/role_fr/role_it`, `bio_*`) as plain widgets — uglier CMS UX (no language tabs) but a bulletproof, predictable on-disk shape. Decision made at end of Stage 1.0 with evidence.
+> **Spike-verified (Stage 1.0 — DONE, evidence below).** We checked Decap v3's actual serializer (`getI18nFiles`/`getDataPath` in `decap-cms-core/src/lib/i18n.ts`) and parse-tested both shapes:
+> - **Decap-native single-file i18n → rejected.** It nests *every* field under top-level locale keys (`en:`/`fr:`/`it:`), so `entry.data.name` becomes `undefined` — breaking all existing structural reads (`KeyPeople.astro`, 3× `[slug].astro`, `getStaticPaths`) — and triplicates `category`/`image`/`order`/`slug` on disk.
+> - **Nested-object fields → chosen.** Structural fields (`name`, `slug`, `image`, `category`, `order`, `honorific`) stay top-level and **unchanged**; only `role`/`bio` become `{ en, fr, it }`, read as `person.data.role[locale]` with EN fallback. Trivial Zod extension, and it **matches the `desc: Record<Locale,string>` pattern already shipping in `src/data/network.ts`** — codebase-consistent, no new i18n mechanics.
+> - **Tradeoff (accepted):** editors get grouped `en/fr/it` subfields, not the top-bar language-tab toggle Insights has (that toggle requires Decap i18n, whose cost is the structural rework + triplication above). Fine for rarely-edited team/network content.
+
+This means the team collection needs **no `i18n:` config at all** and no locale-merge/dedup helper — one entry per person keeps `getStaticPaths` and the slug→person Map correct as-is.
 
 Downstream (whatever the pinned shape):
 - `content.config.ts` team schema: add `bio`; make `role`/`bio` optional so a blank locale falls back to EN.
@@ -76,7 +81,7 @@ Downstream (whatever the pinned shape):
 
 ### 3.2 Network becomes two content collections
 
-`partnerships` and `providers` (mirroring the nav/routes; §6.1). Each entry: `name`, `url`, `logo`, `order`, and translatable `desc` — same single-file field-level i18n as team. `NetworkPage.astro:15` swaps the static import for `getCollection()`, reads `desc` via the same `localeField` accessor with EN fallback, and **sorts by `order`** (migration must populate `order` from current array position, else cards render in glob order). One entry per entity → no duplicate cards across the 6 locale routes (the risk Codex flagged for a per-locale-files approach).
+`partnerships` and `providers` (mirroring the nav/routes; §6.1). Each entry: `name`, `url`, `logo`, `order`, and translatable `desc` as a nested `{ en, fr, it }` object — the **same nested-object approach as team**, and identical to `desc` as it exists in `network.ts` today (so this migration is nearly shape-preserving). `NetworkPage.astro:15` swaps the static import for `getCollection()`, reads `desc[locale]` with EN fallback, and **sorts by `order`** (migration must populate `order` from current array position, else cards render in glob order). One entry per entity → no duplicate cards across the 6 locale routes (the risk Codex flagged for a per-locale-files approach).
 
 ### 3.3 CMS config gains matching collections + fixes Coupling C
 
@@ -85,8 +90,8 @@ Downstream (whatever the pinned shape):
 ### 3.4 The reusable pattern (for future types)
 
 Every future CMS-managed section follows the same recipe — now with the review lessons baked in:
-1. **Model** as a content collection; translatable text via single-file field-level i18n (verified shape).
-2. **Read** via `getCollection()` + a shared `localeField` accessor (EN fallback); **never** hardcode ordering/membership in the component unless it's genuinely curated — and if curated, *say so*.
+1. **Model** as a content collection; translatable text via nested `{ en, fr, it }` object fields (verified shape — see §3.1), not Decap i18n machinery.
+2. **Read** via `getCollection()` + `data.field[locale]` with EN fallback; **never** hardcode ordering/membership in the component unless it's genuinely curated — and if curated, *say so*.
 3. **Expose** in `config.yml`; use `relation` widgets for cross-references, never duplicated `select` lists.
 4. **Verify** with `npm run build` + `dist/` HTML diff locally, and a `/admin/` round-trip on a Netlify deploy preview.
 
@@ -100,11 +105,11 @@ The user chose one PR. Stage 1 is **fully verified (build + HTML diff + preview 
 Sign-off on v2 before code.
 
 ### Stage 1 — Key People
-- **1.0 Spike (do first):** add `local_backend: true` + run `npx decap-server`; create/edit one dummy team entry through `/admin/`; inspect the on-disk YAML to **pin the single-file i18n shape**. Decide single-file-i18n vs. flat-suffixed-fields fallback (§3.1) with evidence. Revert the dummy + `local_backend`.
+- **1.0 Spike ✅ DONE:** pinned the on-disk shape from Decap v3 source + a parse test (no server/browser needed). Conclusion: **nested `{ en, fr, it }` object fields, no Decap i18n** (see §3.1). This is the shape reviewed and approved.
 - **1.1 Normalize filenames** so filename == `slug` field: rename `cosimo-vestuti.yaml`→`cosimo-andrea-vestuti.yaml`, `nathan-cordero.yaml`→`nathan-cordero-di-montezemolo.yaml`. Routes key off `person.data.slug`, so this is route-neutral (no `_redirects` needed). Optionally align image basenames.
 - **1.2 Migration script (throwaway):** fold `team.<slug>.role/bio` (keyed by **slug field**, not filename — catches the two renamed files) from the 3 JSON files into each YAML in the pinned shape. Spot-check ≥3 members incl. both renamed ones.
 - **1.3 Schema:** `content.config.ts` — add `bio`, make `role`/`bio` optional, drop the dead `quote` field.
-- **1.4 Components:** `KeyPeople.astro` + 3× `team/[slug].astro` read role/bio from the collection via `localeField`. `boardRows`/`advisorRows` stay, with a comment marking them as curated.
+- **1.4 Components:** `KeyPeople.astro` + 3× `team/[slug].astro` read role/bio from the collection via `person.data.role[locale]` (EN fallback). `boardRows`/`advisorRows` stay, with a comment marking them as curated.
 - **1.5 CMS:** add `team` collection to `config.yml`; convert Insights `tags` → `relation` widget.
 - **1.6 Cleanup:** `grep 'team\.'` repo-wide; delete migrated JSON keys only after confirming no other references.
 - **1.7 Verify:** `npm run build` clean; `dist/` HTML diff for homepage + all 3 locales of one team detail page shows **zero** rendered change; push → confirm `/admin/` team list + edit round-trip on the Netlify **deploy preview**.
@@ -126,8 +131,8 @@ Update `CLAUDE.md` CMS section with the collection inventory + the §3.4 recipe.
 
 | Risk | Mitigation |
 |---|---|
-| **Wrong assumed Decap i18n shape** → schema/reader mismatch | Stage 1.0 spike pins the real shape before any schema code; flat-field fallback documented. |
-| **Build break** from route/lookup collisions | Single-file i18n keeps one entry per person/entity → no duplicate `getStaticPaths` params, no Map overwrite. Verified as an explicit build gate (1.7/2.4). |
+| **Wrong assumed Decap i18n shape** → schema/reader mismatch | RESOLVED by Stage 1.0 spike: nested-object fields verified against Decap v3 source + parse test before any schema code. |
+| **Build break** from route/lookup collisions | Nested-object fields keep one entry per person/entity → no duplicate `getStaticPaths` params, no Map overwrite. Verified as an explicit build gate (1.7/2.4). |
 | **Silent homepage reshuffle** | Homepage arrangement stays curated in code; `order` is *not* used for it. HTML diff gate proves zero visual change. |
 | **Lost translations** in the JSON→YAML fold | Migration keyed by slug field; spot-check renamed members; EN fallback preserved; `grep` before deleting keys. |
 | **`/admin` can't be tested on localhost** (git-gateway needs Netlify Identity) | Real pre-merge gate = `build` + `dist/` HTML diff; `/admin/` round-trip verified on the **deploy preview**, and optionally via `local_backend`+`decap-server` in the spike. |
@@ -138,7 +143,7 @@ Update `CLAUDE.md` CMS section with the collection inventory + the §3.4 recipe.
 ## 6. Decisions (resolved)
 
 1. **Network: two collections** (`partnerships` + `providers`) — clearer CMS UX, mirrors routes. ✅
-2. **Team i18n: single-file field-level i18n** (not per-locale files) — avoids the build-breaking route collision; flat-suffixed-fields fallback if the Stage 1.0 spike shows an awkward shape. ✅
+2. **Team i18n: nested `{ en, fr, it }` object fields, no Decap i18n machinery** (Stage 1.0 spike outcome — Decap-native single-file i18n was rejected because it nests all fields per-locale and breaks structural reads; §3.1). One file per person → no route collision. ✅
 3. **Homepage grouping: content-only; layout curated in code.** CMS owns text/image/honorific + detail pages + tagging; the 4/5/2 board rows stay in the component. ✅
 4. **One PR, staged commits**, Stage 1 fully verified before Stage 2. ✅
 5. **Open:** any other sections editors want soon (services, licenses, locations, FAQ)? If yes, they become §3.4-recipe follow-ups.
