@@ -27,27 +27,58 @@ collections:
       - { name: "publishDate", label: "Publish Date", widget: "datetime", i18n: duplicate }
       - { name: "coverImage", label: "Cover Image", widget: "image", i18n: duplicate, required: false }
       - { name: "excerpt", label: "Excerpt", widget: "text", i18n: true }
+      # Roster comes from the `team` collection (single source of truth) instead
+      # of a hardcoded list. Stored value is the member's slug, as before.
       - name: "tags"
         label: "Team Members"
-        widget: "select"
+        widget: "relation"
+        collection: "team"
+        value_field: "slug"
+        search_fields: ["name"]
+        display_fields: ["name"]
         i18n: duplicate
         multiple: true
         required: false
-        options:
-          - { label: "Gian Marco Gilardi", value: "gian-marco-gilardi" }
-          - { label: "Francesco Prazzo", value: "francesco-prazzo" }
-          - { label: "Francesco Bongarrà", value: "francesco-bongarra" }
-          - { label: "Avv. Paolo Zanazza", value: "paolo-zanazza" }
-          - { label: "Arvine Zamani", value: "arvine-zamani" }
-          - { label: "Gianmatteo Terruzzi", value: "gianmatteo-terruzzi" }
-          - { label: "Avv. Cosimo Andrea Vestuti", value: "cosimo-andrea-vestuti" }
-          - { label: "Sofia Gilardi", value: "sofia-gilardi" }
-          - { label: "Nathan Cordero di Montezemolo", value: "nathan-cordero-di-montezemolo" }
-          - { label: "Avv. Alessandro Belluzzo", value: "alessandro-belluzzo" }
-          - { label: "Lada Alekseeva", value: "lada-alekseeva" }
-          - { label: "Massimo Pedrazzini", value: "massimo-pedrazzini" }
-          - { label: "Marco Cordero Di Montezemolo", value: "marco-cordero-di-montezemolo" }
-          - { label: "Elizaveta Bracht", value: "elizaveta-bracht" }
-          - { label: "Alexandros Dohn", value: "alexandros-dohn" }
-          - { label: "Martina Bestagno", value: "martina-bestagno" }
       - { name: "body", label: "Body", widget: "markdown", i18n: true }
+
+  - name: "team"
+    label: "Key People"
+    folder: "src/content/team"
+    create: true
+    # Pure YAML data files (no markdown body).
+    format: "yaml"
+    extension: "yaml"
+    identifier_field: "name"
+    # Filename is generated from the slug field, so filename == slug always —
+    # the site routes on `slug`, so this keeps CMS and site identity aligned.
+    slug: "{{fields.slug}}"
+    summary: "{{fields.name}} — {{fields.category}} (row {{fields.row}}, pos {{fields.order}})"
+    # Translatable text lives inline as { en, fr, it } object fields (see below),
+    # so this collection intentionally does NOT use Decap i18n.
+    fields:
+      - { name: "name", label: "Name", widget: "string" }
+      - { name: "slug", label: "Slug (URL id — lowercase-with-dashes)", widget: "string", pattern: ['^[a-z0-9-]+$', 'Lowercase letters, numbers and dashes only'] }
+      - name: "image"
+        label: "Photo"
+        widget: "image"
+        media_folder: "/public/images/team"
+        public_folder: "/images/team"
+      - { name: "category", label: "Section", widget: "select", options: ["Partners", "Advisors", "Providers"], hint: "Partners → 'Board Members & Partners' section; Advisors → 'Advisors' section." }
+      - { name: "honorific", label: "Honorific (e.g. Avv.)", widget: "string", required: false }
+      - { name: "row", label: "Row (visual row in its section, starting at 1)", widget: "number", value_type: "int", min: 1, default: 1 }
+      - { name: "order", label: "Order (left-to-right position within the row)", widget: "number", value_type: "int", min: 1, default: 1 }
+      - name: "role"
+        label: "Role / Title"
+        widget: "object"
+        fields:
+          - { name: "en", label: "English", widget: "string" }
+          - { name: "fr", label: "Français", widget: "string", required: false }
+          - { name: "it", label: "Italiano", widget: "string", required: false }
+      - name: "bio"
+        label: "Biography"
+        widget: "object"
+        required: false
+        fields:
+          - { name: "en", label: "English", widget: "text", required: false }
+          - { name: "fr", label: "Français", widget: "text", required: false }
+          - { name: "it", label: "Italiano", widget: "text", required: false }
