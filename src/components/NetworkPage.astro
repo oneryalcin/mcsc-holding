@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from './Navbar.astro';
 import Footer from './Footer.astro';
 import { t, type Locale } from '../i18n/utils';
-import { partnerships, providers, type NetworkEntry } from '../data/network';
+import { getCollection } from 'astro:content';
 
 interface Props {
   kind: 'partnerships' | 'providers';
@@ -12,7 +12,9 @@ interface Props {
 
 const { kind, locale = 'en' } = Astro.props;
 
-const entries: NetworkEntry[] = kind === 'partnerships' ? partnerships : providers;
+const entries = (await getCollection(kind))
+  .map((entry) => entry.data)
+  .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 const headlineKey = kind === 'partnerships' ? 'partnerships.headline' : 'providers.headline';
 const headline = t(headlineKey, locale);
 const label = t('network.label', locale);
@@ -43,7 +45,7 @@ const visit = t('network.visit', locale);
               )}
               <h2 class="text-2xl font-serif text-brand-navy mb-4">{entry.name}</h2>
               <p class="text-sm text-gray-600 leading-relaxed mb-6 whitespace-pre-line flex-1">
-                {entry.desc[locale]}
+                {entry.desc[locale] ?? entry.desc.en}
               </p>
               <a
                 href={entry.url}

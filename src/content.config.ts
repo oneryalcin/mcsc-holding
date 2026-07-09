@@ -15,7 +15,7 @@ const insights = defineCollection({
 });
 
 // Translatable text stored inline as { en, fr, it } — EN required, others optional
-// (fall back to EN). Mirrors the desc shape in src/data/network.ts.
+// (fall back to EN). Shared by team role/bio and network desc.
 const localeText = z.object({
   en: z.string(),
   fr: z.string().optional(),
@@ -39,4 +39,24 @@ const team = defineCollection({
   }),
 });
 
-export const collections = { insights, team };
+// Network entries (partnerships + selected service providers). desc is the same
+// inline { en, fr, it } shape as team role/bio; `order` controls display order.
+const networkEntry = z.object({
+  name: z.string(),
+  url: z.string(),
+  logo: z.string().optional(),
+  order: z.number().default(0),
+  desc: localeText,
+});
+
+const partnerships = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/partnerships' }),
+  schema: networkEntry,
+});
+
+const providers = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/providers' }),
+  schema: networkEntry,
+});
+
+export const collections = { insights, team, partnerships, providers };

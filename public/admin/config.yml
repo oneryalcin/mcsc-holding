@@ -82,3 +82,57 @@ collections:
           - { name: "en", label: "English", widget: "text", required: false }
           - { name: "fr", label: "Français", widget: "text", required: false }
           - { name: "it", label: "Italiano", widget: "text", required: false }
+
+  - name: "partnerships"
+    label: "Partnerships"
+    folder: "src/content/partnerships"
+    create: true
+    format: "yaml"
+    extension: "yaml"
+    identifier_field: "name"
+    slug: "{{slug}}"
+    summary: "{{fields.name}} (order {{fields.order}})"
+    fields:
+      - { name: "name", label: "Name", widget: "string" }
+      - { name: "url", label: "Website URL", widget: "string" }
+      - name: "logo"
+        label: "Logo"
+        widget: "image"
+        required: false
+        media_folder: "/public/images/network"
+        public_folder: "/images/network"
+      - { name: "order", label: "Order (display position)", widget: "number", value_type: "int", min: 1, default: 1 }
+      - name: "desc"
+        label: "Description"
+        widget: "object"
+        fields:
+          - { name: "en", label: "English", widget: "text" }
+          - { name: "fr", label: "Français", widget: "text", required: false }
+          - { name: "it", label: "Italiano", widget: "text", required: false }
+
+  - name: "providers"
+    label: "Selected Service Providers"
+    folder: "src/content/providers"
+    create: true
+    format: "yaml"
+    extension: "yaml"
+    identifier_field: "name"
+    slug: "{{slug}}"
+    summary: "{{fields.name}} (order {{fields.order}})"
+    fields:
+      - { name: "name", label: "Name", widget: "string" }
+      - { name: "url", label: "Website URL", widget: "string" }
+      - name: "logo"
+        label: "Logo"
+        widget: "image"
+        required: false
+        media_folder: "/public/images/network"
+        public_folder: "/images/network"
+      - { name: "order", label: "Order (display position)", widget: "number", value_type: "int", min: 1, default: 1 }
+      - name: "desc"
+        label: "Description"
+        widget: "object"
+        fields:
+          - { name: "en", label: "English", widget: "text" }
+          - { name: "fr", label: "Français", widget: "text", required: false }
+          - { name: "it", label: "Italiano", widget: "text", required: false }
