@@ -1,6 +1,14 @@
 name: "Marco Cordero Di Montezemolo"
-role: "Advisor"
 slug: "marco-cordero-di-montezemolo"
 image: "/images/team/marco-cordero-di-montezemolo.jpeg"
 category: "Advisors"
-order: 13
+row: 1
+order: 2
+role:
+  en: "Advisor"
+  fr: "Conseiller"
+  it: "Consulente"
+bio:
+  en: "Marco Cordero Di Montezemolo was born in Bologna on July 1, 1949. He graduated in Law from the University of Rome at the age of 22, achieving the highest distinction of 110/110 cum laude. Following his success in the highly competitive national examination for notaries, in which he obtained the highest possible score, he pursued a distinguished career in the legal profession, practicing in both Rome and Turin. He currently serves as a consultant to one of Turin’s leading notarial firms, drawing on decades of experience and expertise in the field of law and notarial practice."
+  fr: "Marco Cordero Di Montezemolo est né à Bologne le 1er juillet 1949. Il est diplômé en droit de l'Université de Rome à l'âge de 22 ans, obtenant la plus haute distinction, 110/110 cum laude. Après avoir réussi le très sélectif concours national de notaire, où il a obtenu la meilleure note possible, il a mené une carrière distinguée dans la profession juridique, exerçant à Rome et à Turin. Il intervient aujourd'hui comme consultant auprès de l'une des principales études notariales de Turin, mettant à profit des décennies d'expérience et d'expertise dans le domaine du droit et de la pratique notariale."
+  it: "Marco Cordero Di Montezemolo è nato a Bologna il 1° luglio 1949. Si è laureato in Giurisprudenza presso l'Università di Roma all'età di 22 anni, ottenendo il massimo riconoscimento di 110/110 cum laude. Dopo il successo nel concorso nazionale per notai, altamente competitivo, nel quale ha ottenuto il punteggio massimo possibile, ha intrapreso una distinta carriera nella professione legale, esercitando sia a Roma sia a Torino. Attualmente opera come consulente presso uno dei principali studi notarili di Torino, mettendo a disposizione decenni di esperienza e competenza nel campo del diritto e della pratica notarile."

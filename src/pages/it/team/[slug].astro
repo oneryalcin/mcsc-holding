@@ -19,8 +19,8 @@ export async function getStaticPaths() {
 
 const { person } = Astro.props;
 const displayName = person.data.honorific ? `${person.data.honorific} ${person.data.name}` : person.data.name;
-const bio = t(`team.${person.data.slug}.bio`, locale);
-const role = t(`team.${person.data.slug}.role`, locale);
+const bio = person.data.bio?.[locale] ?? person.data.bio?.en ?? '';
+const role = person.data.role?.[locale] ?? person.data.role?.en ?? '';
 const paragraphs = bio.split('\n').filter((p: string) => p.trim());
 
 const allInsights = await getLocalizedInsights(locale);

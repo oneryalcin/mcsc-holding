@@ -1,31 +1,47 @@
 ---
 import { t, getLocalePath, type Locale } from '../i18n/utils';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 
+// Localized text with EN fallback (role/bio are { en, fr?, it? } objects).
+const localeText = (obj: Partial<Record<Locale, string>> | undefined, loc: Locale) =>
+  obj?.[loc] ?? obj?.en ?? '';
+
 const allTeam = await getCollection('team');
-const teamBySlug = new Map(allTeam.map((person) => [person.data.slug, person]));
 
-const getPeople = (slugs: string[]) => slugs
-  .map((slug) => teamBySlug.get(slug))
-  .filter(Boolean);
+// Layout is data-driven: within a section (category), members are grouped by
+// `row`, and each row is sorted by `order`. A row's column count is just the
+// number of members in it — so editors can re-rank, regroup, or add a whole new
+// row from the CMS without touching this component.
+const sectionRows = (category: CollectionEntry<'team'>['data']['category']) => {
+  const byRow = new Map<number, CollectionEntry<'team'>[]>();
+  for (const person of allTeam.filter((p) => p.data.category === category)) {
+    const r = person.data.row ?? 1;
+    const arr = byRow.get(r) ?? [];
+    arr.push(person);
+    byRow.set(r, arr);
+  }
+  return [...byRow.keys()]
+    .sort((a, b) => a - b)
+    .map((r) => byRow.get(r)!.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)));
+};
 
-const boardRows = [
-  getPeople(['gian-marco-gilardi', 'francesco-prazzo', 'francesco-bongarra', 'paolo-zanazza']),
-  getPeople(['arvine-zamani', 'gianmatteo-terruzzi', 'cosimo-andrea-vestuti', 'sofia-gilardi', 'nathan-cordero-di-montezemolo']),
-  getPeople(['alessandro-belluzzo', 'lada-alekseeva']),
-];
+const boardRows = sectionRows('Partners');
+const advisorRows = sectionRows('Advisors');
 
-const advisorRows = [
-  getPeople(['massimo-pedrazzini', 'marco-cordero-di-montezemolo', 'elizaveta-bracht', 'martina-bestagno', 'alexandros-dohn']),
-];
-
+// Column count = members in the row. Literal strings so Tailwind emits the
+// utilities; sizes 2/4/5 reproduce the previous hand-tuned layout exactly.
 const rowGridClasses: Record<number, string> = {
+  1: 'md:grid-cols-1 max-w-[200px]',
   2: 'md:grid-cols-2 max-w-xl',
+  3: 'md:grid-cols-3 max-w-3xl',
   4: 'md:grid-cols-4 max-w-5xl',
   5: 'md:grid-cols-5 max-w-6xl',
+  6: 'md:grid-cols-6 max-w-7xl',
+  7: 'md:grid-cols-7 max-w-7xl',
+  8: 'md:grid-cols-8 max-w-7xl',
 };
 
 const getDisplayName = (person: any) => {
@@ -54,7 +70,7 @@ const getDisplayName = (person: any) => {
                 <div class="absolute inset-0 bg-brand-gold/15 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
               <h3 class="text-lg md:text-xl font-serif leading-tight mb-1 group-hover:text-brand-gold transition-colors">{getDisplayName(person)}</h3>
-              <p class="text-brand-gold text-[10px] uppercase tracking-widest leading-snug">{t(`team.${person.data.slug}.role`, locale)}</p>
+              <p class="text-brand-gold text-[10px] uppercase tracking-widest leading-snug">{localeText(person.data.role, locale)}</p>
             </a>
           ))}
         </div>
@@ -76,7 +92,7 @@ const getDisplayName = (person: any) => {
                 <div class="absolute inset-0 bg-brand-gold/15 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
               <h3 class="text-lg md:text-xl font-serif leading-tight mb-1 group-hover:text-brand-gold transition-colors">{getDisplayName(person)}</h3>
-              <p class="text-brand-gold text-[10px] uppercase tracking-widest leading-snug">{t(`team.${person.data.slug}.role`, locale)}</p>
+              <p class="text-brand-gold text-[10px] uppercase tracking-widest leading-snug">{localeText(person.data.role, locale)}</p>
             </a>
           ))}
         </div>

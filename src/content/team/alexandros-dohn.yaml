@@ -1,6 +1,29 @@
 name: "Alexandros Dohn"
-role: "Advisor"
 slug: "alexandros-dohn"
 image: "/images/team/alexandros-dohn.png"
 category: "Advisors"
-order: 15
+row: 1
+order: 5
+role:
+  en: "Advisor"
+  fr: "Conseiller"
+  it: "Consulente"
+bio:
+  en: |-
+    Alexandros Dohn is an entrepreneur, business angel and startup advisor with recognised experience in strategic partnerships, business development, marketing, investor relations and the development of startup and investor ecosystems.
+    He is the CEO and Co-Founder of K2MATCH, a curated platform connecting startups, scaleups, investors, corporates, experts and business communities, and supporting companies through investor access, startup scouting, fundraising preparation and growth-oriented advisory.
+    He possesses demonstrated credibility, networks and influence in the fields of entrepreneurship, venture investment, investor relations, startup acceleration, business development, strategic partnerships and innovation ecosystems.
+    Beyond this, Alexandros holds advisory and board roles at a select number of companies. In parallel, he has built deep personal and professional ties across Korea and Asia, regions he sees as defining the next frontier of global innovation.
+    At the core of everything he does is a personal philosophy rooted in genuine relationship-building: the belief that trust, consistency, and long-term thinking are not soft values, but the hardest and most essential to maintain in business.
+  fr: |-
+    Alexandros Dohn est entrepreneur, business angel et conseiller de startups, avec une expérience reconnue en partenariats stratégiques, développement commercial, marketing, relations investisseurs et développement d'écosystèmes de startups et d'investisseurs.
+    Il est CEO et cofondateur de K2MATCH, une plateforme sélective reliant startups, scaleups, investisseurs, entreprises, experts et communautés d'affaires, et accompagnant les sociétés dans l'accès aux investisseurs, le scouting de startups, la préparation de levées de fonds et le conseil orienté croissance.
+    Il possède une crédibilité, des réseaux et une influence avérés dans les domaines de l'entrepreneuriat, du venture investment, des relations investisseurs, de l'accélération de startups, du développement commercial, des partenariats stratégiques et des écosystèmes d'innovation.
+    Au-delà de ces activités, Alexandros exerce des rôles de conseiller et d'administrateur dans un nombre restreint d'entreprises. En parallèle, il a construit des liens personnels et professionnels profonds en Corée et en Asie, régions qu'il considère comme la prochaine frontière de l'innovation mondiale.
+    Au cœur de tout ce qu'il entreprend se trouve une philosophie personnelle fondée sur la construction de relations authentiques : la conviction que la confiance, la constance et la pensée à long terme ne sont pas des valeurs accessoires, mais les plus difficiles et les plus essentielles à maintenir dans les affaires.
+  it: |-
+    Alexandros Dohn è un imprenditore, business angel e consulente di startup con riconosciuta esperienza in partnership strategiche, sviluppo commerciale, marketing, relazioni con gli investitori e sviluppo di ecosistemi di startup e investitori.
+    È CEO e cofondatore di K2MATCH, una piattaforma curata che collega startup, scaleup, investitori, aziende, esperti e comunità business, supportando le società nell'accesso agli investitori, nello scouting di startup, nella preparazione alla raccolta fondi e nella consulenza orientata alla crescita.
+    Possiede credibilità, reti e influenza dimostrate nei campi dell'imprenditorialità, del venture investment, delle relazioni con gli investitori, dell'accelerazione di startup, dello sviluppo commerciale, delle partnership strategiche e degli ecosistemi di innovazione.
+    Oltre a ciò, Alexandros ricopre ruoli di consulenza e board in un numero selezionato di società. Parallelamente, ha costruito profondi legami personali e professionali in Corea e in Asia, regioni che considera la prossima frontiera dell'innovazione globale.
+    Al centro di tutto ciò che fa c'è una filosofia personale radicata nella costruzione di relazioni autentiche: la convinzione che fiducia, coerenza e pensiero a lungo termine non siano valori soft, ma i più difficili ed essenziali da mantenere nel business.
