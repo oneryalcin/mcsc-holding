@@ -3,7 +3,7 @@ title: " Francesco Bongarrà: Why Relationships, Reputation and Positioning
   Define Long-Term Success"
 category: Insights
 publishDate: 2026-07-07T09:35:00.000+02:00
-coverImage: /images/uploads/francesco-bongarra-.jpg
+coverImage: /images/uploads/francesco-bongarra-1.jpg
 excerpt: In an increasingly interconnected world, success is no longer
   determined by expertise alone. It is shaped by the ability to navigate
   complexity, build trust across cultures and sectors, and create meaningful
