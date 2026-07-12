@@ -1,6 +1,33 @@
 name: "Arvine Zamani"
-role: "Member of the Board of Directors"
 slug: "arvine-zamani"
 image: "/images/team/arvine-zamani.png"
 category: "Partners"
-order: 9
+row: 2
+order: 1
+role:
+  en: "Member of the Board of Directors"
+  fr: "Membre du Conseil d’administration"
+  it: "Membro del Consiglio di Amministrazione"
+bio:
+  en: |-
+    Member of the Luxembourg bar since 2019 and having worked as a legal and tax advisor since 2012, Arvine represents private individuals, startups, entrepreneurs, young or seasoned, international families, hedge funds, investments funds, institutional clients on corporate law, real estate, tax, estate planning, trusts, funds formation and employment matters or where needed, provides on-site or remote secondments. On a personal level, Arvine has lived in Luxembourg, Brussels, Paris, Geneva, London, Leiden and Tehran and is always keen to exchanging new ideas with a positive mindset, learning and enjoying the time spent during our short yet meaningful journey in life.
+
+    Education
+    Admitted to the Luxembourg bar in 2019
+    Master of Advanced Studies (LLM) in International Tax Law, Leiden University, 2013
+    Master in European law, University of Luxembourg, 2011
+    Erasmus semester at the Graduate Institute of International and Development Studies in Geneva and at the University of Geneva in 2010
+
+    Professional experience
+    Founding investor in a new corporate services startup in Brussels in 2022
+    Founder of a new legal startup in Luxembourg in 2022
+    Serving as a director on client companies
+    Attorney at BSP - 2022 - 2023
+    Attorney at the international law firm CMS - 2019 - 2022
+    Associate at the international Swiss Law firm Bonnard Lawson - 2017 - 2019
+    Consulting assignments 2014 - 2017 at Round Hill Capital, CBRE Global Investors, the European Investment Bank, and Partners Group
+    Marketing at M3 in London
+    Tax adviser at KPMG Luxembourg - 2013 - 2014
+    Junior Associate focusing on corporate and tax matters at wildgen - 2012 - 2013
+  fr: "Membre du Barreau de Luxembourg depuis 2019 et ayant travaillé comme conseiller juridique et fiscal depuis 2012, Arvine représente des particuliers, des startups, des entrepreneurs, jeunes ou expérimentés, des familles internationales, des hedge funds, des fonds d'investissement et des clients institutionnels en droit des sociétés, immobilier, fiscalité, planification successorale, trusts, constitution de fonds et droit du travail, ou fournit, le cas échéant, des détachements sur site ou à distance. Sur le plan personnel, Arvine a vécu au Luxembourg, à Bruxelles, Paris, Genève, Londres, Leiden et Téhéran et est toujours désireux d'échanger de nouvelles idées avec un état d'esprit positif, d'apprendre et de profiter du temps passé au cours de notre bref mais significatif voyage dans la vie."
+  it: "Membro dell'Ordine degli Avvocati del Lussemburgo dal 2019 e avendo lavorato come consulente legale e fiscale dal 2012, Arvine rappresenta privati, startup, imprenditori, giovani o esperti, famiglie internazionali, hedge fund, fondi di investimento e clienti istituzionali in materia di diritto societario, immobiliare, fiscalità, pianificazione successoria, trust, costituzione di fondi e diritto del lavoro, oppure fornisce, ove necessario, distacchi in sede o da remoto. Sul piano personale, Arvine ha vissuto in Lussemburgo, Bruxelles, Parigi, Ginevra, Londra, Leiden e Teheran ed è sempre desideroso di scambiare nuove idee con mentalità positiva, imparare e godersi il tempo trascorso durante il nostro breve ma significativo viaggio nella vita."

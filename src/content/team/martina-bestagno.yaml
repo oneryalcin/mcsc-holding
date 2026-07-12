@@ -1,6 +1,14 @@
 name: "Martina Bestagno"
-role: "Advisor"
 slug: "martina-bestagno"
 image: "/images/team/martina-bestagno.jpg"
 category: "Advisors"
-order: 5
+row: 1
+order: 4
+role:
+  en: "Advisor"
+  fr: "Conseillère"
+  it: "Consulente"
+bio:
+  en: "Martina Bestagno is a sports professional with over 20 years of experience in elite basketball across Italy and Europe. Alongside her athletic career, she has built strong expertise in sport marketing and sports management, specializing in athlete branding, communication, and athlete development. She has collaborated with top-tier clubs and international sports organizations, also contributing as a mentor and workshop creator in media training and dual-career development."
+  fr: "Martina Bestagno est une professionnelle du sport avec plus de 20 ans d'expérience dans le basketball de haut niveau en Italie et en Europe. Parallèlement à sa carrière sportive, elle a développé une solide expertise en marketing sportif et en gestion sportive, se spécialisant dans le branding des athlètes, la communication et le développement des sportifs. Elle a collaboré avec des clubs de premier plan et des organisations sportives internationales, contribuant également comme mentor et créatrice d'ateliers en formation médiatique et développement de double carrière."
+  it: "Martina Bestagno è una professionista dello sport con oltre 20 anni di esperienza nella pallacanestro d'élite in Italia e in Europa. Parallelamente alla carriera sportiva, ha sviluppato una solida competenza nel marketing sportivo e nella gestione sportiva, specializzandosi in branding degli atleti, comunicazione e sviluppo degli sportivi. Ha collaborato con club di primo piano e organizzazioni sportive internazionali, contribuendo anche come mentor e creatrice di workshop in media training e sviluppo della doppia carriera."

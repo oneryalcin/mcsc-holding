@@ -1,6 +1,23 @@
 name: "Sofia Gilardi"
-role: "Partner"
 slug: "sofia-gilardi"
 image: "/images/team/sofia-gilardi.jpeg"
 category: "Partners"
-order: 16
+row: 2
+order: 4
+role:
+  en: "Partner"
+  fr: "Associée"
+  it: "Socia"
+bio:
+  en: |-
+    Sofia Gilardi is a London-based creative and entrepreneur focused on connecting talent, brands, and opportunities across industries. She graduated with honours from Lycée Albert Ier in Monaco, specialising in Philosophy, Economics, and the Arts, before completing a Foundation Diploma in Art and Design (Fashion and Textiles) at the University of the Arts London. She now studies Creative Direction for Fashion at the London College of Fashion.
+    In 2023, she created Kaiross, a Monaco-based brand that marked the beginning of her entrepreneurial journey and strengthened her interest in brand development, communication, and creative strategy. Alongside her studies, Sofia has gained experience through internships with London-based fashion designers and creative professionals, developing skills in project development, branding, and visual communication.
+    Passionate about fostering meaningful connections, Sofia aims to create bridges between the worlds of fashion, sport, music, and culture while helping emerging artists and creatives gain visibility and access to new opportunities. Her long-term goal is to combine creativity and entrepreneurship to support talent development and build impactful cross-industry collaborations.
+  fr: |-
+    Sofia Gilardi est une créative et entrepreneure basée à Londres, spécialisée dans la mise en relation des talents, des marques et des opportunités entre différents secteurs. Elle a obtenu son diplôme avec mention au Lycée Albert Ier de Monaco, avec une spécialisation en philosophie, économie et arts, avant de suivre un Foundation Diploma in Art and Design (Fashion and Textiles) à l'University of the Arts London. Elle étudie aujourd'hui la direction créative pour la mode au London College of Fashion.
+    En 2023, elle a créé Kaiross, une marque basée à Monaco qui a marqué le début de son parcours entrepreneurial et renforcé son intérêt pour le développement de marque, la communication et la stratégie créative. Parallèlement à ses études, Sofia a acquis de l'expérience grâce à des stages auprès de créateurs de mode et de professionnels de la création basés à Londres, développant des compétences en développement de projets, branding et communication visuelle.
+    Passionnée par la création de liens significatifs, Sofia souhaite bâtir des ponts entre les mondes de la mode, du sport, de la musique et de la culture, tout en aidant les artistes et créatifs émergents à gagner en visibilité et à accéder à de nouvelles opportunités. Son objectif à long terme est de combiner créativité et entrepreneuriat afin de soutenir le développement des talents et de construire des collaborations intersectorielles à fort impact.
+  it: |-
+    Sofia Gilardi è una creativa e imprenditrice con sede a Londra, focalizzata nel collegare talenti, brand e opportunità tra diversi settori. Si è diplomata con lode al Lycée Albert Ier di Monaco, specializzandosi in filosofia, economia e arti, prima di completare un Foundation Diploma in Art and Design (Fashion and Textiles) presso l'University of the Arts London. Attualmente studia Creative Direction for Fashion al London College of Fashion.
+    Nel 2023 ha creato Kaiross, un brand con sede a Monaco che ha segnato l'inizio del suo percorso imprenditoriale e rafforzato il suo interesse per lo sviluppo del brand, la comunicazione e la strategia creativa. Parallelamente agli studi, Sofia ha maturato esperienza attraverso stage con designer di moda e professionisti creativi con sede a Londra, sviluppando competenze in sviluppo di progetti, branding e comunicazione visiva.
+    Appassionata nel creare connessioni significative, Sofia mira a costruire ponti tra i mondi della moda, dello sport, della musica e della cultura, aiutando al contempo artisti e creativi emergenti a ottenere visibilità e accesso a nuove opportunità. Il suo obiettivo a lungo termine è combinare creatività e imprenditorialità per sostenere lo sviluppo dei talenti e costruire collaborazioni intersettoriali di impatto.

@@ -1,6 +1,38 @@
 name: "Massimo Pedrazzini"
-role: "Strategic Advisor to the Group’s Chairman"
 slug: "massimo-pedrazzini"
 image: "/images/team/massimo-pedrazzini.jpg"
 category: "Advisors"
-order: 12
+row: 1
+order: 1
+role:
+  en: "Strategic Advisor to the Group’s Chairman"
+  fr: "Conseiller stratégique du Président du Groupe"
+  it: "Consulente strategico del Presidente del Gruppo"
+bio:
+  en: |-
+    Massimo (Guglielmo) Pedrazzini is a senior attorney with over 40 years of experience in corporate law, commercial law and international taxation, with a strong focus on M&A transactions, corporate restructurings, governance, and cross-border tax planning. He also brings his experience in estate planning and succession execution, including complex wealth structures, generational transfers, trusts, family holding companies, estate planning and cross-border coordination across multiple jurisdictions.
+    He is founding partner and senior counsel of an independent Swiss law firm assisting multinational groups, entrepreneurs, family offices and boards of directors in complex international matters.
+    Throughout his career, he has worked extensively across Europe, the United States and Asia, gaining deep expertise in international legal frameworks and cross-border business environments. He regularly acts as a trusted advisor to clients in high-stakes strategic decisions and sensitive corporate matters.
+    He holds and has held board memberships and governance roles in listed and private companies and foundations, acts and has acted as trustee and protector, contributing strong expertise in management, corporate governance, compliance and strategic oversight.
+    His professional approach combines:
+    • strategic vision (board membership)
+    • legal precision (Swiss and international corporate and contract lawyer)
+    • practical, business-oriented solution.
+  fr: |-
+    Massimo (Guglielmo) Pedrazzini est un avocat senior comptant plus de 40 ans d'expérience en droit des sociétés, droit commercial et fiscalité internationale, avec un fort accent sur les opérations de M&A, les restructurations d'entreprise, la gouvernance et la planification fiscale transfrontalière. Il apporte également son expérience en planification patrimoniale et exécution successorale, notamment dans les structures patrimoniales complexes, les transmissions générationnelles, les trusts, les holdings familiales, la planification successorale et la coordination transfrontalière entre plusieurs juridictions.
+    Il est associé fondateur et senior counsel d'un cabinet d'avocats suisse indépendant qui accompagne des groupes multinationaux, des entrepreneurs, des family offices et des conseils d'administration dans des dossiers internationaux complexes.
+    Tout au long de sa carrière, il a travaillé largement en Europe, aux États-Unis et en Asie, développant une expertise approfondie des cadres juridiques internationaux et des environnements d'affaires transfrontaliers. Il intervient régulièrement comme conseiller de confiance auprès de clients dans des décisions stratégiques à fort enjeu et des dossiers corporate sensibles.
+    Il occupe et a occupé des mandats d'administrateur et des fonctions de gouvernance dans des sociétés cotées et privées ainsi que dans des fondations, et agit ou a agi comme trustee et protector, apportant une forte expertise en management, gouvernance d'entreprise, conformité et supervision stratégique.
+    Son approche professionnelle combine :
+    • vision stratégique (mandats d'administrateur)
+    • précision juridique (avocat suisse et international en droit des sociétés et des contrats)
+    • solutions pratiques et orientées business.
+  it: |-
+    Massimo (Guglielmo) Pedrazzini è un avvocato senior con oltre 40 anni di esperienza in diritto societario, diritto commerciale e fiscalità internazionale, con un forte focus su operazioni di M&A, ristrutturazioni societarie, governance e pianificazione fiscale transfrontaliera. Porta inoltre la sua esperienza in pianificazione patrimoniale ed esecuzione successoria, incluse strutture patrimoniali complesse, passaggi generazionali, trust, holding familiari, pianificazione successoria e coordinamento transfrontaliero tra più giurisdizioni.
+    È socio fondatore e senior counsel di uno studio legale svizzero indipendente che assiste gruppi multinazionali, imprenditori, family office e consigli di amministrazione in questioni internazionali complesse.
+    Nel corso della sua carriera ha lavorato ampiamente in Europa, negli Stati Uniti e in Asia, maturando una profonda competenza nei quadri giuridici internazionali e negli ambienti business transfrontalieri. Opera regolarmente come consulente di fiducia per clienti coinvolti in decisioni strategiche ad alto impatto e questioni societarie sensibili.
+    Ha ricoperto e ricopre incarichi nei consigli di amministrazione e ruoli di governance in società quotate e private e in fondazioni, e agisce o ha agito come trustee e protector, contribuendo con una forte competenza in management, corporate governance, compliance e supervisione strategica.
+    Il suo approccio professionale combina:
+    • visione strategica (incarichi nei consigli di amministrazione)
+    • precisione legale (avvocato svizzero e internazionale in diritto societario e contrattuale)
+    • soluzioni pratiche e orientate al business.
