@@ -3,7 +3,7 @@ locale: en
 title: "Guewen Patural: The role of values in building a personal image"
 category: Insights
 publishDate: 2026-07-13T09:38:00.000+02:00
-coverImage: /images/uploads/img_7815.jpg
+coverImage: /images/uploads/img_7815 —-копия.jpg
 excerpt: "In a world where personal branding has become both a profession and an
   expectation, it's easy to focus on surface: the posts, the visuals, the tone
   of voice."
