@@ -2,7 +2,9 @@ name: "Cosimo Andrea Vestuti"
 slug: "cosimo-andrea-vestuti"
 image: "/images/team/cosimo-vestuti.webp"
 category: "Partners"
-honorific: "Avv."
+honorific:
+  fr: "Me"
+  it: "Avv."
 row: 2
 order: 3
 role:

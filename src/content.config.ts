@@ -22,6 +22,12 @@ const localeText = z.object({
   it: z.string().optional(),
 });
 
+const optionalLocaleText = z.object({
+  en: z.string().optional(),
+  fr: z.string().optional(),
+  it: z.string().optional(),
+});
+
 const team = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/team' }),
   schema: z.object({
@@ -29,7 +35,7 @@ const team = defineCollection({
     slug: z.string(),
     image: z.string(),
     category: z.enum(['Partners', 'Advisors', 'Providers']),
-    honorific: z.string().optional(),
+    honorific: z.union([z.string(), optionalLocaleText]).optional(),
     // Homepage layout: members are grouped by category, then by `row`, then
     // sorted by `order` within the row. A row's column count = members in it.
     row: z.number().default(1),

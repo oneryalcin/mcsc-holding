@@ -72,7 +72,15 @@ collections:
         media_folder: "/public/images/team"
         public_folder: "/images/team"
       - { name: "category", label: "Section", widget: "select", options: ["Partners", "Advisors", "Providers"], hint: "Partners → 'Board Members & Partners' section; Advisors → 'Advisors' section." }
-      - { name: "honorific", label: "Honorific (e.g. Avv.)", widget: "string", required: false }
+      - name: "honorific"
+        label: "Honorific / Prefix"
+        widget: "object"
+        required: false
+        hint: "Optional text shown before the person's name in each language. Leave a language blank for no prefix."
+        fields:
+          - { name: "en", label: "English", widget: "string", required: false }
+          - { name: "fr", label: "Français", widget: "string", required: false }
+          - { name: "it", label: "Italiano", widget: "string", required: false }
       - { name: "row", label: "Row (visual row in its section, starting at 1)", widget: "number", value_type: "int", min: 1, default: 1 }
       - { name: "order", label: "Order (left-to-right position within the row)", widget: "number", value_type: "int", min: 1, default: 1 }
       - name: "role"

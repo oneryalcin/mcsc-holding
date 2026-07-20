@@ -2,7 +2,9 @@ name: "Paolo Zanazza"
 slug: "paolo-zanazza"
 image: "/images/team/paolo-zanazza.jpg"
 category: "Partners"
-honorific: "Avv."
+honorific:
+  fr: "Me"
+  it: "Avv."
 row: 1
 order: 4
 role:

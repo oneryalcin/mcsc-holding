@@ -1,5 +1,5 @@
 ---
-import { t, getLocalePath, type Locale } from '../i18n/utils';
+import { t, getLocalePath, getDisplayName, type Locale } from '../i18n/utils';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 interface Props { locale?: Locale; }
@@ -44,13 +44,6 @@ const rowGridClasses: Record<number, string> = {
   8: 'md:grid-cols-8 max-w-7xl',
 };
 
-const getDisplayName = (person: any) => {
-  if (!person.data.honorific) return person.data.name;
-  if (locale === 'fr') return `Me ${person.data.name}`;
-  if (locale === 'it') return `${person.data.honorific} ${person.data.name}`;
-  return person.data.name;
-};
-
 ---
 
 <section class="py-24 bg-brand-navy text-white" id="key-people">
@@ -69,7 +62,7 @@ const getDisplayName = (person: any) => {
                 <img src={person.data.image} alt={person.data.name} class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" loading="lazy" />
                 <div class="absolute inset-0 bg-brand-gold/15 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
-              <h3 class="text-lg md:text-xl font-serif leading-tight mb-1 group-hover:text-brand-gold transition-colors">{getDisplayName(person)}</h3>
+              <h3 class="text-lg md:text-xl font-serif leading-tight mb-1 group-hover:text-brand-gold transition-colors">{getDisplayName(person.data.name, person.data.honorific, locale)}</h3>
               <p class="text-brand-gold text-[10px] uppercase tracking-widest leading-snug">{localeText(person.data.role, locale)}</p>
             </a>
           ))}
@@ -91,7 +84,7 @@ const getDisplayName = (person: any) => {
                 <img src={person.data.image} alt={person.data.name} class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" loading="lazy" />
                 <div class="absolute inset-0 bg-brand-gold/15 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
-              <h3 class="text-lg md:text-xl font-serif leading-tight mb-1 group-hover:text-brand-gold transition-colors">{getDisplayName(person)}</h3>
+              <h3 class="text-lg md:text-xl font-serif leading-tight mb-1 group-hover:text-brand-gold transition-colors">{getDisplayName(person.data.name, person.data.honorific, locale)}</h3>
               <p class="text-brand-gold text-[10px] uppercase tracking-widest leading-snug">{localeText(person.data.role, locale)}</p>
             </a>
           ))}
