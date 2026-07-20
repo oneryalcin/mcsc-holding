@@ -41,7 +41,7 @@ const personJsonLd = JSON.stringify({
 
 <Layout
   locale={locale}
-  title={`${person.data.name} — ${role} | MCSC Group`}
+  title={`${displayName} — ${role} | MCSC Group`}
   description={paragraphs[0]?.slice(0, 160)}
   ogImage={person.data.image}
 >
@@ -54,7 +54,7 @@ const personJsonLd = JSON.stringify({
           <a href="/it/#key-people" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; {t('ui.backToTeam', locale)}</a>
         </div>
         <span class="text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold">{role}</span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{person.data.name}</h1>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{displayName}</h1>
       </div>
     </section>
 
