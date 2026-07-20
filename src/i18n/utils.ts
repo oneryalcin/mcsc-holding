@@ -26,3 +26,22 @@ export function getLocalePath(path: string, locale: Locale): string {
   if (localized.includes('#') || localized.includes('?') || localized.endsWith('/')) return localized;
   return `${localized}/`;
 }
+
+type LocalizedOptionalText = Partial<Record<Locale, string>>;
+
+export function getDisplayName(
+  name: string,
+  honorific: string | LocalizedOptionalText | undefined,
+  locale: Locale,
+): string {
+  let prefix = typeof honorific === 'string' ? '' : honorific?.[locale];
+
+  // Backwards compatibility for older content that used one shared string.
+  if (typeof honorific === 'string') {
+    if (locale === 'fr') prefix = 'Me';
+    if (locale === 'it') prefix = honorific;
+  }
+
+  const trimmedPrefix = prefix?.trim();
+  return trimmedPrefix ? `${trimmedPrefix} ${name}` : name;
+}

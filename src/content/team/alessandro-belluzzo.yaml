@@ -2,7 +2,9 @@ name: "Alessandro Belluzzo"
 slug: "alessandro-belluzzo"
 image: "/images/team/alessandro-belluzzo.jpg"
 category: "Partners"
-honorific: "Avv."
+honorific:
+  fr: "Me"
+  it: "Avv."
 row: 3
 order: 1
 role:

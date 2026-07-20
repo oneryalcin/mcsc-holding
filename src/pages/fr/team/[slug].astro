@@ -4,7 +4,7 @@ import Navbar from '../../../components/Navbar.astro';
 import ContactForm from '../../../components/ContactForm.astro';
 import Footer from '../../../components/Footer.astro';
 import { getCollection } from 'astro:content';
-import { t } from '../../../i18n/utils';
+import { getDisplayName, t } from '../../../i18n/utils';
 import { getLocalizedInsights } from '../../../i18n/content';
 
 const locale = 'fr' as const;
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 const { person } = Astro.props;
-const displayName = person.data.honorific ? `Me ${person.data.name}` : person.data.name;
+const displayName = getDisplayName(person.data.name, person.data.honorific, locale);
 const bio = person.data.bio?.[locale] ?? person.data.bio?.en ?? '';
 const role = person.data.role?.[locale] ?? person.data.role?.en ?? '';
 const paragraphs = bio.split('\n').filter((p: string) => p.trim());

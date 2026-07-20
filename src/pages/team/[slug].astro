@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar.astro';
 import ContactForm from '../../components/ContactForm.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
-import { t } from '../../i18n/utils';
+import { getDisplayName, t } from '../../i18n/utils';
 import { getLocalizedInsights } from '../../i18n/content';
 
 const locale = 'en' as const;
@@ -18,6 +18,7 @@ export async function getStaticPaths() {
 }
 
 const { person } = Astro.props;
+const displayName = getDisplayName(person.data.name, person.data.honorific, locale);
 const bio = person.data.bio?.[locale] ?? person.data.bio?.en ?? '';
 const role = person.data.role?.[locale] ?? person.data.role?.en ?? '';
 const paragraphs = bio.split('\n').filter((p: string) => p.trim());
@@ -31,7 +32,7 @@ const siteUrl = Astro.site?.origin ?? 'https://mcsc-group.com';
 const personJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: person.data.name,
+  name: displayName,
   jobTitle: role,
   image: person.data.image.startsWith('http') ? person.data.image : `${siteUrl}${person.data.image}`,
   worksFor: {
@@ -45,7 +46,7 @@ const personJsonLd = JSON.stringify({
 
 <Layout
   locale={locale}
-  title={`${person.data.name} — ${role} | MCSC Group`}
+  title={`${displayName} — ${role} | MCSC Group`}
   description={paragraphs[0]?.slice(0, 160)}
   ogImage={person.data.image}
 >
@@ -58,7 +59,7 @@ const personJsonLd = JSON.stringify({
           <a href="/#key-people" class="text-brand-gold text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">&larr; {t('ui.backToTeam', locale)}</a>
         </div>
         <span class="text-brand-gold text-[10px] uppercase tracking-[0.2em] font-bold">{role}</span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{person.data.name}</h1>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl mt-4 leading-tight">{displayName}</h1>
       </div>
     </section>
 
