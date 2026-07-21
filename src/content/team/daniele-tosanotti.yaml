@@ -2,6 +2,9 @@ name: Daniele Tosanotti
 slug: daniele-tosanotti
 image: /images/team/photo-2026-07-19-08-39-11.jpg
 category: Advisors
+honorific:
+  fr: Me
+  it: Avv.
 row: 1
 order: 6
 role:
