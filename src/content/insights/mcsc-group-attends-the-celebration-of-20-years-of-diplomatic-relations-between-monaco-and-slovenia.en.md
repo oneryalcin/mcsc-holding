@@ -4,7 +4,7 @@ title: MCSC Group Attends the Celebration of 20 Years of Diplomatic Relations
   Between Monaco and Slovenia
 category: Events
 publishDate: 2026-07-21T20:48:00.000+02:00
-coverImage: /images/uploads/img_8417.heic
+coverImage: /images/uploads/img_84171.jpg
 excerpt: MCSC Group was honoured to participate in the high-level diplomatic and
   economic event celebrating 20 years of diplomatic relations between the
   Principality of Monaco and the Republic of Slovenia, held in Ljubljana.
