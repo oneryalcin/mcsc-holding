@@ -23,6 +23,6 @@ Representing MCSC Group at the event was **Lada Alekseeva, Media Manager**, who
 
 We would like to express our sincere appreciation to everyone we had the pleasure of meeting and look forward to developing the relationships initiated during this event.
 
-We are thankful to H.E. Ambassador Anne Eastwood and Stéphane Bruno for their kind invitation and warm hospitality.
+We are thankful to H.E. Ambassador Anne Eastwood and Stéphan Bruno for their kind invitation and warm hospitality.
 
 At MCSC Group, we remain committed to fostering international dialogue and creating opportunities that connect business, expertise and trusted advisory services across borders.
