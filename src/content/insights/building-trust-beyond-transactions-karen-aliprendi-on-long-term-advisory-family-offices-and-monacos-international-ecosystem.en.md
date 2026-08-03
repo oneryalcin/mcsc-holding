@@ -13,7 +13,7 @@ excerpt: >
 ---
 Behind every successful entrepreneur, international family or private client is often not just technical expertise, but a trusted advisor capable of bringing together the right people, anticipating challenges and providing clarity in complex situations.
 
-Drawing on experience in entrepreneurship, public service and a Single Family Office, **Karen Aliprendi**, Founder of **KA Partner** and Partner of MCSC Group, has built her career around one conviction: lasting value is created through trust, discretion and long-term relationships.
+Drawing on experience in entrepreneurship, public service and a Single Family Office, **Karen Aliprendi**, Founder of **KA Partner** and **Advisor of MCSC Group**, has built her career around one conviction: lasting value is created through trust, discretion and long-term relationships.
 
 In this interview, Karen shares her perspective on the evolution of independent advisory services, the growing importance of coordination between experts, Monaco's unique business ecosystem, and why preserving wealth begins long before it becomes an urgent necessity.
 
