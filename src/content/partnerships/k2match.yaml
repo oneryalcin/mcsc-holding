@@ -1,8 +1,18 @@
 name: K2MATCH
-url: https://www.k2match.com/
+url: https://www.k2match.com
 logo: /images/network/k2match.webp
 order: 4
 desc:
-  en: K2MATCH is an ecosystem of curated Startups and ScaleUps (2000+), Investors, Corporates, Experts, Business Communities & Solution Partners. They provide best-in-class matching services and growth solutions for businesses across multiple industries aiming to achieve your business goals.
-  fr: K2MATCH est un écosystème de startups et scaleups sélectionnées (plus de 2 000), d’investisseurs, d’entreprises, d’experts, de communautés business et de partenaires solutions. Ils proposent des services de matching de premier plan et des solutions de croissance pour les entreprises de multiples secteurs souhaitant atteindre leurs objectifs business.
-  it: K2MATCH è un ecosistema di startup e scaleup selezionate (oltre 2.000), investitori, aziende, esperti, community business e solution partner. Offre servizi di matching di primo livello e soluzioni di crescita per aziende di molteplici settori che puntano a raggiungere i propri obiettivi di business.
+  en: K2MATCH is an ecosystem of curated Startups and ScaleUps (2000+), Investors,
+    Corporates, Experts, Business Communities & Solution Partners. They provide
+    best-in-class matching services and growth solutions for businesses across
+    multiple industries aiming to achieve your business goals.
+  fr: K2MATCH est un écosystème de startups et scaleups sélectionnées (plus de 2
+    000), d’investisseurs, d’entreprises, d’experts, de communautés business et
+    de partenaires solutions. Ils proposent des services de matching de premier
+    plan et des solutions de croissance pour les entreprises de multiples
+    secteurs souhaitant atteindre leurs objectifs business.
+  it: K2MATCH è un ecosistema di startup e scaleup selezionate (oltre 2.000),
+    investitori, aziende, esperti, community business e solution partner. Offre
+    servizi di matching di primo livello e soluzioni di crescita per aziende di
+    molteplici settori che puntano a raggiungere i propri obiettivi di business.
