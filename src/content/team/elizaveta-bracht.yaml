@@ -1,32 +1,53 @@
-name: "Elizaveta Bracht"
-slug: "elizaveta-bracht"
-image: "/images/team/elizaveta-bracht.jpg"
-category: "Advisors"
+name: Elizaveta Bracht
+slug: elizaveta-bracht
+image: /images/team/elizaveta-bracht.jpg
+category: Advisors
 row: 1
 order: 3
 role:
-  en: "Advisor"
-  fr: "Conseillère"
-  it: "Consulente"
+  en: Strategic Advisor
+  fr: Conseillère stratégique
+  it: Consulente strategica
 bio:
-  en: |-
-    Elizaveta Bracht, OLY is an Olympian, sports executive, entrepreneur and strategic advisor with more than 20 years of experience at the intersection of international sport, business and social impact.
+  en: >-
+    Elizaveta Bracht, OLY is an Olympian, sports executive, entrepreneur and
+    strategic advisor with more than 20 years of experience at the intersection
+    of international sport, business and social impact.
+
     Born in Ukraine, she represented Russia throughout her professional volleyball career before establishing Switzerland as her home and professional base. A three-time Olympian and two-time Olympic silver medallist, she competed at the highest level of international sport for more than a decade, earning four European Championship titles and nearly 500 appearances for the Russian National Team.
+
     Following her retirement from elite competition, Elizaveta completed a Master’s degree in Sports Administration (AISTS) in Lausanne and successfully transitioned into the global sports industry. Since then, she has held senior leadership positions with UEFA, FIVB, Volleyball World, the International Boxing Association (IBA) and the Volleyball Foundation, leading initiatives across commercial strategy, marketing, sponsorship, media rights, brand development and major international events.
+
     Throughout her career, she has been deeply involved in the Olympic Movement and has contributed to the delivery and promotion of multiple Olympic Games, combining athlete insight with executive leadership experience.
+
     A recognised advocate for athlete transition and sustainable career development, Elizaveta is particularly passionate about helping athletes prepare for Life After Sport. Drawing on her own journey from Olympic podiums to executive boardrooms, she advises organisations, leaders and athletes on navigating change, building new identities and creating meaningful impact beyond competitive performance.
+
     Having lived in nine countries and travelled to more than one hundred, she brings a uniquely global perspective to leadership, talent development and the future of sport.
-  fr: |-
-    Elizaveta Bracht, OLY, est olympienne, dirigeante sportive, entrepreneure et conseillère stratégique, avec plus de 20 ans d'expérience à l'intersection du sport international, des affaires et de l'impact social.
+  fr: >-
+    Elizaveta Bracht, OLY, est olympienne, dirigeante sportive, entrepreneure et
+    conseillère stratégique, avec plus de 20 ans d'expérience à l'intersection
+    du sport international, des affaires et de l'impact social.
+
     Née en Ukraine, elle a représenté la Russie tout au long de sa carrière professionnelle de volleyeuse avant de faire de la Suisse son foyer et sa base professionnelle. Triple olympienne et double médaillée d'argent olympique, elle a évolué au plus haut niveau du sport international pendant plus d'une décennie, remportant quatre titres de championne d'Europe et totalisant près de 500 sélections avec l'équipe nationale russe.
+
     Après sa retraite du sport d'élite, Elizaveta a obtenu un Master's degree in Sports Administration (AISTS) à Lausanne et a réussi sa transition vers l'industrie mondiale du sport. Depuis, elle a occupé des postes de direction auprès de l'UEFA, de la FIVB, de Volleyball World, de l'International Boxing Association (IBA) et de la Volleyball Foundation, pilotant des initiatives en stratégie commerciale, marketing, sponsoring, droits médias, développement de marque et grands événements internationaux.
+
     Tout au long de sa carrière, elle a été profondément impliquée dans le Mouvement olympique et a contribué à la réalisation et à la promotion de plusieurs Jeux Olympiques, combinant son regard d'athlète avec une expérience de dirigeante.
+
     Reconnue comme défenseure de la transition des athlètes et du développement durable des carrières, Elizaveta est particulièrement engagée dans l'accompagnement des sportifs pour préparer leur vie après le sport. Forte de son propre parcours, des podiums olympiques aux instances dirigeantes, elle conseille organisations, dirigeants et athlètes dans la conduite du changement, la construction de nouvelles identités et la création d'un impact significatif au-delà de la performance compétitive.
+
     Ayant vécu dans neuf pays et voyagé dans plus de cent, elle apporte une perspective résolument mondiale au leadership, au développement des talents et à l'avenir du sport.
-  it: |-
-    Elizaveta Bracht, OLY, è un'olimpionica, dirigente sportiva, imprenditrice e consulente strategica con oltre 20 anni di esperienza all'intersezione tra sport internazionale, business e impatto sociale.
+  it: >-
+    Elizaveta Bracht, OLY, è un'olimpionica, dirigente sportiva, imprenditrice e
+    consulente strategica con oltre 20 anni di esperienza all'intersezione tra
+    sport internazionale, business e impatto sociale.
+
     Nata in Ucraina, ha rappresentato la Russia durante tutta la sua carriera professionistica nella pallavolo prima di stabilire la Svizzera come casa e base professionale. Tre volte olimpionica e due volte medaglia d'argento olimpica, ha gareggiato ai massimi livelli dello sport internazionale per oltre un decennio, conquistando quattro titoli europei e quasi 500 presenze con la nazionale russa.
+
     Dopo il ritiro dalle competizioni d'élite, Elizaveta ha completato un Master's degree in Sports Administration (AISTS) a Losanna e ha compiuto con successo la transizione nell'industria sportiva globale. Da allora ha ricoperto posizioni dirigenziali senior presso UEFA, FIVB, Volleyball World, International Boxing Association (IBA) e Volleyball Foundation, guidando iniziative in strategia commerciale, marketing, sponsorizzazioni, diritti media, sviluppo del brand e grandi eventi internazionali.
+
     Nel corso della sua carriera è stata profondamente coinvolta nel Movimento Olimpico e ha contribuito alla realizzazione e promozione di molteplici Giochi Olimpici, combinando la prospettiva dell'atleta con l'esperienza di leadership esecutiva.
+
     Riconosciuta sostenitrice della transizione degli atleti e dello sviluppo sostenibile della carriera, Elizaveta è particolarmente appassionata nell'aiutare gli atleti a prepararsi alla vita dopo lo sport. Traendo ispirazione dal proprio percorso, dai podi olimpici alle sale dei consigli, consiglia organizzazioni, leader e atleti su come affrontare il cambiamento, costruire nuove identità e creare un impatto significativo oltre la performance competitiva.
+
     Avendo vissuto in nove Paesi e viaggiato in più di cento, porta una prospettiva unica e globale alla leadership, allo sviluppo dei talenti e al futuro dello sport.
