@@ -50,6 +50,9 @@ collections:
     label: "Key People"
     folder: "src/content/team"
     create: true
+    # Keep removal available even if Decap's default changes; the editor will
+    # delete the member's YAML entry through the normal editorial workflow.
+    delete: true
     # Hide the generic Decap preview pane (it dumps raw fields, not the site layout).
     editor:
       preview: false
