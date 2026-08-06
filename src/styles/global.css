@@ -67,8 +67,8 @@ h1, h2, h3, .heading-serif {
 
 /* Map pin pulse */
 @keyframes pin-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.6); opacity: 0.4; }
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.6); opacity: 0.4; }
 }
 .pin-glow {
   animation: pin-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
