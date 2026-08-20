@@ -1,6 +1,6 @@
 ---
 locale: en
-title: 'Vega Gimeno Martínez: "Don’t wait until retirement to discover who you are"'
+title: "Vega Gimeno Martínez: «Don’t wait until retirement to discover who you are»"
 category: Insights
 publishDate: 2026-08-20T08:50:00.000+02:00
 coverImage: /images/uploads/img_9403.png
