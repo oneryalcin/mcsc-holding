@@ -3,13 +3,13 @@ locale: en
 title: 'Vega Gimeno Martínez: "Don’t wait until retirement to discover who you are"'
 category: Insights
 publishDate: 2026-08-20T08:50:00.000+02:00
-coverImage: /images/uploads/1769327867307.jpeg
+coverImage: /images/uploads/img_9403.png
 excerpt: Vega Gimeno Martínez knows what it means to perform at the highest
   level. As a former professional basketball player and Olympic silver medallist
   with Spain, she spent years competing under pressure, leading teams and
   constantly pushing the limits of performance.
 ---
-**Vega Gimeno Martínez** knows what it means to perform at the highest level. As a former professional basketball player and Olympic silver medallist with Spain, she spent years competing under pressure, leading teams and constantly pushing the limits of performance.
+**Vega Gimeno Martínez** knows what it means to perform at the highest level. As a former professional basketball player and Olympic silver medallist with Spain in Paris 2024, she spent years competing under pressure, leading teams and constantly pushing the limits of performance.
 
 Today, her career has entered a new chapter. As an entrepreneur, sports management and event professional, Director of the 3x3 department at the Spanish Basketball Federation, advisor to 3x3 basketball events and advocate for women in sport, Vega is now focused on creating opportunities beyond the court.
 
@@ -46,6 +46,8 @@ As an athlete, your schedule, goals and purpose are very clear every day. Sudden
 That freedom is exciting, but it can also be overwhelming.
 
 I had to learn that my value wasn’t defined by my performance on the court anymore, but by the impact I could have in different ways.
+
+![](/images/uploads/img_9404.png)
 
 **— Many athletes focus entirely on performance. Looking back, what do you think is important to build outside of sport during a career?**
 
