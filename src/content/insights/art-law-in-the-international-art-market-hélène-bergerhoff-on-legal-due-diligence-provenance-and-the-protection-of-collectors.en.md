@@ -35,7 +35,7 @@ This means that their interests, or those of the seller they represent, are not 
 
 So, buyers should not simply assume that their interests and rights are fully protected. They should review the terms carefully and carry out proper due diligence on the artwork before completing the transaction, even if sometimes this is done mainly as a precaution.
 
-Concerning the «good and marketable title» clause, why is provenance becoming increasingly important in today's international art market?
+**— Concerning the «good and marketable title» clause, why is provenance becoming increasingly important in today's international art market?**
 
 Buyers usually want to acquire an artwork with good and marketable title, so that the artwork can be validly transferred and later resold without unresolved claims.
 
@@ -129,10 +129,8 @@ I think that they usually act as direct points of contact with the auction house
 
 As previously mentioned, I believe AI will probably reshape the art market.
 
-If a client had €1 million to invest in art tomorrow, what are the first three legal questions you would advise them to ask before making any decision?
+**— If a client had €1 million to invest in art tomorrow, what are the first three legal questions you would advise them to ask before making any decision?**
 
 1. Does the seller have good and marketable title to the artwork and the legal right to transfer ownership free from third-party claims or restrictions?
-
 2. Has proper due diligence been carried out on the artwork, including but not limited to authenticity, condition and provenance?
-
 3. Are the key contractual terms clearly documented, including but not limited to warranties, liability limitations, remedies, payment, delivery, risk transfer, transfer to heirs, jurisdiction and applicable law?
