@@ -8,6 +8,8 @@ excerpt: "After years of competing at the highest level and representing
   Slovenia on the international stage, former professional handball player Ana
   has closed one chapter with peace of mind — and opened another as part of MCSC
   Group. "
+tags:
+  - ana-gros
 ---
 After years of competing at the highest level and representing Slovenia on the international stage, former professional handball player Ana has closed one chapter with peace of mind — and opened another as part of MCSC Group. In this conversation, she looks back at what shaped her both on and off the court: the discipline of professional sport, the moment she knew it was time to stop, and the identity questions every athlete eventually has to face. She also speaks candidly about what athletes still lack when planning for life after competition, why women's sport still has ground to make up, and what she now hopes to help others achieve — off the court, this time.
 
