@@ -18,7 +18,7 @@ The partnership brings together two complementary approaches: Her Hoops Agency�
 
 #### Building careers beyond the court
 
-Her Hoops Agency (HHA) is an agency created and led by women from the basketball world, specializing in supporting and representing female players throughout every stage of their careers, both on and off the court. We offer a 360º structure that combines representation, professional and personal development, brand building, education, and connections with sponsors, brands, and organisations.
+Her Hoops Agency (HHA) is an agency created and led by women from the basketball world, specializing in supporting and representing female players throughout every stage of their careers, both on and off the court. They offer a 360º structure that combines representation, professional and personal development, brand building, education, and connections with sponsors, brands, and organisations.
 
 Their goal is to professionalize and transform the women’s basketball landscape by creating real opportunities and building sustainable careers. They work with a human, personalized, and multidisciplinary approach, connecting female talent with companies and projects that share our vision.
 
@@ -34,7 +34,6 @@ For MCSC, supporting an athlete is not only about what happens on the court or t
 
 ***Vega Gimeno***, former professional player, Spanish international, and Olympic medalist at Paris 2024, brings her experience in high-performance sport, sports management, communication, and talent development.
 
-##### 
 A partnership built around opportunities
 
 Through this collaboration, MCSC Group and Her Hoops Agency will explore opportunities to connect players with relevant expertise, brands, partners and international networks.
@@ -43,12 +42,10 @@ The partnership will also create opportunities to develop initiatives at the int
 
 As women’s basketball continues to develop its professional and commercial potential, building strong structures around athletes becomes increasingly important.
 
->
 > «We believe that the future of athlete advisory lies in looking at the person and the career as a whole. Our partnership with Her Hoops Agency allows us to combine their deep understanding of women’s basketball with MCSC’s international network and multidisciplinary expertise. Together, we can create more opportunities for players not only during their sporting careers, but also for everything they can build around them.»
 >
 > *— Gian Marco Gilardi, MCSC Group*
 
-##### 
 A shared vision for women’s basketball
 
 The partnership reflects a broader commitment from both organisations to contributing to the professionalisation and international development of women’s sport.
