@@ -3,7 +3,7 @@ title: MCSC Group announces partnership with Her Hoops Agency to support the
   next generation of women’s basketball talent
 category: News
 publishDate: 2026-09-29T19:44:00.000+02:00
-coverImage: /images/uploads/911671_197657.png
+coverImage: /images/uploads/1.png
 excerpt: MCSC Group is pleased to announce a new partnership with Her Hoops
   Agency, a specialist agency dedicated to supporting, empowering and
   professionalising the careers of women basketball players.
