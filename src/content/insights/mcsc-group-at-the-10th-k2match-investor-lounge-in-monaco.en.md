@@ -14,8 +14,6 @@ MCSC Group was delighted to attend the 10th edition of the **K2Match Investor L
 
 Bringing together investors, entrepreneurs and professionals, the event provided an opportunity to exchange perspectives, strengthen relationships and explore new possibilities for collaboration.
 
-**The Sherpa Philosophy: Helping Others Reach Their Summit**
-
 During the opening remarks, K2Match’s founders shared the idea behind the company’s name and philosophy.
 
 K2 refers to one of the most challenging peaks in mountaineering. Reaching such a summit requires more than ambition and determination: it also takes experience, preparation and the guidance of people who know the terrain.
@@ -23,8 +21,6 @@ K2 refers to one of the most challenging peaks in mountaineering. Reaching such 
 K2Match draws a parallel with the role of sherpas, who support climbers throughout their journey. In the business world, K2Match embraces a similar role, helping investors and entrepreneurs navigate complex landscapes, connect with the right people and move closer to their goals.
 
 It is a compelling way to describe the value of a trusted network: not simply opening doors, but helping people understand which opportunities to pursue and how to move forward.
-
-**The Value of the Right Connections**
 
 At MCSC Group, we share the belief that meaningful relationships can play a decisive role in long-term success.
 
