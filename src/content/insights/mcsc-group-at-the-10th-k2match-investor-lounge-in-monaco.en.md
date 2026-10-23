@@ -12,10 +12,9 @@ tags:
 ---
 MCSC Group was delighted to attend the 10th edition of the **K2Match Investor Lounge in Monaco**, supporting our partner K2Match at an event organised by our Advisor Alexandros Dohn and Badr Moudden.
 
-
 Bringing together investors, entrepreneurs and professionals, the event provided an opportunity to exchange perspectives, strengthen relationships and explore new possibilities for collaboration.
 
-#### The Sherpa Philosophy: Helping Others Reach Their Summit
+**The Sherpa Philosophy: Helping Others Reach Their Summit**
 
 During the opening remarks, K2Match’s founders shared the idea behind the company’s name and philosophy.
 
@@ -25,7 +24,7 @@ K2Match draws a parallel with the role of sherpas, who support climbers througho
 
 It is a compelling way to describe the value of a trusted network: not simply opening doors, but helping people understand which opportunities to pursue and how to move forward.
 
-#### The Value of the Right Connections
+**The Value of the Right Connections**
 
 At MCSC Group, we share the belief that meaningful relationships can play a decisive role in long-term success.
 
