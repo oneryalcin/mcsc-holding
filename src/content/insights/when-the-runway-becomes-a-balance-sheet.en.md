@@ -1,6 +1,6 @@
 ---
 locale: en
-title: When the runway becomes a balance sheet
+title: "Vogue World Milano: When the Runway Becomes a Balance Sheet"
 category: Insights
 publishDate: 2026-10-29T10:45:00.000+01:00
 coverImage: /images/uploads/img_2067.jpg
