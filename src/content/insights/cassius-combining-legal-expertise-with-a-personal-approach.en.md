@@ -2,7 +2,7 @@
 locale: en
 title: "Cassius: Combining Legal Expertise with a Personal Approach"
 category: Insights
-publishDate: 2026-11-04T17:07:00.000+01:00
+publishDate: 2026-11-04T18:09:00.000+01:00
 coverImage: /images/uploads/1766130717963.jpeg
 excerpt: |
   An interview with Stéphanie Cassimon, Founder of Cassius
