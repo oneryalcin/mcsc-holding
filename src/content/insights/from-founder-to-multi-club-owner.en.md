@@ -33,4 +33,4 @@ For entrepreneurs and families considering sport as part of their portfolio, Kan
 
 Ideas may begin as passion, but they endure on discipline, planning and trust.
 
-Photo credit: Getty Image
+*Photo credit: Getty Image*
