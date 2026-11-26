@@ -1,6 +1,6 @@
 ---
 locale: en
-title: From Founder to Multi-Club Owner
+title: "From Founder to Multi-Club Owner: The Business Logic of Michele Kang"
 category: Insights
 publishDate: 2026-11-26T15:30:00.000+00:00
 coverImage: /images/uploads/michele-kang-main-2025.jpg
